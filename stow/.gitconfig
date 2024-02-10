@@ -1,0 +1,54 @@
+[user]
+  name = Anadi Nema
+  email = anadi.nema@outlook.com
+
+[core]
+  # avoid problems when changing a case of a filename
+	autocrlf = input
+  ignorecase = false
+  excludesfile = ~/.config/git/ignore
+
+[status]
+    # Show untracked files, directories and files in untracked directorie
+  showUntrackedFiles = all
+
+[interactive]
+  diffFilter = delta --color-only
+
+[pull]
+  # Keep local commits on top of the tree
+  rebase = true
+
+[credential]
+	helper = store
+
+[merge]
+  conflictstyle = zdiff3
+
+[rebase]
+  # Stash and pop uncommitted changes on rebase
+  autoStash = true
+
+# Maintain a 1-1 mapping to upstream refs and tags
+[fetch]
+  prune = true
+  pruneTags = true
+
+[diff]
+  colorMoved = default
+
+[help]
+  autocorrect = 1
+
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  light = false
+  side-by-side = true
+
+[init]
+  defaultBranch = master
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green

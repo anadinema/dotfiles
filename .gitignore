@@ -1,0 +1,5 @@
+# Files to be ignored
+
+temp/
+scripts/brew/*.lock*
+.DS_Store

@@ -1,0 +1,110 @@
+# Functions for different stuff
+
+### Common utils
+
+# Manual reload the shell configuration
+reload() {
+  source ~/.zshrc
+  source ~/.zshenv
+}
+
+# Parse unix epoch to ISO date
+epoch() {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    date --date "@$1" +"+%Y-%m-%dT%H:%M:%SZ"
+  else
+    date -r "$1" '+%Y-%m-%dT%H:%M:%SZ'
+  fi
+}
+
+# Open intellij Idea
+idea() {
+  if [ -n "$1" ]; then
+    open -a 'IntelliJ IDEA' "$1"
+  else
+    open -a 'IntelliJ IDEA'
+  fi
+}
+
+### Git helpers
+
+# Go to repository root folder
+groot() {
+  root="$(git rev-parse --show-toplevel 2>/dev/null)"
+  if [ -n "$root" ]; then
+    cd "$root";
+  else
+    echo "Not in a git repository"
+  fi
+}
+
+# Pretty git log
+glog() {
+  git log --graph --abbrev-commit --decorate --all \
+    --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) \
+    - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)"
+}
+
+# Print git remote
+gremote() {
+  git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1
+}
+
+### Archive and unarchive
+
+# Pack a folder into a .tar.bz2
+pack() {
+  if [ -z "$1" ]; then
+    echo "No directory supplied. \nUsage: $funcstack[1] directory-path"
+  elif ! [[ -d $1 ]]; then
+    echo "Error: $1 is not a directory."
+  else
+    tar -cvjSf "$(date "+%F")-$1.tar.bz2" "$1"
+  fi
+}
+
+# Unpack a .tar.bz2 folder
+unpack() {
+  if [ -z "$1" ]; then
+    echo "No directory supplied. \nUsage: $funcstack[1] directory-path.tar.bz2"
+  else
+    tar xjf "$1"
+  fi
+}
+
+### Homebrew common functions
+
+brewit() {
+  brew update &&
+  brew upgrade &&
+  brew autoremove &&
+  brew cleanup -s &&
+  brew doctor
+}
+
+### Docker functions
+
+dstop-all() {
+  docker stop $(docker ps -aq)
+}
+
+drm-all() {
+  docker rm $(docker ps -aq)
+}
+
+### Java version manager
+
+jvm-use() {
+  if [ "$1" == "21" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home"
+  elif [ "$1" == "17" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
+  elif [ "$1" == "11" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home"
+  fi
+
+  PATH="$JAVA_HOME/bin:$PATH"
+  export PATH
+  reload
+  java --version
+}
