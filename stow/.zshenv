@@ -39,14 +39,14 @@ groot() {
 }
 
 # Pretty git log
-glog() {
+gitlog() {
   git log --graph --abbrev-commit --decorate --all \
     --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) \
     - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)"
 }
 
 # Print git remote
-gremote() {
+grem() {
   git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1
 }
 
@@ -94,7 +94,7 @@ drm-all() {
 
 ### Java version manager
 
-jvm-use() {
+jvmuse() {
   if [ "$1" == "21" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home"
   elif [ "$1" == "17" ]; then

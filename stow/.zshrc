@@ -1,9 +1,14 @@
+ZSH_DISABLE_COMPFIX=true
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# Path to .dotfiles repository
+export DOTFILES="$HOME/.dotfiles"
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
@@ -74,7 +79,7 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 source $ZSH/oh-my-zsh.sh
 
 # Load powerlevel10k theme and configuration
-source ~$ZSH/custom/theme/powerlevel10k/powerlevel10k.zsh-theme
+source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.dotfiles/source/.p10k.zsh ]] || source ~/.dotfiles/source/.p10k.zsh
 
 # Add additional aliases
