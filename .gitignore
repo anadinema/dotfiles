@@ -1,5 +1,15 @@
 # Files to be ignored
 
-temp/
-scripts/brew/*.lock*
+# Directories to be ignored
+temp/**
+fonts/**
+brew/*.lock
+stow/.config/**
+
+# Add all the stow configuration you need to keep
+!stow/.config/git/**
+!stow/.config/neofetch/**
+
+# Mac specific files to be ignored
 .DS_Store
+

@@ -7,6 +7,7 @@ alias ll="eza -l --almost-all --group-directories-first --color auto"
 alias tree="eza --almost-all --tree --level=5 --icons --group-directories-first --color auto"
 
 alias cat="bat"
+alias grep="grep --color"
 
 alias gs="git status"
 alias gc="git commit -m"

@@ -53,7 +53,6 @@ install_p10k() {
 
 setup_dotfiles() {
   echo ""$LINE"\n ### Removing existing folder/symlinks if present on user home... ### \n"$LINE""
-  cd ..
   for file in $(find $(pwd) -type f | grep stow | grep -v .config | grep -v .ssh | grep -v .m2 | sed 's/\/.dotfiles\/stow//g')
   do
     echo "$file"
@@ -76,14 +75,15 @@ setup_dotfiles() {
   if ! echo "$DOTFILES" &>/dev/null; then
     echo "### Either syslink or reload failed... Exiting now.. ### \n"$LINE"" && exit 1
   else
-    echo "### Stowing completed... ### \n"$LINE"" && cd "$DOTFILES/scripts"
+    echo "### Stowing completed... ### \n"$LINE"" && cd "$DOTFILES"
   fi
 }
 
 perform_cleanup() {
   echo ""$LINE"\n ### Cleaning up... ### \n"$LINE""
-  (rm -r .lesshst || true) && (rm -r .zcompdump* || true) && (rm -r .zsh_history* || true) &&( rm -r .zshrc.pre* || true)
+  (rm -r $HOME/.lesshst || true) && (rm -r $HOME/.zcompdump* || true) && (rm -r $HOME/.zsh_history* || true) &&( rm -r $HOME/.zshrc.pre* || true)
   mkdir -p $DOTFILES/temp
+  rm -rf $DOTFILES/fonts
   echo " ### All set and good to move ahead... ### \n"$LINE""
 }
 
@@ -101,6 +101,14 @@ setup_docker_plugins() {
   echo ""$LINE"\n ### docker plugins linked to symlink... ### \n"$LINE""
 }
 
+install_fonts() {
+  if [ -d "$DOTFILES"/fonts/jetbrains ]; then
+    rm -rf $DOTFILES/fonts/jetbrains
+  fi
+  git clone --depth=1 https://github.com/JetBrains/JetBrainsMono "$DOTFILES"/fonts/jetbrains
+  cp -f $DOTFILES/fonts/jetbrains/fonts/ttf/*.ttf ~/Library/Fonts/
+}
+
 set_java_version() {
   echo ""$LINE"\n ### Setting java version to 21... ### \n"$LINE""
   jvmuse 21
@@ -108,6 +116,7 @@ set_java_version() {
 
 main() {
   sudo -v
+  install_fonts
   install_homebrew
   brew_apps
   install_ohmyzsh
@@ -115,6 +124,11 @@ main() {
   setup_docker_plugins
   setup_dotfiles
   set_java_version
+
+  if [ $DEFAULTS == true ]; then
+    zsh scripts/defaults.zsh
+  fi  
+  
   perform_cleanup
 }
 
