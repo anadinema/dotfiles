@@ -3,7 +3,7 @@
 # Directories to be ignored
 temp/**
 fonts/**
-brew/*.lock
+brew/*.lock.json
 stow/.config/**
 
 # Add all the stow configuration you need to keep

@@ -1,10 +1,21 @@
 #!/bin/zsh
 
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+
+osascript -e 'tell application "System Preferences" to quit'
+
+sudo -v
+
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
+
+# Change wallpaper for mac
+defaults write com.apple.wallpaper SystemWallpaperURL -string "file:///System/Library/Desktop%20Pictures/Light%20Stream%20Red.madesktop"
 
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -55,6 +66,9 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool true
+
 # Trackpad: map bottom right corner to right-click
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
@@ -62,7 +76,7 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
 
 # Disable “natural” scrolling
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 # Increase sound quality for Bluetooth headphones/headsets
 # defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
@@ -74,35 +88,48 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
 # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
-#defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
-#defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
-#defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
-#defaults write NSGlobalDomain AppleMetricUnits -bool true
+# defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
+# defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
+# defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
+# defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Show language menu in the top right corner of the boot screen
-# sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool false
 
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
 
 # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
-defaults write com.apple.finder QuitMenuItem -bool true
+defaults write com.apple.finder QuitMenuItem -bool false
 
 # Finder: disable window animations and Get Info animations
 # defaults write com.apple.finder DisableAllAnimations -bool true
 
 # Show icons for hard drives, servers, and removable media on the desktop
-defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-#defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
 
 # Finder: show hidden files by default
 # defaults write com.apple.finder AppleShowAllFiles -bool true
 
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Finder: new window target view type
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+
+# Finder: new window will be opened on this folder path
+defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/anadinema/"
+
+# Finder: show status bar
+defaults write com.apple.finder ShowRecentTags -bool false
+defaults write com.apple.finder SidebarTagsSctionDisclosedState -bool true
+
+# Finder: show status bar
+defaults write com.apple.finder SidebarWidth -int 165
 
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
@@ -112,6 +139,9 @@ defaults write com.apple.finder ShowPathbar -bool true
 
 # Keep folders on top when sorting by name
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Defines the default group by for all folder
+# defaults write com.apple.finder FXPreferredGroupBy -string "Type"
 
 # When performing a search, search the current folder by default
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
@@ -187,8 +217,11 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilite-stack -bool true
 
-# Set the icon size of Dock items to 36 pixels
-defaults write com.apple.dock tilesize -int 36
+# Set the icon size of Dock items to 40 pixels
+defaults write com.apple.dock tilesize -int 40
+defaults write com.apple.dock magnification -int 1
+defaults write com.apple.dock largesize -int 101
+
 
 # Change minimize/maximize window effect
 # defaults write com.apple.dock mineffect -string "scale"
@@ -255,9 +288,9 @@ defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
 # sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
 
 # Add a spacer to the left side of the Dock (where the applications are)
-defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+# defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
 # Add a spacer to the right side of the Dock (where the Trash is)
-defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
+# defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
 
 # Hot corners
 # Possible values:
@@ -289,20 +322,16 @@ defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-
 # Enable lid wakeup
 # sudo pmset -a lidwake 1
 
-# Restart automatically on power loss
-# sudo pmset -a autorestart 1
-
-# Restart automatically if the computer freezes
-# sudo systemsetup -setrestartfreeze on
-
-# Sleep the display after 15 minutes
-# sudo pmset -a displaysleep 15
+# Sleep the display in different cases
+sudo pmset -b displaysleep 5 # When on battery
+sudo pmset -c displaysleep 10 # When on charger
 
 # Disable machine sleep while charging
 # sudo pmset -c sleep 0
 
-# Set machine sleep to 5 minutes on battery
-# sudo pmset -b sleep 5
+# Set machine sleep in different cases
+sudo pmset -b sleep 10 # When on battery
+sudo pmset -c sleep 15 # When on charger
 
 # Set standby delay to 24 hours (default is 1 hour)
 # sudo pmset -a standbydelay 86400
@@ -327,9 +356,12 @@ defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-
 # Screen                                                                      #
 ###############################################################################
 
+# Set scrrensaver idleTime to 3 minutes
+defaults -currentHost write com.apple.screensaver -int 180
+
 # Require password immediately after sleep or screen saver begins
-# defaults write com.apple.screensaver askForPassword -int 1
-# defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Save screenshots to the Screenshots folder in Pictures
 if [ ! -d "$HOME"/Pictures/Screenshots ]; then
@@ -351,6 +383,36 @@ defaults write com.apple.screencapture type -string "jpg"
 # sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
 ###############################################################################
+# AltTab                                                                      #
+###############################################################################
+
+# Enable automatic updates
+defaults write com.lwouis.alt-tab-macos SUAutomaticallyUpdate -bool true
+defaults write com.lwouis.alt-tab-macos SUEnableAutomaticChecks -bool true
+defaults write com.lwouis.alt-tab-macos updatePolicy -int 2
+
+# Disable crash reports
+defaults write com.lwouis.alt-tab-macos crashPolicy -bool false
+
+# Hide thumbnails while switching apps
+defaults write com.lwouis.alt-tab-macos hideThumbnails -bool false
+
+# Change shortcut from option + tab to command + tab
+defaults write com.lwouis.alt-tab-macos holdShortcut -string "\\U2318"
+
+# Hide menu bar icon
+defaults write com.lwouis.alt-tab-macos menubarIcon -int 3
+
+# Not swtich windows on mouse haver
+defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -bool false
+
+# Show 6 windows in each row during switch
+defaults write com.lwouis.alt-tab-macos rowsCount -int 6
+
+# Set the theme to be of macos or windows (0 or 1 respectively)
+defaults write com.lwouis.alt-tab-macos theme -int 0
+
+###############################################################################
 # Mail                                                                        #
 ###############################################################################
 
@@ -370,13 +432,6 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 # Disable automatic spell checking
 # defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
-
-###############################################################################
-# Spotlight                                                                   #
-###############################################################################
-
-# Hide Spotlight tray-icon (and subsequent helper)
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -486,6 +541,8 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 for app in "Activity Monitor" \
 	"Address Book" \
 	"Calendar" \
+	"Dock" \
+	"Finder" \
 	"cfprefsd" \
 	"Contacts" \
 	"Dock" \
@@ -495,8 +552,9 @@ for app in "Activity Monitor" \
 	"Safari" \
 	"SystemUIServer" \
 	"Terminal" \
+	"AltTab" \
 	"Calendar"; do
 	killall "$app" &> /dev/null
 done
 
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo " ### Done. Might need a logout/restart for few changes to take effect ### "
