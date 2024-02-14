@@ -1,6 +1,6 @@
 # Dotfiles - Dotting the mac :)
-<img src="assets/terminal.jpg" align="right" />
-<br/>
+<img src="assets/terminal.jpg" align="center" />
+<hr />
 
 ## Installation
 
