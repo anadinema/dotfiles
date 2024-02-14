@@ -361,7 +361,7 @@ defaults -currentHost write com.apple.screensaver -int 180
 
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPasswordDelay -int 2
 
 # Save screenshots to the Screenshots folder in Pictures
 if [ ! -d "$HOME"/Pictures/Screenshots ]; then
@@ -391,20 +391,17 @@ defaults write com.lwouis.alt-tab-macos SUAutomaticallyUpdate -bool true
 defaults write com.lwouis.alt-tab-macos SUEnableAutomaticChecks -bool true
 defaults write com.lwouis.alt-tab-macos updatePolicy -int 2
 
-# Disable crash reports
-defaults write com.lwouis.alt-tab-macos crashPolicy -bool false
-
 # Hide thumbnails while switching apps
 defaults write com.lwouis.alt-tab-macos hideThumbnails -bool false
 
-# Change shortcut from option + tab to command + tab
-defaults write com.lwouis.alt-tab-macos holdShortcut -string "\\U2318"
+# Change shortcut from option + tab to command + tab (Not working as of now. App crashes if you try to do so.)
+# defaults write com.lwouis.alt-tab-macos holdShortcut -string "\\U2318"
 
-# Hide menu bar icon
+# Change menu bar icon
 defaults write com.lwouis.alt-tab-macos menubarIcon -int 3
 
-# Not swtich windows on mouse haver
-defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -bool false
+# Swtich windows on mouse hover
+# defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -bool false
 
 # Show 6 windows in each row during switch
 defaults write com.lwouis.alt-tab-macos rowsCount -int 6
