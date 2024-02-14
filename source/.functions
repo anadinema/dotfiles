@@ -7,16 +7,18 @@ reload() {
   source ~/.zshrc
 }
 
+# Update the changes in system and update dotfiles, then push changes to github
 dotup() {
 	brew bundle dump --file=$DOTFILES/brew/Brewfile --force &&
 	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
 	ORIGINAL=$(pwd)
 	cd "$DOTFILES"
-	git status && git add .
-	git commit -am "bot : update changes in dotfiles" && git push origin master
+	git status && git add . || true
+	git commit -am "bot : update changes in dotfiles" || true && git push origin master || true
 	cd "$ORIGINAL"
 }
 
+# Run the dotfiles configuration again
 dot() {
 	zsh "$DOTFILES"/install.zsh
 	reload
