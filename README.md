@@ -33,7 +33,7 @@ You can clone the repository wherever you want. (I keep it in `~/.dotfiles`).
 The below command will get the repository and place it in `.dotfiles` folder inside you user home directory and export that directory path.
 
 ```zsh
-git clone https://github.com/mathiasbynens/dotfiles.git $HOME/.dotfiles && cd $HOME/.dotfiles && export DOTFILES=$(pwd)
+git clone https://github.com/anadinema/dotfiles.git $HOME/.dotfiles && cd $HOME/.dotfiles && export DOTFILES=$(pwd)
 ```
 
 Then to start the setup, run:
