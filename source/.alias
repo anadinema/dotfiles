@@ -16,6 +16,5 @@ alias ga="git add"
 alias gp="git pull"
 
 alias repo="cd ~/Developer/repository"
-alias dot="cd $DOTFILES"
-alias dots="cd $DOTFILES/scripts"
+alias cddot="cd $DOTFILES"
 

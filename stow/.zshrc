@@ -83,6 +83,7 @@ source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.dotfiles/source/.p10k.zsh ]] || source ~/.dotfiles/source/.p10k.zsh
 
 # Add additional aliases
+source ~/.dotfiles/source/.functions
 source ~/.dotfiles/source/.alias
 
 # Add all the path additions to the environment

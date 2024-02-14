@@ -5,7 +5,21 @@
 # Manual reload the shell configuration
 reload() {
   source ~/.zshrc
-  source ~/.zshenv
+}
+
+dotup() {
+	brew bundle dump --file=$DOTFILES/brew/Brewfile --force &&
+	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
+	ORIGINAL=$(pwd)
+	cd "$DOTFILES"
+	git status && git add .
+	git commit -am "bot : update changes in dotfiles" && git push origin master
+	cd "$ORIGINAL"
+}
+
+dot() {
+	zsh "$DOTFILES"/install.zsh
+	reload
 }
 
 # Parse unix epoch to ISO date
