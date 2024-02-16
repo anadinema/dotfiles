@@ -88,3 +88,6 @@ source ~/.dotfiles/source/.alias
 
 # Add all the path additions to the environment
 source ~/.dotfiles/source/.path
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

@@ -1,4 +1,5 @@
 # Files to be ignored
+stow/.ssh/known_hosts*
 
 # Directories to be ignored
 temp/**

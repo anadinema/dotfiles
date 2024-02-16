@@ -4,7 +4,7 @@
 
 [core]
   # avoid problems when changing a case of a filename
-	autocrlf = input
+  autocrlf = input
   ignorecase = false
   excludesfile = ~/.config/git/ignore
 
@@ -18,9 +18,6 @@
 [pull]
   # Keep local commits on top of the tree
   rebase = true
-
-[credential]
-	helper = store
 
 [merge]
   conflictstyle = zdiff3
