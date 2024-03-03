@@ -1221,6 +1221,19 @@
 	<true/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
+	<key>Snippets</key>
+	<array>
+		<dict>
+			<key>guid</key>
+			<string>C1A8FCE1-C276-4A06-910A-08BE40CB2BFB</string>
+			<key>title</key>
+			<string>ghanadi</string>
+			<key>value</key>
+			<string>https://github.com/anadinema/</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>StatusBarPosition</key>
@@ -1233,6 +1246,11 @@
 	<integer>0</integer>
 	<key>TabsHaveCloseButton</key>
 	<true/>
+	<key>ToolbeltTools</key>
+	<array>
+		<string>Profiles</string>
+		<string>Snippets</string>
+	</array>
 	<key>UseBorder</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>

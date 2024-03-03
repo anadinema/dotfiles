@@ -4,7 +4,7 @@ setopt +o nomatch
 
 LINE=----------------------------------------------------------------
 DOTFILES=$DOTFILES || $HOME/.dotfiles
-DEFAULTS=true
+DEFAULTS=false
 
 install_homebrew() {
   if type brew &>/dev/null; then
@@ -98,20 +98,6 @@ perform_cleanup() {
   echo " ### All set and good to move ahead... ### \n"$LINE""
 }
 
-setup_docker_plugins() {
-  echo ""$LINE"\n ### Setting up docker plugins... ### \n"$LINE""
-  if [ ! -d "$HOME"/.docker/cli-plugins ]; then
-    mkdir -p ~/.docker/cli-plugins
-  fi
-  if [ ! -d "$HOME"/.docker/cli-plugins/docker-compose ]; then
-    ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-  fi
-  if [ ! -d "$HOME"/.docker/cli-plugins/docker-buildx ]; then
-    ln -sfn /opt/homebrew/opt/docker-buildx/bin/docker-buildx ~/.docker/cli-plugins/docker-buildx
-  fi
-  echo ""$LINE"\n ### docker plugins linked to symlink... ### \n"$LINE""
-}
-
 install_fonts() {
   if [ $(find ~/Library/Fonts -name JetBrainsMono*.ttf | wc -l) -le 5 ]; then
     echo ""$LINE"\n ### Installing fonts... ### \n"$LINE""
@@ -167,7 +153,6 @@ main() {
   brew_apps
   install_ohmyzsh
   install_p10k
-  setup_docker_plugins
   setup_dotfiles
   set_java_version
   set_node_version

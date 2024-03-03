@@ -9,7 +9,7 @@ reload() {
 
 # Update the changes in system and update dotfiles, then push changes to github
 dotup() {
-	brew bundle dump --file=$DOTFILES/brew/Brewfile --force &&
+	brew bundle dump --file=$DOTFILES/brew/Brewfile --force && /
 	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
 	ORIGINAL=$(pwd)
 	cd "$DOTFILES"
@@ -110,11 +110,13 @@ drm-all() {
 
 ### Java version manager
 
-jvmuse() {
+jvm() {
   if [ "$1" == "21" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home"
   elif [ "$1" == "17" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
+  elif [ "$1" == "gvm" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-jdk-21/Contents/Home"
   elif [ "$1" == "11" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home"
   fi

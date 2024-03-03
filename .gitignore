@@ -6,6 +6,8 @@ temp/**
 fonts/**
 brew/*.lock.json
 stow/.config/**
+stow/.m2/wrapper/**
+stow/.m2/repository/**
 
 # Add all the stow configuration you need to keep
 !stow/.config/git/**
