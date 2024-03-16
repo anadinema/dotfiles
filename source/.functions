@@ -24,12 +24,12 @@ dotup() {
 
 # update the raycast backup file with the new generated ones
 rback() {
-    NEW_RAYCAST_BACKUP_FILE=$(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
-    if [ $(echo $NEW_RAYCAST_BACKUP_FILE | wc -l) -eq 1 ]; then
+    if [ $(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast | wc -l) -eq 1 ]; then
+        NEW_RAYCAST_BACKUP_FILE=$(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
         echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
         mv $DOTFILES/settings/raycast/settings.rayconfig $DOTFILES/settings/raycast/settings.rayconfig.bkp-$(date "+%Y%m%d-%H:%M:%S")
         mv $NEW_RAYCAST_BACKUP_FILE $DOTFILES/settings/raycast/settings.rayconfig
-        rm $DOTFILES/settings/raycast/Raycast*
+        rm -f $DOTFILES/settings/raycast/Raycast* || true
     fi
 }
 
