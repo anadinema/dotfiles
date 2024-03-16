@@ -11,11 +11,26 @@ reload() {
 dotup() {
 	brew bundle dump --file=$DOTFILES/brew/Brewfile --force && /
 	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
+	rback
 	ORIGINAL=$(pwd)
 	cd "$DOTFILES"
-	git status && git add . || true
-	git commit -am "bot : update changes in dotfiles" || true && git push origin master || true
+	git status
+	git add . || true
+	COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
+	git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
+	git push origin master || true
 	cd "$ORIGINAL"
+}
+
+# update the raycast backup file with the new generated ones
+rback() {
+    NEW_RAYCAST_BACKUP_FILE=$(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
+    if [ $(echo $NEW_RAYCAST_BACKUP_FILE | wc -l) -eq 1 ]; then
+        echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
+        mv $DOTFILES/settings/raycast/settings.rayconfig $DOTFILES/settings/raycast/settings.rayconfig.bkp-$(date "+%Y%m%d-%H:%M:%S")
+        mv $NEW_RAYCAST_BACKUP_FILE $DOTFILES/settings/raycast/settings.rayconfig
+        rm $DOTFILES/settings/raycast/Raycast*
+    fi
 }
 
 # Run the dotfiles configuration again
