@@ -22,7 +22,7 @@ dotup() {
 	cd "$ORIGINAL"
 }
 
-# update the raycast backup file with the new generated ones
+# Update the raycast backup file with the new generated ones
 rback() {
     if [ $(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast | wc -l) -eq 1 ]; then
         NEW_RAYCAST_BACKUP_FILE=$(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
