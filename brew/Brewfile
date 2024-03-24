@@ -36,3 +36,4 @@ cask "temurin21"
 cask "time-out"
 cask "whatsapp"
 cask "zed"
+mas "Things", id: 904280696
