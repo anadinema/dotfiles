@@ -2,7 +2,7 @@
 
 alias c="clear"
 
-alias ls="eza --almost-all --tree -icons --group-directories-first --color auto"
+alias ls="eza --almost-all --tree --level 2 --group-directories-first --color auto"
 alias ll="eza -l --almost-all --group-directories-first --color auto"
 alias tree="eza --almost-all --tree --level=5 --icons --group-directories-first --color auto"
 
@@ -18,3 +18,4 @@ alias gp="git pull"
 alias repo="cd ~/Developer/repository"
 alias cddot="cd $DOTFILES"
 
+alias ff="fastfetch"

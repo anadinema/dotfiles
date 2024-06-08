@@ -40,9 +40,9 @@ SAVEHIST=5000               # Number of history entries to save to disk
 HISTDUP=erase               # Erase duplicates in the history file
 setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_ALL_DUPS
-setopt appendhistory     #Append history to the history file (no overwriting)
-setopt sharehistory      #Share history across terminals
-setopt incappendhistory  #Immediately append to the history file, not just when a term is killed
+setopt appendhistory     # Append history to the history file (no overwriting)
+setopt sharehistory      # Share history across terminals
+setopt incappendhistory  # Immediately append to the history file, not just when a term is killed
 
 # Which plugins would you like to load?
 plugins=(
@@ -83,11 +83,13 @@ source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.dotfiles/source/.p10k.zsh ]] || source ~/.dotfiles/source/.p10k.zsh
 
 # Add additional aliases
-source ~/.dotfiles/source/.functions
-source ~/.dotfiles/source/.alias
+source ~/.dotfiles/source/.functions.zsh
+source ~/.dotfiles/source/.alias.zsh
 
-# Add all the path additions to the environment
-source ~/.dotfiles/source/.path
+# Path variables updates
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
