@@ -357,11 +357,7 @@ sudo pmset -c sleep 15 # When on charger
 ###############################################################################
 
 # Set scrrensaver idleTime to 3 minutes
-defaults -currentHost write com.apple.screensaver -int 180
-
-# Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 2
+defaults -currentHost write com.apple.screensaver idleTime -int 180
 
 # Save screenshots to the Screenshots folder in Pictures
 if [ ! -d "$HOME"/Pictures/Screenshots ]; then
