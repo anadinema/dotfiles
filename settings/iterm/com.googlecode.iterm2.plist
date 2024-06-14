@@ -6,6 +6,8 @@
 	<true/>
 	<key>AnimateGraphStatusBarComponents</key>
 	<true/>
+	<key>BadgeFontIsBold</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>iterm-dark</key>
@@ -352,6 +354,8 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>6DEBFFD4-43FD-4D43-812D-F727D660342C</string>
+	<key>DetectPasswordInput</key>
+	<true/>
 	<key>DimBackgroundWindows</key>
 	<false/>
 	<key>DimOnlyText</key>
@@ -376,6 +380,8 @@
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
+	<key>IRMemory</key>
+	<integer>4</integer>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1067,6 +1073,8 @@
 			<string>JetBrainsMonoNL-Regular 12</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<true/>
+			<key>Open Password Manager Automatically</key>
+			<false/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1109,6 +1117,8 @@
 			<false/>
 			<key>Shortcut</key>
 			<string></string>
+			<key>Show Mark Indicators</key>
+			<false/>
 			<key>Show Status Bar</key>
 			<false/>
 			<key>Show Timestamps</key>
@@ -1218,6 +1228,8 @@
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
+	<true/>
+	<key>ShowMarksInScrollbar</key>
 	<true/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
