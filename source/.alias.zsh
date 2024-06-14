@@ -19,3 +19,7 @@ alias repo="cd ~/Developer/repository"
 alias cddot="cd $DOTFILES"
 
 alias ff="fastfetch"
+alias code="zed"
+alias kubectl="k"
+
+alias mvn="mvn -Dmaven.home=$M2_HOME"

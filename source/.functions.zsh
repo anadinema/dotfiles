@@ -141,3 +141,13 @@ jvm() {
   reload
   java --version
 }
+
+### Maven settings file symlink to the maven home.
+mvn-set() {
+  rm -f $M2_HOME/conf/settings.xml
+  if [ -n "$1" ] && [ "$1" == "pn" ]; then
+    ln -s $DOTFILES/stow/.m2/settings-pn.xml $M2_HOME/conf/settings.xml
+  else
+    ln -s $DOTFILES/stow/.m2/settings.xml $M2_HOME/conf/settings.xml
+  fi
+}
