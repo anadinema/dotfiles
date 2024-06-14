@@ -6,15 +6,18 @@ temp/**
 fonts/**
 brew/*.lock.json
 stow/.config/**
-stow/.m2/wrapper/**
 stow/.m2/repository/**
 stow/.m2/settings-pn.xml
 stow/.kube/config
 stow/.kube/cache
 
-# Add all the stow configuration you need to keep
+# Add all the stow configuration folders you need to keep
+!stow/.config/git
+!stow/.config/raycast
+!stow/.config/zed
+
+# Add all the files in the above ignored folders you need to keep
 !stow/.config/git/**
-!stow/.config/neofetch/**
 !stow/.config/raycast/**
 !stow/.config/zed/settings.json
 !stow/.config/zed/keymap.json
