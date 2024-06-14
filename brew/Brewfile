@@ -1,8 +1,6 @@
-tap "civo/tools"
 tap "homebrew/bundle"
 tap "homebrew/services"
 tap "mrkai77/cask"
-tap "quarkusio/tap"
 brew "azure-cli"
 brew "bat"
 brew "duti"
