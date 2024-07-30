@@ -91,7 +91,8 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-export M2_HOME="/opt/homebrew/Cellar/maven/3.9.7/libexec"
+export M2_HOME="/opt/homebrew/Cellar/maven/$(mvn --version --quiet)/libexec"
+export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)

@@ -16,6 +16,7 @@ alias ga="git add"
 alias gp="git pull"
 
 alias repo="cd ~/Developer/repository"
+alias cdoss="cd /Volumes/OSS/repository"
 alias cddot="cd $DOTFILES"
 
 alias ff="fastfetch"

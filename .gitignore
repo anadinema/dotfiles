@@ -6,7 +6,9 @@ temp/**
 fonts/**
 brew/*.lock.json
 stow/.config/**
-stow/.m2/repository/**
+stow/.m2/repository
+stow/.m2/wrapper
+stow/.m2/.develocity
 stow/.m2/settings-pn.xml
 stow/.kube/config
 stow/.kube/cache

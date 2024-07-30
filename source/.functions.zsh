@@ -132,6 +132,10 @@ jvm() {
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
   elif [ "$1" == "gvm" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-jdk-21/Contents/Home"
+    export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-jdk-21/Contents/Home"
+  elif [ "$1" == "gvm-17" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
+    export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
   elif [ "$1" == "11" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home"
   fi
@@ -143,7 +147,7 @@ jvm() {
 }
 
 ### Maven settings file symlink to the maven home.
-mvn-set() {
+mvm() {
   rm -f $M2_HOME/conf/settings.xml
   if [ -n "$1" ] && [ "$1" == "pn" ]; then
     ln -s $DOTFILES/stow/.m2/settings-pn.xml $M2_HOME/conf/settings.xml
