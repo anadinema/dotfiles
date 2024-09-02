@@ -13,7 +13,7 @@ dotup() {
 	brew bundle --file="$DOTFILES"/brew/Brewfile --force cleanup
 	rback
 	if [ -z "$1" ]; then
-		ORIGINAL=$(pwd)
+		ORIGINAL="$(pwd)"
 		echo "$ORIGINAL"
 		cd "$DOTFILES" || exit
 		git status
