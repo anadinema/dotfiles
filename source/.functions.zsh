@@ -19,7 +19,7 @@ dotup() {
 		COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
 		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
 		git push origin master || true
-		cd "$OLDPWD" || exit
+		cd - || exit
 	fi
 }
 
