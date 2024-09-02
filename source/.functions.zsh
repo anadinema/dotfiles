@@ -83,6 +83,32 @@ grem() {
   git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1
 }
 
+# Pull with or without rebase
+pp {
+	if [ -z "$1" ]; then
+		git pull
+	else
+		git pull --rebase
+	fi
+}
+
+# Add files, commit and push the current branch to the same remote
+# provides option: -n or --no-add to not do git add
+# 									also, provide a commit message after all the options
+ok {
+	if [ -z "$1" ]
+		git add . && git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
+	elif [ -n "$1" ] && [ "$1" == "-n" -o "$1" == "--no-add" ]; then
+		if [ -z "$2" ]; then
+		  git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
+		else
+			git commit -m "$2" && git push origin "$(git branch --show-current)"
+		fi
+	else
+		git add . && git commit -m "$1" && git push origin "$(git branch --show-current)"
+	fi
+}
+
 ### Archive and unarchive
 
 # Pack a folder into a .tar.bz2

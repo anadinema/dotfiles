@@ -13,7 +13,6 @@ alias gs="git status"
 alias gc="git commit -m"
 alias gca="git commit -am"
 alias ga="git add"
-alias gp="git pull"
 
 alias repo="cd ~/Developer/repository"
 alias cdoss="cd /Volumes/OSS/repository"
