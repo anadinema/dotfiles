@@ -9,30 +9,30 @@ reload() {
 
 # Update the changes in system and update dotfiles, then push changes to github
 dotup() {
-	brew bundle dump --file=$DOTFILES/brew/Brewfile --force && /
-	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
+	brew bundle dump --file="$DOTFILES"/brew/Brewfile --force && /
+	brew bundle --file="$DOTFILES"/brew/Brewfile --force cleanup
 	rback
 	if [ -z "$1" ]; then
 		ORIGINAL=$(pwd)
-		cd "$DOTFILES"
+		cd "$DOTFILES" || exit
 		git status
 		git add . || true
 		COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
 		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
 		git push origin master || true
-		cd "$ORIGINAL"
+		cd "$ORIGINAL" || exit
 	fi
 }
 
 # Update the raycast backup file with the new generated ones
 rback() {
-    if [ $(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast | wc -l) -eq 1 ]; then
-        NEW_RAYCAST_BACKUP_FILE=$(find $DOTFILES/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
-        echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
-        mv $DOTFILES/settings/raycast/settings.rayconfig $DOTFILES/settings/raycast/settings.rayconfig.bkp-$(date "+%Y%m%d-%H:%M:%S")
-        mv $NEW_RAYCAST_BACKUP_FILE $DOTFILES/settings/raycast/settings.rayconfig
-        rm -f $DOTFILES/settings/raycast/Raycast* || true
-    fi
+	if [ "$(find "$DOTFILES"/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast | wc -l)" -eq 1 ]; then
+		NEW_RAYCAST_BACKUP_FILE=$(find "$DOTFILES"/settings/raycast -type f -exec ls -t1 {} + | head -1 | grep Raycast)
+		echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
+		mv "$DOTFILES"/settings/raycast/settings.rayconfig "$DOTFILES"/settings/raycast/settings.rayconfig.bkp-"$(date "+%Y%m%d-%H:%M:%S")"
+		mv "$NEW_RAYCAST_BACKUP_FILE" "$DOTFILES"/settings/raycast/settings.rayconfig
+		rm -f "$DOTFILES"/settings/raycast/Raycast* || true
+	fi
 }
 
 # Run the dotfiles configuration again
@@ -65,7 +65,7 @@ idea() {
 groot() {
   root="$(git rev-parse --show-toplevel 2>/dev/null)"
   if [ -n "$root" ]; then
-    cd "$root";
+    cd "$root" || exit;
   else
     echo "Not in a git repository"
   fi
@@ -84,7 +84,7 @@ grem() {
 }
 
 # Pull with or without rebase
-pp {
+pp() {
 	if [ -z "$1" ]; then
 		git pull
 	else
@@ -95,8 +95,8 @@ pp {
 # Add files, commit and push the current branch to the same remote
 # provides option: -n or --no-add to not do git add
 # 									also, provide a commit message after all the options
-ok {
-	if [ -z "$1" ]
+ok() {
+	if [ -z "$1" ]; then
 		git add . && git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
 	elif [ -n "$1" ] && [ "$1" == "-n" -o "$1" == "--no-add" ]; then
 		if [ -z "$2" ]; then
@@ -114,7 +114,7 @@ ok {
 # Pack a folder into a .tar.bz2
 pack() {
   if [ -z "$1" ]; then
-    echo "No directory supplied. \nUsage: $funcstack[1] directory-path"
+    printf "No directory supplied."
   elif ! [[ -d $1 ]]; then
     echo "Error: $1 is not a directory."
   else
@@ -125,7 +125,7 @@ pack() {
 # Unpack a .tar.bz2 folder
 unpack() {
   if [ -z "$1" ]; then
-    echo "No directory supplied. \nUsage: $funcstack[1] directory-path.tar.bz2"
+    echo "No directory supplied."
   else
     tar xjf "$1"
   fi
@@ -144,11 +144,11 @@ brewit() {
 ### Docker functions
 
 dstop-all() {
-  docker stop $(docker ps -aq)
+  docker stop "$(docker ps -aq)"
 }
 
 drm-all() {
-  docker rm $(docker ps -aq)
+  docker rm "$(docker ps -aq)"
 }
 
 ### Java version manager
@@ -176,11 +176,11 @@ jvm() {
 
 ### Maven settings file symlink to the maven home.
 mvm() {
-  rm -f $M2_HOME/conf/settings.xml
+  rm -f "$M2_HOME"/conf/settings.xml
   if [ -n "$1" ] && [ "$1" == "pn" ]; then
-    ln -s $DOTFILES/stow/.m2/settings-pn.xml $M2_HOME/conf/settings.xml
+    ln -s "$DOTFILES"/stow/.m2/settings-pn.xml "$M2_HOME"/conf/settings.xml
   else
-    ln -s $DOTFILES/stow/.m2/settings.xml $M2_HOME/conf/settings.xml
+    ln -s "$DOTFILES"/stow/.m2/settings.xml "$M2_HOME"/conf/settings.xml
   fi
 }
 
