@@ -12,14 +12,16 @@ dotup() {
 	brew bundle dump --file=$DOTFILES/brew/Brewfile --force && /
 	brew bundle --file=$DOTFILES/brew/Brewfile --force cleanup
 	rback
-	ORIGINAL=$(pwd)
-	cd "$DOTFILES"
-	git status
-	git add . || true
-	COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
-	git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
-	git push origin master || true
-	cd "$ORIGINAL"
+	if [ -z "$1" ]; then
+		ORIGINAL=$(pwd)
+		cd "$DOTFILES"
+		git status
+		git add . || true
+		COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
+		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
+		git push origin master || true
+		cd "$ORIGINAL"
+	fi
 }
 
 # Update the raycast backup file with the new generated ones
@@ -154,4 +156,11 @@ mvm() {
   else
     ln -s $DOTFILES/stow/.m2/settings.xml $M2_HOME/conf/settings.xml
   fi
+}
+
+# Work stuff
+pninit() {
+  git config --local user.name "Anadi Nema"
+  git config --local user.email "anadi.nema@postnord.com"
+  mvm pn
 }
