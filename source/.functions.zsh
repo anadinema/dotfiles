@@ -19,7 +19,7 @@ dotup() {
 		COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
 		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
 		git push origin master || true
-		cd "$HOME" || exit
+		cd $HOME || exit
 	fi
 }
 
@@ -163,8 +163,6 @@ jvm() {
   elif [ "$1" == "gvm-17" ]; then
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
     export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
-  elif [ "$1" == "11" ]; then
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home"
   fi
 
   PATH="$JAVA_HOME/bin:$PATH"
