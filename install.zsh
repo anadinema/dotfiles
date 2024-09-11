@@ -34,34 +34,6 @@ brew_apps() {
   fi
 }
 
-install_ohmyzsh() {
-  if [ ! -d "$HOME"/zshell/.oh-my-zsh ]; then
-    echo ""$LINE"\n ### Installing oh-my-zsh... ### \n"$LINE""
-    ZSH=$HOME/zshell/.oh-my-zsh sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --keep-zshrc --unattended
-  else
-    echo ""$LINE"\n ### oh-my-zsh is already installed... skipping installation... ###\n"$LINE""
-  fi
-  echo ""$LINE"\n ### Installing plugins... ### \n"$LINE""
-  if [ ! -d "$ZSH"/custom/plugins/zsh-autosuggestions ];then
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git $ZSH/custom/plugins/zsh-autosuggestions || exit 1
-  elif [ ! -d "$ZSH"/custom/plugins/zsh-syntax-highlighting ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting || exit 1
-  else
-    echo ""$LINE"\n ### oh-my-zsh and related plugins already installed... ### \n"$LINE""
-  fi
-  echo ""$LINE"\n ### oh-my-zsh and related plugins installed... ### \n"$LINE""
-}
-
-install_p10k() {
-  if [ ! -d "$HOME"/zshell/.oh-my-zsh/custom/themes/powerlevel10k ]; then
-    echo ""$LINE"\n ### Installing powerlevel10k... ### \n"$LINE""
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME"/zshell/.oh-my-zsh/custom/themes/powerlevel10k
-    echo ""$LINE"\n ### powerlevel10k installed... ### \n"$LINE""
-  else
-    echo ""$LINE"\n ### powerlevel10k is already installed... skipping installation... ### \n"$LINE""
-  fi
-}
-
 setup_dotfiles() {
   echo ""$LINE"\n ### Removing existing folder/symlinks if present on user home... ### \n"$LINE""
   for file in $(find $(pwd) -type f | grep stow | grep -v .config | grep -v .ssh | grep -v .m2 | sed 's/\/.dotfiles\/stow//g')
@@ -82,7 +54,7 @@ setup_dotfiles() {
   stow stow
   cd "$HOME"
   sleep 4
-  reload
+  source ~/.zshrc
   if ! echo "$DOTFILES" &>/dev/null; then
     echo "### Either syslink or reload failed... Exiting now.. ### \n"$LINE"" && exit 1
   else
@@ -104,8 +76,9 @@ install_fonts() {
     if [ -d "$DOTFILES"/fonts/jetbrains ]; then
       rm -rf $DOTFILES/fonts/jetbrains
     fi
-    git clone --depth=1 https://github.com/JetBrains/JetBrainsMono "$DOTFILES"/fonts/jetbrains
-    cp -f $DOTFILES/fonts/jetbrains/fonts/ttf/*.ttf ~/Library/Fonts/
+		git clone --filter=blob:none --depth=1 --sparse https://github.com/ryanoasis/nerd-fonts "$DOTFILES"/fonts/jetbrains
+		git -C "$DOTFILES"/fonts/jetbrains sparse-checkout add patched-fonts/JetBrainsMono
+    "$DOTFILES"/fonts/jetbrains/install.sh JetBrainsMono
     echo ""$LINE"\n ### Fonts installed and placed in the Fontbook... ### \n"$LINE""
   else
     echo ""$LINE"\n ### Fonts are already installed... skipping the step... ### \n"$LINE""
@@ -114,7 +87,7 @@ install_fonts() {
 
 set_java_version() {
   echo ""$LINE"\n ### Setting java version to 21... ### \n"$LINE""
-  jvmuse 21
+  jvm 21
 }
 
 set_node_version() {
@@ -151,8 +124,6 @@ main() {
   install_fonts
   install_homebrew
   brew_apps
-  install_ohmyzsh
-  install_p10k
   setup_dotfiles
   set_java_version
   set_node_version

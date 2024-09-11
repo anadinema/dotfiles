@@ -1,30 +1,15 @@
 ZSH_DISABLE_COMPFIX=true
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Path to .dotfiles repository
 export DOTFILES="$HOME/.dotfiles"
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/zshell/.oh-my-zsh"
-
-# Set name of the theme to load
-ZSH_THEME="powerlevel10k/powerlevel10k"
+setopt extendedglob
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchange
 HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 DISABLE_AUTO_TITLE="true"
@@ -35,23 +20,30 @@ HIST_STAMPS="dd.mm.yyyy"
 
 # History Configuration
 HISTSIZE=5000               # How many lines of history to keep in memory
-HISTFILE=~/.dotfiles/temp/.zsh_history     # Where to save history to disk
 SAVEHIST=5000               # Number of history entries to save to disk
-HISTDUP=erase               # Erase duplicates in the history file
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt appendhistory     # Append history to the history file (no overwriting)
-setopt sharehistory      # Share history across terminals
-setopt incappendhistory  # Immediately append to the history file, not just when a term is killed
+HISTFILE=~/.dotfiles/temp/.zsh_history     # Where to save history to disk
 
-# Which plugins would you like to load?
-plugins=(
-    git
-    docker
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    web-search
-    )
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+setopt APPEND_HISTORY            # append to history file
+setopt HIST_NO_STORE             # Don't store history commands
+
+HISTORY_IGNORE='(ll|c|clear|ls|reload|* --help|* -h|cd ..|cd|cddot)'
+
+# zshaddhistory() {
+#   case ${1%% *} in
+#     (mpv|mpc) return 1;;
+#   esac
+#   return 0;
+# }
 
 ### Stuff for brew
 
@@ -76,15 +68,9 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-source $ZSH/oh-my-zsh.sh
-
-# Load powerlevel10k theme and configuration
-source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.dotfiles/source/.p10k.zsh ]] || source ~/.dotfiles/source/.p10k.zsh
-
 # Add additional aliases
-source ~/.dotfiles/source/.functions.zsh
-source ~/.dotfiles/source/.alias.zsh
+source "$DOTFILES"/source/.zsh_aliases
+source "$DOTFILES"/source/.zsh_functions
 
 # Path variables updates
 export NVM_DIR="$HOME/.nvm"
@@ -94,5 +80,5 @@ export NVM_DIR="$HOME/.nvm"
 export M2_HOME="/opt/homebrew/Cellar/maven/$(mvn --version --quiet)/libexec"
 export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
 
-# Load Angular CLI autocompletion.
-source <(ng completion script)
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init zsh)"

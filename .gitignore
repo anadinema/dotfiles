@@ -17,10 +17,12 @@ stow/.kube/cache
 !stow/.config/git
 !stow/.config/raycast
 !stow/.config/zed
+!stow/.config/starship
 
 # Add all the files in the above ignored folders you need to keep
 !stow/.config/git/**
 !stow/.config/raycast/**
+!stow/.config/starship/**
 !stow/.config/zed/settings.json
 !stow/.config/zed/keymap.json
 
