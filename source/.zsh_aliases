@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # Aliases to be loaded at the end to keep the list aliases corrected after oh-my-zsh aliases are loaded.
 
 alias c=" clear"
