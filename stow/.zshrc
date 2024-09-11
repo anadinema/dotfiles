@@ -1,11 +1,10 @@
 ZSH_DISABLE_COMPFIX=true
 
 # Path to .dotfiles repository
-export DOTFILES="$HOME"/.dotfiles
+export DOTFILES="$HOME/.dotfiles"
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
-setopt extendedglob
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchange
@@ -19,9 +18,9 @@ DISABLE_AUTO_TITLE="true"
 HIST_STAMPS="dd.mm.yyyy"
 
 # History Configuration
-HISTSIZE=5000               # How many lines of history to keep in memory
-SAVEHIST=5000               # Number of history entries to save to disk
-HISTFILE=~/.dotfiles/temp/.zsh_history     # Where to save history to disk
+HISTSIZE=5000               		# How many lines of history to keep in memory
+SAVEHIST=5000               		# Number of history entries to save to disk
+HISTFILE=~/.dotfiles/temp/.zsh_history     					# Where to save history to disk
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -73,3 +72,4 @@ export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/H
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"
+
