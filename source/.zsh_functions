@@ -12,8 +12,7 @@ reload() {
 # Update the changes in system and update dotfiles, then push changes to github
 dotup() {
 	echo "$DOTFILES"
-	brew bundle dump --file="$DOTFILES"/brew/Brewfile --force && /
-	brew bundle --file="$DOTFILES"/brew/Brewfile --force cleanup
+	brew bundle dump --file="$DOTFILES"/brew/Brewfile --force && brew bundle --file="$DOTFILES"/brew/Brewfile --force cleanup
 	rback
 	if [ -z "$1" ]; then
 		cd "$DOTFILES" || exit
