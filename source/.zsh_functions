@@ -82,12 +82,12 @@ grem() {
   git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1
 }
 
-# Pull with or without rebase
-pp() {
+# Push with or without branch name
+push() {
 	if [ -z "$1" ]; then
-		git pull
+		git push origin "$(git branch --show-current)"
 	else
-		git pull --rebase
+		git push origin "$1"
 	fi
 }
 

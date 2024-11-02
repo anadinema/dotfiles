@@ -14,12 +14,12 @@ alias gs=" git status"
 alias gc="git commit -m"
 alias gca="git commit -am"
 alias ga="git add"
+alias pull="git pull"
 
 alias repo="cd ~/Developer/repository"
 alias cdoss="cd /Volumes/OSS/repository"
 alias cddot="cd $DOTFILES"
 
 alias ff="fastfetch"
-alias kubectl="k"
 
 alias mvn="mvn -Dmaven.home=$M2_HOME"
