@@ -434,7 +434,7 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 # defaults write com.apple.terminal StringEncodings -array 4
 
 # Points iTerm2 to take config from our .dotfiles
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "/Users/anadinema/.dotfiles/settings/iterm"
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "/Users/anadinema/dotfiles/settings/iterm"
 
 ###############################################################################
 # Time Machine                                                                #

@@ -1,7 +1,8 @@
 ZSH_DISABLE_COMPFIX=true
 
-# Path to .dotfiles repository
-export DOTFILES="$HOME/.dotfiles"
+# Path to some common places
+export DOTFILES="$HOME/dotfiles"
+export DEVFILES="$HOME/dev"
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
@@ -19,8 +20,8 @@ HIST_STAMPS="dd.mm.yyyy"
 
 # History Configuration
 HISTSIZE=5000               		# How many lines of history to keep in memory
-SAVEHIST=5000               		# Number of history entries to save to disk
-HISTFILE=~/.dotfiles/temp/.zsh_history     					# Where to save history to disk
+SAVEHIST=50000               		# Number of history entries to save to disk
+HISTFILE=$DOTFILES/temp/.zsh_history     					# Where to save history to disk
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -58,18 +59,27 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
 # Add additional aliases
-source "$DOTFILES"/source/.zsh_aliases
-source "$DOTFILES"/source/.zsh_functions
+[ -f $DOTFILES/source/.zsh_aliases ] && source "$DOTFILES"/source/.zsh_aliases
+[ -f $DOTFILES/source/.zsh_functions ] && source "$DOTFILES"/source/.zsh_functions
 
 # Path variables updates
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# Setup maven and graalvm home
 export M2_HOME="/opt/homebrew/Cellar/maven/$(mvn --version --quiet)/libexec"
-export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-17.jdk/Contents/Home"
+export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-21.jdk/Contents/Home"
 
+# Starship config
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"
 
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

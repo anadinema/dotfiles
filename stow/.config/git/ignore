@@ -4,6 +4,7 @@
 *.pyo
 *.so
 target/
+node_modules/
 
 # Logs
 *.log

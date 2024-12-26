@@ -5,7 +5,7 @@ stow/.ssh/known_hosts*
 temp/**
 fonts/**
 brew/*.lock.json
-stow/.config/**
+stow/.config/*
 stow/.m2/repository
 stow/.m2/wrapper
 stow/.m2/.develocity
@@ -16,15 +16,13 @@ stow/.kube/cache
 # Add all the stow configuration folders you need to keep
 !stow/.config/git
 !stow/.config/raycast
-!stow/.config/zed
 !stow/.config/starship
-
-# Add all the files in the above ignored folders you need to keep
-!stow/.config/git/**
-!stow/.config/raycast/**
-!stow/.config/starship/**
-!stow/.config/zed/settings.json
-!stow/.config/zed/keymap.json
+!stow/.config/alacritty
+!stow/.config/tmux
 
 # Mac specific files to be ignored
 .DS_Store
+
+# Editor directories
+.vscode/
+.idea/

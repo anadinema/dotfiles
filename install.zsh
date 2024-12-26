@@ -3,10 +3,11 @@
 setopt +o nomatch
 
 LINE=----------------------------------------------------------------
-DOTFILES=$DOTFILES || $HOME/.dotfiles
+DOTFILES=$DOTFILES || $HOME/dotfiles
 DEFAULTS=false
 
-install_homebrew() {
+# Install homebrew to further install all other stuff
+__install_homebrew() {
   if type brew &>/dev/null; then
     echo ""$LINE"\n ### homebrew is already installed... skipping installation... ### \n"$LINE""
   else
@@ -20,7 +21,8 @@ install_homebrew() {
   fi
 }
 
-brew_apps() {
+# Install all the cli tools, apps, fonts using homebrew
+__brew_apps() {
   if ! brew list | grep bat &>/dev/null; then
     echo ""$LINE"\n ### Installing brew bundle... ### \n"$LINE""
     brew bundle install --file brew/Brewfile
@@ -34,14 +36,15 @@ brew_apps() {
   fi
 }
 
-setup_dotfiles() {
+# Remove the original files, if present and then setup the symlinks
+__setup_dotfiles() {
   echo ""$LINE"\n ### Removing existing folder/symlinks if present on user home... ### \n"$LINE""
-  for file in $(find $(pwd) -type f | grep stow | grep -v .config | grep -v .ssh | grep -v .m2 | sed 's/\/.dotfiles\/stow//g')
+  for file in $(find $(pwd) -type f | grep stow | grep -v .config | grep -v .ssh | grep -v .m2 | sed 's/\/dotfiles\/stow//g')
   do
     echo "$file"
     rm -rf "$file" || true
   done
-  for folder in $(find $(pwd) -type d | grep stow | grep -v .config | sed 's/\/.dotfiles\/stow//g')
+  for folder in $(find $(pwd) -type d | grep stow | grep -v .config | sed 's/\/dotfiles\/stow//g')
   do
     if [[ ! $folder == $HOME ]]; then
       echo "$folder"
@@ -62,35 +65,22 @@ setup_dotfiles() {
   fi
 }
 
-perform_cleanup() {
+# Perform the cleanup with the unnecessary files
+__perform_cleanup() {
   echo " ### Cleaning up... ### \n"$LINE""
   (rm -rf $HOME/.lesshst || true) && (rm -rf $HOME/.zcompdump* || true) && (rm -rf $HOME/.zsh_history* || true) && ( rm -rf $HOME/.zshrc.pre* || true) && ( rm -rf $HOME/.zprofile || true)
   mkdir -p $DOTFILES/temp
-  rm -rf $DOTFILES/fonts
   echo " ### All set and good to move ahead... ### \n"$LINE""
 }
 
-install_fonts() {
-  if [ $(find ~/Library/Fonts -name JetBrainsMono*.ttf | wc -l) -le 5 ]; then
-    echo ""$LINE"\n ### Installing fonts... ### \n"$LINE""
-    if [ -d "$DOTFILES"/fonts/jetbrains ]; then
-      rm -rf $DOTFILES/fonts/jetbrains
-    fi
-		git clone --filter=blob:none --depth=1 --sparse https://github.com/ryanoasis/nerd-fonts "$DOTFILES"/fonts/jetbrains
-		git -C "$DOTFILES"/fonts/jetbrains sparse-checkout add patched-fonts/JetBrainsMono
-    "$DOTFILES"/fonts/jetbrains/install.sh JetBrainsMono
-    echo ""$LINE"\n ### Fonts installed and placed in the Fontbook... ### \n"$LINE""
-  else
-    echo ""$LINE"\n ### Fonts are already installed... skipping the step... ### \n"$LINE""
-  fi
-}
-
-set_java_version() {
+# Set the java version to 21
+__set_java_version() {
   echo ""$LINE"\n ### Setting java version to 21... ### \n"$LINE""
   jvm 21
 }
 
-set_node_version() {
+# Install the LTS node version using nvm and set it as default
+__set_node_version() {
   echo ""$LINE"\n ### Installing node LTS version through nvm... ### \n"$LINE""
   if [ $(nvm list node | grep v | wc -l) -le 0 ]; then
     nvm install --lts
@@ -104,7 +94,8 @@ set_node_version() {
   fi
 }
 
-set_macos_defaults() {
+# Set the macos defaults using scripts/default.zsh
+__set_macos_defaults() {
   if [ $DEFAULTS == true ]; then
     echo ""$LINE"\n ### Running defaults to restore settings for macos... ### \n"$LINE""
     zsh scripts/defaults.zsh
@@ -114,21 +105,23 @@ set_macos_defaults() {
   fi
 }
 
-setup() {
+# Setup function to make sure the sudo doesn't timeout
+__setup() {
   sudo -v
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 }
 
+# Main function definition and order in which other functions will be executed
 main() {
-  setup
-  install_fonts
-  install_homebrew
-  brew_apps
-  setup_dotfiles
-  set_java_version
-  set_node_version
-  set_macos_defaults
-  perform_cleanup
+  __setup
+  __install_homebrew
+  __brew_apps
+  __setup_dotfiles
+  __set_java_version
+  __set_node_version
+  __set_macos_defaults
+  __perform_cleanup
 }
 
+# Execute the main functions
 main
