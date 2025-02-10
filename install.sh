@@ -56,6 +56,7 @@ _main() {
   __setup
 	__dev_folders_setup
   source scripts/brew-setup.sh
+	source scripts/manual-installation.sh
   source scripts/setup-dotfiles.sh
   source scripts/macos-defaults.sh
   source scripts/setup-tools.sh
