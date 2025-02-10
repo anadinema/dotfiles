@@ -20,6 +20,11 @@ alias nrep="cd ~/.nvm"
 alias conf="cd ~/.config"
 alias oss="cd /Volumes/OSS/repository"
 
+### Node related things for app run and builds
+alias ni="npm install"
+alias nt="npm run generate-types"
+alias ns="ni && nt && ni"
+
 ### Maven builds and app runs for quarkus
 alias mvn="mvn -Dmaven.home=$M2_HOME"
 alias mb="mvn clean verify -DskipTests"
