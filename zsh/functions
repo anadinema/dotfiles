@@ -106,13 +106,11 @@ idea() {
 
 # Take brew dump, raycast backup, update dotfiles, then push changes to github
 dotup() {
-	# brewsv is an function
+
+	# Below three are functions
+	authbkp
 	brewsv
 	__rback
-
-	if [ -f "$DOTFILES/auth-env" ]; then
-		awk -F= '/^export / {print $1"="} !/^export / {print}' $DOTFILES/auth-env > $DOTFILES/backups/auth-env.config
-	fi
 
 	if [ -z "$1" ]; then
 		cd "$DOTFILES" || exit
@@ -122,6 +120,19 @@ dotup() {
 		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
 		git push origin master || true
 		cd $HOME || exit
+	fi
+}
+
+# Take backup of name of auth environment variables
+authbkp() {
+	if [ -f "$DOTFILES/auth-env" ]; then
+		dest_file_name=$DOTFILES/backups/auth-env.config
+
+		if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+			dest_file_name=$DOTFILES/backups/auth-env.work.config
+		fi
+
+		awk -F= '/^export / {print $1"="} !/^export / {print}' $DOTFILES/auth-env > $dest_file_name
 	fi
 }
 
@@ -140,7 +151,7 @@ __rback() {
 
 # List all the available functions
 func() {
-	print -z $(grep -E '(^# |^\w+\(\))' "$DOTFILES"/source/.zsh_functions | \
+	print -z $(grep -E '(^# |^\w+\(\))' "$DOTFILES"/zsh/functions | \
 	awk '/^#/{comment=$0; next} /^[a-zA-Z_]+[a-zA-Z0-9_]*\(\)/ && !/^\_\_/{gsub(/\(\)/, "", $1); \
 	print $1 " - " substr(comment, 3); comment=""}' | \
 	fzf +s --tac | cut -d' ' -f1)
@@ -156,4 +167,13 @@ drm() {
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
   [ -n "$cid" ] && docker rm "$cid"
+}
+
+# Generate the AWS config
+aws_setup() {
+	aws_conf_path=$DOTFILES/core/.aws
+	if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+		aws_conf_path=$DOTFILES/work/core/.aws
+	fi
+	envsubst < $aws_conf_path/config.template > $aws_conf_path/config
 }

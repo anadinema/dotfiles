@@ -37,11 +37,23 @@ version_format = "v${major}"
 detect_folders = [ 'app', 'library' ]
 
 [cmd_duration]
-format = '| [$duration]($style)'
-min_time = 50
+min_time = 100
 
 [package]
-symbol = '󰏗 '
+disabled = true
+
+[aws]
+symbol = '  '
+format = 'at [$symbol($profile )(\($region\))]($style)'
+
+[aws.profile_aliases]
+main = 'shipping-main'
+spt = 'spcache-test'
+spp = 'spcache-main'
+
+[aws.region_aliases]
+eu-west-1 = 'ireland'
+eu-north-1 = 'stockholm'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
