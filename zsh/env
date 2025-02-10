@@ -1,0 +1,3 @@
+# Environment variables to be loaded
+
+export M2_HOME=$HOME/.sdkman/candidates/maven/current

@@ -1,24 +1,9 @@
 # Files to be ignored
-stow/.ssh/known_hosts*
+auth-env
 
 # Directories to be ignored
-temp/**
-fonts/**
-brew/*.lock.json
-stow/.config/*
-stow/.m2/repository
-stow/.m2/wrapper
-stow/.m2/.develocity
-stow/.m2/settings-pn.xml
-stow/.kube/config
-stow/.kube/cache
-
-# Add all the stow configuration folders you need to keep
-!stow/.config/git
-!stow/.config/raycast
-!stow/.config/starship
-!stow/.config/alacritty
-!stow/.config/tmux
+temp/
+fonts/
 
 # Mac specific files to be ignored
 .DS_Store
