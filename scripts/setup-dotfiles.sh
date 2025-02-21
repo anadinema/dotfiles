@@ -72,10 +72,4 @@ __stow_dotfiles() {
 
 #### Main function run call chain ####
 
-if [ "$UNSTOW" -eq 1 ]; then
-	__unstow_dotfiles
-else
-	__stow_dotfiles
-fi
-
-
+__stow_dotfiles
