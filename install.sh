@@ -30,7 +30,6 @@ __setup() {
 }
 
 __dev_folders_setup() {
-	mkdir -p $HOME/dev
 	mkdir -p $HOME/dev/archives
 	mkdir -p $HOME/dev/repository
 	mkdir -p $HOME/dev/artifactory/maven

@@ -337,6 +337,9 @@ __change_dock_settings() {
 
 __change_energy_settings() {
 
+	# Comment out the below line if any of the below commands are active
+	echo ""
+
 	# Enable lid wakeup
 	# sudo pmset -a lidwake 1
 
@@ -442,7 +445,10 @@ __change_alttab_settings() {
 
 __change_mail_settings() {
 
-	# Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
+	# Comment out the below line if any of the below commands are active
+  echo ""
+
+  # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
 	# defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 	# Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
@@ -468,7 +474,10 @@ __change_mail_settings() {
 
 __change_time_machine_settings() {
 
-	# Prevent Time Machine from prompting to use new hard drives as backup volume
+	# Comment out the below line if any of the below commands are active
+	echo ""
+
+  # Prevent Time Machine from prompting to use new hard drives as backup volume
 	# defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 	# Disable local Time Machine backups
@@ -505,7 +514,10 @@ __change_activity_monitor_settings() {
 
 __change_other_mix_settings() {
 
-	# Enable the debug menu in Address Book
+	# Comment out the below line if any of the below commands are active
+  echo ""
+
+  # Enable the debug menu in Address Book
 	# defaults write com.apple.addressbook ABShowDebugMenu -bool true
 
 	# Enable Dashboard dev mode (allows keeping widgets on the desktop)

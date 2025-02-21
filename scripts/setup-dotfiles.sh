@@ -43,10 +43,12 @@ __stow_dotfiles() {
 	# TODO: Check and remove if not needed
   rm -rf "$HOME/.zshrc.pre*"
 
-	for item in $master_core; do
-		echo "Removing $item"
-		rm -rf "$HOME/$item"
-	done
+  if [ -n "$HOME" ]; then
+		for item in $master_core; do
+			echo "Removing $HOME/$item"
+			rm -rf "${HOME:?}/$item"
+		done
+  fi
 
 	echo "$LINE\n ### Stowing now... ### \n$LINE"
 
