@@ -39,14 +39,14 @@ __dev_folders_setup() {
 
 # Perform the setup/cleanup with the unnecessary files/folder
 __file_folder_setup() {
-  echo ""$LINE"\n ### Cleaning up... ### \n"$LINE""
+  echo "$LINE\n ### Cleaning up... ### \n$LINE"
   rm -rf $HOME/.lesshst
 	rm -rf $HOME/.zcompdump*
 	rm -rf $HOME/.zsh_history*
 	rm -rf $HOME/.zshrc.pre*
 	rm -rf $HOME/.zprofile
   mkdir -p $DOTFILES/temp
-  echo ""$LINE"\n ### All set and good to move ahead... ### \n"$LINE""
+  echo "$LINE\n ### All set and good to move ahead... ### \n$LINE"
 }
 
 

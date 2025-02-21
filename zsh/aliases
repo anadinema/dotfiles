@@ -10,7 +10,6 @@ alias tree=" eza --almost-all --tree --level=5 --icons --group-directories-first
 
 #### Change directories and shortcuts for some common directory commands
 alias cd=" cd"
-alias ..="cd .."
 alias dots="cd $DOTFILES"
 alias dev="cd $DEVFILES"
 alias repo="cd $DEVFILES/repository"
@@ -22,8 +21,6 @@ alias oss="cd /Volumes/OSS/repository"
 
 ### Node related things for app run and builds
 alias ni="npm install"
-alias nt="npm run generate-types"
-alias ns="ni && nt && ni"
 
 ### Maven builds and app runs for quarkus
 alias mvn="mvn -Dmaven.home=$M2_HOME"
@@ -37,14 +34,31 @@ alias gs="git status"
 alias gc="git commit -m"
 alias gca="git commit -a -m"
 alias ga="git add"
+alias gco="git checkout"
 alias gpu="git pull"
 alias grem="git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1"
 alias glog="git log --graph --abbrev-commit --decorate --all \
     --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) \
     - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
 
+# Tmux stuff
+alias ta="tmux attach"
+alias trel="tmux source-file $HOME/.config/tmux/tmux.conf"
+
 ### Brew commands
 alias brewit="brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
+
+if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+	# AWS related things
+	alias am="export AWS_PROFILE=main"
+	alias ast="export AWS_PROFILE=spt"
+	alias asp="export AWS_PROFILE=spp"
+
+	# Custom node commands
+	alias nt="npm run generate-types"
+	alias ns="ni && nt && ni"
+	alias nr="npm run all"
+fi
 
 # Other quick commands
 alias c=" clear"

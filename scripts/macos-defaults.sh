@@ -611,7 +611,7 @@ __kill_applications() {
 #### Main function run call chain ####
 
 if [ $RUN_DEFAULTS -eq 1 ]; then
-	echo ""$LINE"\n ### Running defaults to restore settings for macos... ### \n"$LINE""
+	echo "$LINE\n ### Running defaults to restore settings for macos... ### \n$LINE"
 	__settings_change_setup
 	__change_general_settings
 	__change_input_settings
@@ -627,7 +627,7 @@ if [ $RUN_DEFAULTS -eq 1 ]; then
 	__change_app_store_settings
 	__change_photos_settings
 	__kill_applications
-	echo ""$LINE"\n ### Done. Might need a logout/restart for few changes to take effect ### \n"$LINE""
+	echo "$LINE\n ### Done. Might need a logout/restart for few changes to take effect ### \n$LINE"
 else
-	echo ""$LINE"\n ### Defaults set to not run... skipping the step... ### \n"$LINE""
+	echo "$LINE\n ### Defaults set to not run... skipping the step... ### \n$LINE"
 fi

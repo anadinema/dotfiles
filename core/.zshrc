@@ -1,8 +1,7 @@
 ZSH_DISABLE_COMPFIX=true
 
-# Path to some common places
-export DOTFILES="$HOME/dotfiles"
-export DEVFILES="$HOME/dev"
+# Import env vars if the file is present
+[ -f $DOTFILES/zsh/env ] && source "$DOTFILES"/zsh/env
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
@@ -61,9 +60,6 @@ source <(fzf --zsh)
 
 # Load private authentication and other environment vars
 [ -f $DOTFILES/auth-env ] && source "$DOTFILES"/auth-env
-
-# Import env vars if the file is present
-[ -f $DOTFILES/zsh/env ] && source "$DOTFILES"/zsh/env
 
 # Add additional aliases and bigger aliases as functions
 [ -f $DOTFILES/zsh/aliases ] && source "$DOTFILES"/zsh/aliases
