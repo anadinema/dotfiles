@@ -36,6 +36,13 @@ __dev_folders_setup() {
 	mkdir -p $HOME/dev/artifactory/gradle
 }
 
+__install_rosetta() {
+	echo "$LINE\n ### Installing rosetta... ### \n$LINE"
+	softwareupdate --install-rosetta --agree-to-license
+	sleep 5
+	echo "$LINE\n ### rosetta installed successfully... ### \n$LINE"
+}
+
 # Perform the setup/cleanup with the unnecessary files/folder
 __file_folder_setup() {
   echo "$LINE\n ### Cleaning up... ### \n$LINE"
@@ -54,6 +61,7 @@ __file_folder_setup() {
 _main() {
   __setup
 	__dev_folders_setup
+	__install_rosetta
   source scripts/brew-setup.sh
 	source scripts/manual-installation.sh
   source scripts/setup-dotfiles.sh
