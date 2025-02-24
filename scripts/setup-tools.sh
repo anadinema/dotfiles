@@ -6,12 +6,18 @@ java_versions=()
 node_versions=()
 
 __check_installation() {
-	if [ "$(command -v nvm)" != "nvm" ]; then
+	if [ "$(command -v nvm)" != 'nvm' ]; then
+		nvm --version
 		echo "\n\n nvm isn't installed.. Quitting!"
 	fi
 
 	if type sdk &>/dev/null; then
+		rm -rf $HOME/.sdkman/etc/config
+		mkdir -p $HOME/.sdkman/etc
+		cp backups/sdkman.config $HOME/.sdkman/etc/config
+	else
 		echo "\n\n sdkman isn't installed.. Quitting!"
+		exit 1
 	fi
 }
 
@@ -37,34 +43,31 @@ __setup_versions_and_paths() {
 			"22"
 		)
 	fi
-
-	rm -rf $HOME/.sdkman/etc/config
-	cp backups/sdkman.config $HOME/.sdkman/etc/config
 }
 
 __install_node() {
 	for version in $node_versions; do
-		if [ $(nvm ls $version | wc -l) -eq 0 ]; then
+		if ! nvm ls $version > /dev/null 2>&1; then
 			nvm install $version
 		fi
-		nvm alias default ${node_versions[0]}
+		nvm alias default ${node_versions[1]}
 	done
 }
 
 __install_java() {
 	for version in $java_versions; do
-		if [ $(sdk home java $version | wc -l) -eq 0 ]; then
-			sdk install $version
+		if [ ! -d "$SDKMAN_DIR/candidates/java/$version" ]; then
+			sdk install java $version
 		fi
-		sdk default java ${java_versions[0]}
 	done
+	sdk default java ${java_versions[1]}
 }
 
 __install_maven() {
-	if [ $(sdk home maven $mvn_version | wc -l) -eq 0 ]; then
-		sdk install $mvn_version
+	if [ ! -d "$SDKMAN_DIR/candidates/maven/$version" ]; then
+		sdk install maven $mvn_version
 	fi
-	sdk default java ${java_versions[0]}
+	sdk default maven $mvn_version
 }
 
 
@@ -75,6 +78,8 @@ envsubst < $aws_conf_path/config.template > $aws_conf_path/config
 __check_installation
 __setup_versions_and_paths
 __install_node
+set +e
 __install_java
 __install_maven
+set -e
 

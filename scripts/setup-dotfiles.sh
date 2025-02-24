@@ -60,8 +60,7 @@ __stow_dotfiles() {
 	fi
 
   sleep 5
-
-  source ~/.zshrc
+  source $HOME/.zshrc
 
   if ! echo "$DOTFILES" &>/dev/null; then
     echo "### Either syslink or reload failed... Exiting now.. ### \n$LINE" && exit 1

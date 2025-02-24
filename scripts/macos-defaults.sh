@@ -598,7 +598,6 @@ __kill_applications() {
 
 	apps_list=(
 		"Activity Monitor"
-		"Address Book"
 		"Calendar"
 		"Dock"
 		"Finder"
@@ -614,7 +613,8 @@ __kill_applications() {
 	)
 
 	for app in $apps_list; do
-		killall "$app" &> /dev/null
+		echo "Killing : $app"
+		killall "$app" &> /dev/null || true
 	done
 
 }

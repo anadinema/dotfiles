@@ -1,7 +1,6 @@
 # Environment variables to be loaded
 
 # Path to some common places
-export DOTFILES="$HOME/dotfiles"
 export DEVFILES="$HOME/dev"
 
 # Maven related

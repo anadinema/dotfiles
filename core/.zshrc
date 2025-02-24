@@ -1,5 +1,8 @@
 ZSH_DISABLE_COMPFIX=true
 
+# This is needed as a lot of stuff depends on it
+export DOTFILES="$HOME/dotfiles"
+
 # Import env vars if the file is present
 [ -f $DOTFILES/zsh/env ] && source "$DOTFILES"/zsh/env
 

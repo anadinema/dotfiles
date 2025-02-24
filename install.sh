@@ -62,11 +62,11 @@ _main() {
   __setup
 	__dev_folders_setup
 	__install_rosetta
-  source scripts/brew-setup.sh
-	source scripts/manual-installation.sh
-  source scripts/setup-dotfiles.sh
-  source scripts/macos-defaults.sh
-  source scripts/setup-tools.sh
+  . scripts/brew-setup.sh
+	. scripts/manual-installation.sh
+  . scripts/setup-dotfiles.sh
+  . scripts/macos-defaults.sh
+  . scripts/setup-tools.sh
   __file_folder_setup
 }
 
@@ -75,4 +75,4 @@ _main() {
 
 _main
 
-
+# TODO : SUDO is not working fix it
