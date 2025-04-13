@@ -421,11 +421,11 @@ __change_alttab_settings() {
 	# Hide thumbnails while switching apps
 	defaults write com.lwouis.alt-tab-macos hideThumbnails -bool false
 
-	# Change shortcut from option + tab to command + tab (Not working as of now. App crashes if you try to do so.)
-	# defaults write com.lwouis.alt-tab-macos holdShortcut -string "\\U2318"
+	# Change shortcut from option + tab to command + tab
+	defaults write com.lwouis.alt-tab-macos holdShortcut -string "⌘"
 
 	# Change menu bar icon
-	defaults write com.lwouis.alt-tab-macos menubarIcon -int 3
+	defaults write com.lwouis.alt-tab-macos menubarIconShown -string false
 
 	# Swtich windows on mouse hover
 	# defaults write com.lwouis.alt-tab-macos mouseHoverEnabled -bool false
@@ -435,6 +435,35 @@ __change_alttab_settings() {
 
 	# Set the theme to be of macos or windows (0 or 1 respectively)
 	defaults write com.lwouis.alt-tab-macos theme -int 0
+
+  # Set crash policy to never send any reports
+  defaults write com.lwouis.alt-tab-macos crashPolicy -int 0
+
+  # Show on the active screen
+  defaults write com.lwouis.alt-tab-macos showOnScreen -int 0
+
+	# Other appearance changes
+	defaults write com.lwouis.alt-tab-macos appearanceSize -int 1
+	defaults write com.lwouis.alt-tab-macos appearanceVisibility -int 0
+
+}
+
+
+###############################################################################
+# Itsycal                                                                      #
+###############################################################################
+
+__change_itsycal_settings() {
+
+	# Enable automatic updates
+	defaults write com.mowglii.ItsycalApp SUEnableAutomaticChecks -bool true
+
+  # Change the view preferences
+  defaults write com.mowglii.ItsycalApp MenuBarIconType -int 3
+  defaults write com.mowglii.ItsycalApp HighlightedDOWs -int 65
+  defaults write com.mowglii.ItsycalApp SizePreference -int 1
+  defaults write com.mowglii.ItsycalApp ShowEventDays -int 7
+  defaults write com.mowglii.ItsycalApp ClockFormat -string "E, MMM d - 'w.'w"
 
 }
 
@@ -609,6 +638,7 @@ __kill_applications() {
 		"Safari"
 		"SystemUIServer"
 		"AltTab"
+    "Itsycal"
 		"Calendar"
 	)
 
@@ -632,6 +662,7 @@ if [ $RUN_DEFAULTS -eq 1 ]; then
 	__change_energy_settings
 	__change_screen_settings
 	__change_alttab_settings
+  __change_itsycal_settings
 	__change_mail_settings
 	__change_time_machine_settings
 	__change_activity_monitor_settings
