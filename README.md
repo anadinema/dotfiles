@@ -1,5 +1,5 @@
 # Dotfiles - Dotting the mac :)
-<img src="assets/terminal.jpg" align="center" />
+<img src="assets/alacritty-term.png" align="center" />
 <hr />
 
 ## Installation
@@ -39,13 +39,13 @@ git clone https://github.com/anadinema/dotfiles.git $HOME/dotfiles && cd $HOME/d
 Then to start the setup, run:
 
 ```zsh
-zsh install.zsh
+./install.sh
 ```
 
-By default, it will run the defaults.zsh script as well and set some sensible macos defaults. In case you don't want that, then add the **DEFAULTS** variable as false and run:
+By default, it will not run the `defaults` script which set some sensible macos defaults. In case you want to run it, then add the **RUN_DEFAULTS** variable as `1` and run:
 
 ```zsh
-DEFAULTS=false zsh install.zsh
+RUN_DEFAULTS=1 ./install.sh
 ```
 
 Some of the functionality of these dotfiles depends on formulae present in `brew/Brewfile`. If you plan to not install `brew` or it's formulae, you should look carefully through the script and manually install any particularly important ones. A good example is stow: the GNU utility to manage the symlinks for the dotfiles.

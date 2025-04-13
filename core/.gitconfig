@@ -1,7 +1,7 @@
 [user]
   name = Anadi Nema
   email = anadi.nema@outlook.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAKC+JTnQz+9pU17OSzFn78FBmGyTTBQSrOK/Ilirung
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAKC+JTnQz+9pU17OSzFn78FBmGyTTBQSrOK/Ilirung
 
 [gpg]
   format = ssh

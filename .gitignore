@@ -1,5 +1,7 @@
 # Files to be ignored
 auth-env
+core/.stow-local-ignore
+work/core/.stow-local-ignore
 
 # Directories to be ignored
 temp/
