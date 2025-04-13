@@ -23,8 +23,8 @@ __setup() {
 		RUN_WORK_ARCHIVE_SETUP=0
 	fi
 
-	if [ -z "$RUN_WORK_TOOLS_SETUP" ]; then
-		RUN_WORK_TOOLS_SETUP=0
+	if [ -z "$RUN_TOOLS_SETUP" ]; then
+		RUN_TOOLS_SETUP=0
 	fi
 
 	scripts=($(ls scripts))

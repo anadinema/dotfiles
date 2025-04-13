@@ -80,7 +80,7 @@ __install_tmux_plugins() {
 
 #### Main function run call chain ####
 
-if [[ "$WORK_MACHINE_SETUP" -eq 1 ]] && [[ "$RUN_WORK_TOOLS_SETUP" -eq 1 ]]; then
+if [ "$RUN_TOOLS_SETUP" -eq 1 ]; then
   envsubst < $aws_conf_path/config.template > $aws_conf_path/config
 
   __check_installation
