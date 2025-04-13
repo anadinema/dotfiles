@@ -1,9 +1,7 @@
 # Script to copy and setup the archives for work onedrive
 
 # Following variable to be saved to auth-envs
-files=(
-  $(find $WORK_CONF_BASE_PATH/config -mindepth 1 -maxdepth 1 | sed "s+$WORK_CONF_BASE_PATH/config/++g" | grep -v .DS_Store)
-)
+files=()
 
 __setup_archives() {
   local archive_files=(
@@ -59,6 +57,9 @@ __setup_folder_based_stuff() {
 
 
 if [[ "$WORK_MACHINE_SETUP" -eq 1 ]] && [[ "$RUN_WORK_ARCHIVE_SETUP" -eq 1 ]]; then
+  files=(
+    $(find $WORK_CONF_BASE_PATH/config -mindepth 1 -maxdepth 1 | sed "s+$WORK_CONF_BASE_PATH/config/++g" | grep -v .DS_Store)
+  )
   __setup_archives
   __setup_cli_tools
   __setup_init_files
