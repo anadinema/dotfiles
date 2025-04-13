@@ -5,3 +5,7 @@ export DEVFILES="$HOME/dev"
 
 # Maven related
 export M2_HOME=$HOME/.sdkman/candidates/maven/current
+
+# Path updates
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
+export PATH="$HOME/dev/bin:$PATH"

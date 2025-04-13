@@ -70,16 +70,25 @@ __install_maven() {
 	sdk default maven $mvn_version
 }
 
+__install_tmux_plugins() {
+	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$HOME"/.tmux/plugins/tpm
+		echo "\n\n Installed TPM..."
+  fi
+}
+
 
 #### Main function run call chain ####
 
-envsubst < $aws_conf_path/config.template > $aws_conf_path/config
+if [[ "$WORK_MACHINE_SETUP" -eq 1 ]] && [[ "$RUN_WORK_TOOLS_SETUP" -eq 1 ]]; then
+  envsubst < $aws_conf_path/config.template > $aws_conf_path/config
 
-__check_installation
-__setup_versions_and_paths
-__install_node
-set +e
-__install_java
-__install_maven
-set -e
-
+  __check_installation
+  __setup_versions_and_paths
+  __install_node
+  set +e
+  __install_java
+  __install_maven
+  __install_tmux_plugins
+  set -e
+fi

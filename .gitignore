@@ -3,6 +3,7 @@ auth-env
 
 # Directories to be ignored
 temp/
+work-dir/
 fonts/
 
 # Mac specific files to be ignored

@@ -177,3 +177,14 @@ aws_setup() {
 	fi
 	envsubst < $aws_conf_path/config.template > $aws_conf_path/config
 }
+
+# Export the AWS credentials from the sso login to credentials file
+awsc() {
+  local profile=$([ -n "$1" ] && echo "$1" || echo main)
+  local temp_creds=$(aws configure export-credentials --profile "$profile")
+  echo "[$profile]
+aws_access_key_id=$(echo $temp_creds | jq -r .AccessKeyId)
+aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
+aws_session_token=$(echo $temp_creds | jq -r .SessionToken)
+  " > $DOTFILES/work/core/.aws/credentials
+}

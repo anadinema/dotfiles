@@ -10,6 +10,7 @@ alias tree=" eza --almost-all --tree --level=5 --icons --group-directories-first
 
 #### Change directories and shortcuts for some common directory commands
 alias cd=" cd"
+# alias sd=" cd ./$(find -type d | fzf)"
 alias dots="cd $DOTFILES"
 alias dev="cd $DEVFILES"
 alias repo="cd $DEVFILES/repository"
@@ -37,10 +38,12 @@ alias ga="git status -uall --porcelain | sed 's/^..//' | fzf -m | xargs git add"
 alias gres="git status -uall --porcelain | sed 's/^..//' | fzf -m | xargs git restore --staged"
 alias gco='branch=$(git branch -l | fzf --print-query | tail -1 | xargs); [ -n "$branch" ] && $(echo $branch | xargs git checkout) || $(echo $branch | xargs git checkout -b)'
 alias gpu="git pull"
-alias grem="git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1"
+alias grem="git config --get remote.origin.url | sed 's+git@+https://+' | sed -E 's+com:|org:+com/+' | sed 's+\.git$++' | head -n1"
+# alias grem="git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1"
 alias glog="git log --graph --abbrev-commit --decorate --all \
     --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) \
     - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
+alias gcx="git checkout \$(git branch -a | sed -E 's/remotes\/([a-zA-Z-]*\/)//' | grep -v '\*|HEAD' | sort |uniq | fzf --select-1)"
 
 # Tmux stuff
 alias ta="tmux attach"

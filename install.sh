@@ -19,6 +19,14 @@ __setup() {
 		WORK_MACHINE_SETUP=0
 	fi
 
+	if [ -z "$RUN_WORK_ARCHIVE_SETUP" ]; then
+		RUN_WORK_ARCHIVE_SETUP=0
+	fi
+
+	if [ -z "$RUN_WORK_TOOLS_SETUP" ]; then
+		RUN_WORK_TOOLS_SETUP=0
+	fi
+
 	scripts=($(ls scripts))
 	for file in $scripts; do
 		chmod +x scripts/$file
@@ -31,6 +39,8 @@ __setup() {
 
 __dev_folders_setup() {
 	mkdir -p $HOME/dev/archives
+  mkdir -p $HOME/dev/bin
+  mkdir -p $HOME/dev/config
 	mkdir -p $HOME/dev/repository
 	mkdir -p $HOME/dev/artifactory/maven
 	mkdir -p $HOME/dev/artifactory/gradle
@@ -67,6 +77,7 @@ _main() {
   . scripts/setup-dotfiles.sh
   . scripts/macos-defaults.sh
   . scripts/setup-tools.sh
+  . scripts/setup-work-archives.sh
   __file_folder_setup
 }
 
@@ -76,3 +87,4 @@ _main() {
 _main
 
 # TODO : SUDO is not working fix it
+
