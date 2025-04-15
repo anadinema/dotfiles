@@ -463,6 +463,7 @@ __change_itsycal_settings() {
   defaults write com.mowglii.ItsycalApp HighlightedDOWs -int 65
   defaults write com.mowglii.ItsycalApp SizePreference -int 1
   defaults write com.mowglii.ItsycalApp ShowEventDays -int 7
+  defaults write com.mowglii.ItsycalApp ShowWeeks  -bool true
   defaults write com.mowglii.ItsycalApp ClockFormat -string "E, MMM d - 'w.'w"
 
 }
