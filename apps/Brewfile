@@ -1,4 +1,3 @@
-tap "nikitabobko/tap"
 brew "bat"
 brew "glib"
 brew "duti"

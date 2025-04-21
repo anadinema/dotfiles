@@ -446,6 +446,20 @@ __change_alttab_settings() {
 	defaults write com.lwouis.alt-tab-macos appearanceSize -int 1
 	defaults write com.lwouis.alt-tab-macos appearanceVisibility -int 0
 
+  # Change the blacklist for apps to be ignored by AltTab
+  # original_val holds the values which comes preinstalled, but doesn't appear in defaults output
+  local original_val='{"hide":"1","bundleIdentifier":"com.McAfee.McAfeeSafariHost","ignore":"0"},{"hide":"2","ignore":"0","bundleIdentifier":"com.apple.finder"},{"ignore":"2","bundleIdentifier":"com.microsoft.rdc.macos","hide":"0"},{"hide":"0","ignore":"2","bundleIdentifier":"com.teamviewer.TeamViewer"},{"hide":"0","ignore":"2","bundleIdentifier":"org.virtualbox.app.VirtualBoxVM"},{"hide":"0","ignore":"2","bundleIdentifier":"com.parallels."},{"ignore":"2","hide":"0","bundleIdentifier":"com.citrix.XenAppViewer"},{"ignore":"2","bundleIdentifier":"com.citrix.receiver.icaviewer.mac","hide":"0"},{"hide":"0","bundleIdentifier":"com.nicesoftware.dcvviewer","ignore":"2"},{"bundleIdentifier":"com.vmware.fusion","ignore":"2","hide":"0"},{"hide":"0","ignore":"2","bundleIdentifier":"com.apple.ScreenSharing"},{"ignore":"2","bundleIdentifier":"com.utmapp.UTM","hide":"0"}'
+  # additional_val holds the values which we want to add
+  local additional_val='{"hide":"2","ignore":"0","bundleIdentifier":"com.nordvpn.macos"}'
+  local stringified_val=''
+  if [ -n $additional_val ]; then
+    stringified_val="[$original_val,$additional_val]"
+  else
+    stringified_val="[$original_val]"
+  fi
+  # Apply the values
+  defaults write com.lwouis.alt-tab-macos blacklist $(echo "'$stringified_val'")
+
 }
 
 
@@ -464,7 +478,7 @@ __change_itsycal_settings() {
   defaults write com.mowglii.ItsycalApp SizePreference -int 1
   defaults write com.mowglii.ItsycalApp ShowEventDays -int 7
   defaults write com.mowglii.ItsycalApp ShowWeeks  -bool true
-  defaults write com.mowglii.ItsycalApp ClockFormat -string "E, MMM d - 'w.'w"
+  defaults write com.mowglii.ItsycalApp ClockFormat -string "'w.'w • E, MMM d"
 
 }
 
