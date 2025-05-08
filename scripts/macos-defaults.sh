@@ -472,13 +472,19 @@ __change_itsycal_settings() {
 	# Enable automatic updates
 	defaults write com.mowglii.ItsycalApp SUEnableAutomaticChecks -bool true
 
-  # Change the view preferences
-  defaults write com.mowglii.ItsycalApp MenuBarIconType -int 3
+  # Do not show the icon in menu bar
+  defaults write com.mowglii.ItsycalApp HideIcon -bool true
+
+  # Change the menu bar icon to itsycal icon, use if the HideIcon is not true
+  # defaults write com.mowglii.ItsycalApp MenuBarIconType -int 3
+
+  # Change other view preferences
   defaults write com.mowglii.ItsycalApp HighlightedDOWs -int 65
   defaults write com.mowglii.ItsycalApp SizePreference -int 1
   defaults write com.mowglii.ItsycalApp ShowEventDays -int 7
-  defaults write com.mowglii.ItsycalApp ShowWeeks  -bool true
+  defaults write com.mowglii.ItsycalApp ShowWeeks -bool true
   defaults write com.mowglii.ItsycalApp ClockFormat -string "'w.'w • E, MMM d"
+
 
 }
 

@@ -54,9 +54,10 @@ alias brewit="brew update && brew upgrade && brew autoremove && brew cleanup -s 
 
 if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
 	# AWS related things
-	alias am="export AWS_PROFILE=main"
-	alias ast="export AWS_PROFILE=spt"
-	alias asp="export AWS_PROFILE=spp"
+	alias am="export AWS_PROFILE=main && awsc main"
+	alias ast="export AWS_PROFILE=spt && awsc spt"
+	alias asp="export AWS_PROFILE=spp && awsc spp"
+  alias awsi="aws sso login && am"
 
 	# Custom node commands
 	alias nt="npm run generate-types"
