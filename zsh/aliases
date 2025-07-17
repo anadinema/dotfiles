@@ -52,7 +52,16 @@ alias trel="tmux source-file $HOME/.config/tmux/tmux.conf"
 ### Brew commands
 alias brewit="brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
 
+# Terraform commands
+alias tf="tofu"
+alias tfi="tf init"
+alias tfp="tf plan"
+alias tfa="tf apply -auto-approve"
+
 if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+  # On work machine, we use terraform instead of opentofu
+  alias tf="terraform"
+
 	# AWS related things
 	alias am="export AWS_PROFILE=main && awsc main"
 	alias ast="export AWS_PROFILE=spt && awsc spt"
@@ -63,6 +72,15 @@ if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
 	alias nt="npm run generate-types"
 	alias ns="ni && nt && ni"
 	alias nr="npm run all"
+fi
+
+
+if [ "$WORK_MACHINE_SETUP" -eq 0 ]; then
+  alias aii="export AWS_PROFILE=prod"
+  alias ap="export AWS_PROFILE=prod && awsc prod"
+  alias as="export AWS_PROFILE=sandbox && awsc prod"
+  alias am="export AWS_PROFILE=mgmt && awsc prod"
+  alias awsi="aii && aws sso login && ap"
 fi
 
 # Other quick commands
