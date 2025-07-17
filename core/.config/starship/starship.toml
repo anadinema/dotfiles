@@ -33,11 +33,12 @@ threshold = 25
 style = 'bold red'
 
 [java]
-version_format = "v${major}"
+symbol = '☕'
 detect_folders = [ 'app', 'library' ]
 
 [cmd_duration]
 min_time = 100
+format = ' 🕓 [$duration](bold yellow)'
 
 [package]
 disabled = true
@@ -46,10 +47,13 @@ disabled = true
 symbol = '  '
 format = 'at [$symbol($profile )(\($region\))]($style)'
 
+[terraform]
+format = '[$symbol$version (\($workspace\))]($style) '
+
 [aws.profile_aliases]
-main = 'shipping-main'
-spt = 'spcache-test'
-spp = 'spcache-main'
+main = 'ship-main'
+spt = 'sp-test'
+spp = 'sp-main'
 
 [aws.region_aliases]
 eu-west-1 = 'ireland'

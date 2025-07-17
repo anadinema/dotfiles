@@ -2,6 +2,7 @@
 auth-env
 core/.stow-local-ignore
 work/core/.stow-local-ignore
+work/core/.m2/wrapper/
 
 # Directories to be ignored
 temp/

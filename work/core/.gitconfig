@@ -2,16 +2,16 @@
   name = Anadi Nema
   email = anadi.nema@postnord.com
 # BB doesn't support git signing using ssh key, enable with GH or when BB supports
-# 	signingkey = ssh-ed25519 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ9e/vVkdTwTxOTMCdvp4eVe68oPBt6sOwqMyTr7dXj2
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGsL4rR7giuFvs4PioTjqf7FZfeRSqXFs5ZueYI5qb/m
 
-# [gpg]
-#   format = ssh
+[gpg]
+  format = ssh
 
-# [gpg "ssh"]
-#   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
-# [commit]
-#   gpgsign = true
+[commit]
+  gpgsign = true
 
 [core]
   # avoid problems when changing a case of a filename
