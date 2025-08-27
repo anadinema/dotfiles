@@ -92,11 +92,29 @@ epoch() {
 }
 
 # Open intellij, on path if provided otherwise without path
-idea() {
+ij() {
   if [ -n "$1" ]; then
     open -a 'IntelliJ IDEA' "$1"
   else
     open -a 'IntelliJ IDEA'
+  fi
+}
+
+# Open Webstorm, on path if provided otherwise without path
+ws() {
+  if [ -n "$1" ]; then
+    open -a 'WebStorm' "$1"
+  else
+    open -a 'WebStorm'
+  fi
+}
+
+# Open Datagrip, on path if provided otherwise with default db path
+dg() {
+  if [ -n "$1" ]; then
+    open -a 'Datagrip' "$1"
+  else
+    open -a 'Datagrip' "$DEVFILES"/repository/database
   fi
 }
 
@@ -132,7 +150,7 @@ authbkp() {
 			dest_file_name=$DOTFILES/backups/auth-env.work.config
 		fi
 
-		awk -F= '/^export / {print $1"="} !/^export / {print}' $DOTFILES/auth-env > $dest_file_name
+		awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' $DOTFILES/auth-env > $dest_file_name
 	fi
 }
 
@@ -171,20 +189,60 @@ drm() {
 
 # Generate the AWS config
 aws_setup() {
-	aws_conf_path=$DOTFILES/core/.aws
+	local aws_conf_path=$DOTFILES/core/.aws
 	if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
 		aws_conf_path=$DOTFILES/work/core/.aws
 	fi
 	envsubst < $aws_conf_path/config.template > $aws_conf_path/config
+	echo "AWS config file generated at $aws_conf_path/config"
+}
+
+# Switch between different AWS roles and update the config file
+awsr() {
+  case "$1" in
+    "admin"|"adm") export AWS_ACTIVE_ROLE=$(echo $AWS_ADMIN_ROLE) ;;
+    "main"|"pu"|"primary"|"mgmt") export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
+    "read"|"ro") export AWS_ACTIVE_ROLE=$(echo $AWS_READ_ROLE) ;;
+    "cost"|"explore") export AWS_ACTIVE_ROLE=$(echo $AWS_COST_ROLE) ;;
+    *) echo "No roles matched. Switching to primary role"; export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
+  esac
+  echo "Switched to AWS role: $AWS_ACTIVE_ROLE . Running 'aws_setup' to update the config file."
+  aws_setup
 }
 
 # Export the AWS credentials from the sso login to credentials file
 awsc() {
+  local credentials_path=$DOTFILES/core/.aws/credentials
+  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+    credentials_path="$DOTFILES/work/core/.aws/credentials"
+  fi
+
   local profile=$([ -n "$1" ] && echo "$1" || echo main)
+  if [ $profile == "all" ]; then
+    __awsca "$credentials_path"
+    return
+  fi
+
   local temp_creds=$(aws configure export-credentials --profile "$profile")
-  echo "[$profile]
+  echo "
+[$profile]
 aws_access_key_id=$(echo $temp_creds | jq -r .AccessKeyId)
 aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
-aws_session_token=$(echo $temp_creds | jq -r .SessionToken)
-  " > $DOTFILES/work/core/.aws/credentials
+aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" > "$credentials_path"
+}
+
+# INTERNAL : Export the AWS credentials for all profiles
+__awsca() {
+  echo > "$1"
+
+  # Loop over all profiles
+  for profile in $(aws configure list-profiles); do
+    temp_creds=$(aws configure export-credentials --profile "$profile")
+    echo "
+[$profile]
+aws_access_key_id=$(echo $temp_creds | jq -r .AccessKeyId)
+aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
+aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" >> "$1"
+  done
+
 }

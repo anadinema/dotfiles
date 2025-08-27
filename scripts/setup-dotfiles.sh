@@ -10,16 +10,9 @@ work_core=(
 	$(find $DOTFILES/work/core -mindepth 1 -maxdepth 1 | grep -v .DS_Store | grep -v .stow-local-ignore | sed "s+$DOTFILES/work/core/++g")
 )
 
-# Cleanup the stow-local-ignore from original core
-__core_setup() {
-	rm -f $dotfiles_core_dir/.stow-local-ignore
-	echo \\.DS_Store > $dotfiles_core_dir/.stow-local-ignore
-	echo \\.DS_Store > $DOTFILES/work/core/.stow-local-ignore
-}
-
 # If the same file/folder is to be symlinked from work, then modify the core list
 __perform_work_override() {
-	rm -f $DOTFILES/work/core/.stow-local-ignore
+  echo > $dotfiles_core_dir/.stow-local-ignore
 	for item in $work_core; do
 		echo \\"$item" >> $dotfiles_core_dir/.stow-local-ignore
 	done
@@ -30,8 +23,6 @@ __stow_dotfiles() {
   echo "$LINE\n ### Removing existing folder/symlinks if present on user home... ### \n$LINE"
 
 	master_core=()
-
-  __core_setup
 
 	if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
 		__perform_work_override

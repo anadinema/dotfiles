@@ -4,16 +4,23 @@
 
 !.gitignore
 
+!1Password
+!1Password/**
+
 !alacritty
 !alacritty/**
 
 !git
 !git/**
 
-raycast/**
-
 !starship
 !starship/**
 
 !tmux
 !tmux/**
+
+!k9s
+!k9s/**
+
+!zed/
+!zed/settings.json

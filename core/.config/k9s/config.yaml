@@ -1,0 +1,38 @@
+k9s:
+  liveViewAutoRefresh: false
+  screenDumpDir: /Users/anadinema/.config/k9s/screen-dumps
+  refreshRate: 2
+  apiServerTimeout: 15s
+  maxConnRetry: 5
+  readOnly: false
+  noExitOnCtrlC: false
+  portForwardAddress: localhost
+  ui:
+    skin: catppuccin-mocha-transparent
+    enableMouse: true
+    headless: false
+    logoless: false
+    crumbsless: false
+    splashless: true
+    reactive: true
+    noIcons: false
+    defaultsToFullScreen: false
+    useFullGVRTitle: false
+  skipLatestRevCheck: false
+  disablePodCounting: true
+  imageScans:
+    enable: false
+  logger:
+    tail: 100
+    buffer: 5000
+    sinceSeconds: -1
+    textWrap: true
+    disableAutoscroll: false
+    showTime: false
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 50
+    memory:
+      critical: 90
+      warn: 70

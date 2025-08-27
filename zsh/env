@@ -9,3 +9,6 @@ export M2_HOME=$HOME/.sdkman/candidates/maven/current
 # Path updates
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
 export PATH="$HOME/dev/bin:$PATH"
+
+# K9s configs
+export K9S_CONFIG_DIR="$HOME/.config/k9s"

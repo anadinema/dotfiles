@@ -11,6 +11,7 @@ fonts/
 
 # Mac specific files to be ignored
 .DS_Store
+**/.stow-local-ignore
 
 # Editor directories
 .vscode/

@@ -80,3 +80,13 @@ eval "$(starship init zsh)"
 # For sdkman to work
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+  # Terraform tab completion
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C /opt/homebrew/bin/terraform terraform
+elif [ "$WORK_MACHINE_SETUP" -eq 0 ]; then
+  # Opentofu tab completion
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C /opt/homebrew/bin/tofu tofu
+fi

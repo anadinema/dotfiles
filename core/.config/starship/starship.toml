@@ -13,6 +13,7 @@ $terraform\
 $package\
 $aws\
 $azure\
+$kubernetes\
 $cmd_duration\
 $jobs\
 $line_break\
@@ -34,7 +35,7 @@ style = 'bold red'
 
 [java]
 symbol = '☕'
-detect_folders = [ 'app', 'library' ]
+detect_folders = ['app', 'library']
 
 [cmd_duration]
 min_time = 100
@@ -47,17 +48,30 @@ disabled = true
 symbol = '  '
 format = 'at [$symbol($profile )(\($region\))]($style)'
 
+[kubernetes]
+symbol = ' ☸︎ '
+format = '[$symbol$context \(k8s\)]($style)'
+disabled = false
+detect_folders = ['stage-eu-west-1', 'prod-eu-west-1']
+contexts = [
+  { context_pattern = 'prod.*', style = 'bold red', context_alias = 'prod' },
+  { context_pattern = 'stage.*', style = 'bold blue', context_alias = 'test' },
+]
+
 [terraform]
 format = '[$symbol$version (\($workspace\))]($style) '
 
 [aws.profile_aliases]
-main = 'ship-main'
+main = 'main'
+dev = 'dev'
+test = 'test'
+prod = 'prod'
 spt = 'sp-test'
 spp = 'sp-main'
 
 [aws.region_aliases]
-eu-west-1 = 'ireland'
-eu-north-1 = 'stockholm'
+eu-west-1 = 'irl'
+eu-north-1 = 'sto'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

@@ -1,0 +1,8 @@
+# Ignore sensitive information
+screen-dumps/
+benchmarks/
+clusters/
+
+# Ignore all log and html files
+*.log
+*.html

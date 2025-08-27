@@ -1,8 +1,6 @@
 [general]
 
-import = [
-	"~/.config/alacritty/themes/catppuccin-mocha.toml"
-]
+import = ["~/.config/alacritty/themes/catppuccin-mocha.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -14,16 +12,16 @@ padding.y = 10
 opacity = 0.85
 blur = true
 
-option_as_alt="Both"
+option_as_alt = "Both"
 
 decorations = "Buttonless"
 
 [font]
 normal.family = "JetBrainsMono Nerd Font"
-size = 15.5
+size = 14.5
 
 [keyboard]
 bindings = [
   { key = "Right", mods = "Alt", chars = "\u001BF" },
-  { key = "Left",  mods = "Alt", chars = "\u001BB" },
+  { key = "Left", mods = "Alt", chars = "\u001BB" },
 ]

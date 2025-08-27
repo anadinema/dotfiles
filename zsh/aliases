@@ -62,11 +62,19 @@ if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
   # On work machine, we use terraform instead of opentofu
   alias tf="terraform"
 
+  # Kubernetes related aliases
+  alias k="kubectl"
+  alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
+
 	# AWS related things
+  alias aii="export AWS_PROFILE=main"
 	alias am="export AWS_PROFILE=main && awsc main"
+	alias ad="export AWS_PROFILE=dev && awsc dev"
+	alias at="export AWS_PROFILE=test && awsc test"
+	alias ap="export AWS_PROFILE=prod && awsc prod"
 	alias ast="export AWS_PROFILE=spt && awsc spt"
 	alias asp="export AWS_PROFILE=spp && awsc spp"
-  alias awsi="aws sso login && am"
+  alias awsi="aii && aws sso login && am"
 
 	# Custom node commands
 	alias nt="npm run generate-types"

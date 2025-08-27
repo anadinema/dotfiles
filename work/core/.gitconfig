@@ -1,7 +1,6 @@
 [user]
   name = Anadi Nema
   email = anadi.nema@postnord.com
-# BB doesn't support git signing using ssh key, enable with GH or when BB supports
   signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGsL4rR7giuFvs4PioTjqf7FZfeRSqXFs5ZueYI5qb/m
 
 [gpg]
