@@ -13,6 +13,9 @@
 !git
 !git/**
 
+raycast/**
+raycast/extensions/**
+
 !starship
 !starship/**
 

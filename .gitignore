@@ -8,6 +8,7 @@ work/core/.m2/wrapper/
 temp/
 work-dir/
 fonts/
+core/.config/raycast
 
 # Mac specific files to be ignored
 .DS_Store
