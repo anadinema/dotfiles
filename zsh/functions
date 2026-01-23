@@ -180,11 +180,20 @@ hg() {
 	print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
+# Remove docker container
 drm() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
   [ -n "$cid" ] && docker rm "$cid"
+}
+
+# Stop docker containers
+dstop() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker stop "$cid"
 }
 
 # Generate the AWS config
@@ -198,27 +207,28 @@ aws_setup() {
 }
 
 # Validate the kubernetes manifests using kubeconform and conftest
-kvl() {
-  CONTEXT=$(kubectl config current-context)
-  CLUSTER=""
-  if [ -z "$CONTEXT" ]; then
-    echo "No kubectl context found. Please login to kubernetes cluster first."
-    exit 1
-  elif [ "$CONTEXT" == "stage" ]; then
-    CLUSTER="stage-eu-west-1"
-  elif [ "$CONTEXT" == "prod" ]; then
-    CLUSTER="prod-eu-west-1"
-  else
-    echo "Unknown kubectl context: $CONTEXT"
-    exit 1
+kval() {
+  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+    CONTEXT=$(kubectl config current-context)
+    CLUSTER=""
+    if [ -z "$CONTEXT" ]; then
+      echo "No kubectl context found. Please login to kubernetes cluster first."
+      return 1
+    elif [ "$CONTEXT" == "stage" ]; then
+      CLUSTER="stage-eu-west-1"
+    elif [ "$CONTEXT" == "prod" ]; then
+      CLUSTER="prod-eu-west-1"
+    else
+      echo "Unknown kubectl context: $CONTEXT"
+      return 1
+    fi
+
+    echo "Using kubectl context: $CONTEXT and cluster: $CLUSTER"
+
+    kubectl kustomize $DEVFILES/repository/k8s/$CLUSTER > $DEVFILES/repository/k8s/build.yaml
+    kubeconform -summary -skip SealedSecret -schema-location "$K8S_SCHEMA_LOCATION" -schema-location "$K8S_CRD_SCHEMA_LOCATION" $DEVFILES/repository/k8s/build.yaml
+    conftest test $DEVFILES/repository/k8s/build.yaml -u git::${K8S_REGO_POLICY_REPO}
   fi
-
-  echo "Using kubectl context: $CONTEXT and cluster: $CLUSTER"
-
-  kubectl kustomize $DEVFILES/repository/k8s/$CLUSTER > $DEVFILES/repository/k8s/build.yaml
-  kubeconform -summary -skip SealedSecret -schema-location "$K8S_SCHEMA_LOCATION" -schema-location "$K8S_CRD_SCHEMA_LOCATION" $DEVFILES/repository/k8s/build.yaml
-  conftest test $DEVFILES/repository/k8s/build.yaml -u git::${K8S_REGO_POLICY_REPO}
-
 }
 
 # Switch between different AWS roles and update the config file

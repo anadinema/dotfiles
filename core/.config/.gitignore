@@ -10,6 +10,9 @@
 !alacritty
 !alacritty/**
 
+!ghostty
+!ghostty/**
+
 !git
 !git/**
 

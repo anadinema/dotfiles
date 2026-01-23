@@ -1,0 +1,23 @@
+# General
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 14.5
+theme = Catppuccin Mocha
+background-opacity = 0.86
+background-blur-radius = 24
+
+# Window
+window-theme = dark
+window-padding-x = 12
+window-padding-y = 4,8
+
+# History
+undo-timeout = 1m
+
+# Shell integration
+shell-integration = detect
+shell-integration-features = no-cursor,no-sudo,title,no-ssh-env,no-ssh-terminfo,path
+
+# macOS specific settings
+macos-titlebar-style = hidden
+macos-option-as-alt = true
+macos-icon = xray
