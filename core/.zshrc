@@ -4,7 +4,7 @@ ZSH_DISABLE_COMPFIX=true
 export DOTFILES="$HOME/dotfiles"
 
 # Import env vars if the file is present
-[ -f $DOTFILES/zsh/env ] && source "$DOTFILES"/zsh/env
+[ -f $DOTFILES/zsh/env.shrc ] && source "$DOTFILES"/zsh/env.shrc
 
 # Disable error when using glob patterns that don't have matches
 setopt +o nomatch
@@ -62,11 +62,11 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 source <(fzf --zsh)
 
 # Load private authentication and other environment vars
-[ -f $DOTFILES/auth-env ] && source "$DOTFILES"/auth-env
+[ -f $DOTFILES/auth-env.shrc ] && source "$DOTFILES"/auth-env.shrc
 
 # Add additional aliases and bigger aliases as functions
-[ -f $DOTFILES/zsh/aliases ] && source "$DOTFILES"/zsh/aliases
-[ -f $DOTFILES/zsh/functions ] && source "$DOTFILES"/zsh/functions
+[ -f $DOTFILES/zsh/aliases.shrc ] && source "$DOTFILES"/zsh/aliases.shrc
+[ -f $DOTFILES/zsh/functions.shrc ] && source "$DOTFILES"/zsh/functions.shrc
 
 # Path variables updates
 export NVM_DIR="$HOME/.nvm"

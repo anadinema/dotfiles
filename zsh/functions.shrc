@@ -1,19 +1,18 @@
 # Functions for different stuff
 
-
 #############################
-	### Homebrew's stuff ###
+### Homebrew's stuff ###
 #############################
 
 # Export the apps installed on the system to the Brewfile
 brewsv() {
-	brewfile_path=$DOTFILES/apps/Brewfile
+  brewfile_path=$DOTFILES/apps/Brewfile
 
-	if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
-		brewfile_path=$DOTFILES/work/apps/Brewfile
-	fi
+  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+    brewfile_path=$DOTFILES/work/apps/Brewfile
+  fi
 
-	brew bundle dump --file="$brewfile_path" --force && brew bundle --file="$brewfile_path" --force cleanup
+  brew bundle dump --file="$brewfile_path" --force && brew bundle --file="$brewfile_path" --force cleanup
 }
 
 #############################
@@ -24,7 +23,7 @@ brewsv() {
 grt() {
   root="$(git rev-parse --show-toplevel 2>/dev/null)"
   if [ -n "$root" ]; then
-    cd "$root" || exit;
+    cd "$root" || exit
   else
     echo "Not in a git repository"
   fi
@@ -32,26 +31,26 @@ grt() {
 
 # Git push with/without branch name, (use +branchName for force push)
 gp() {
-	if [ -z "$1" ]; then
-		git push origin "$(git branch --show-current)"
-	else
-		git push origin "$1"
-	fi
+  if [ -z "$1" ]; then
+    git push origin "$(git branch --show-current)"
+  else
+    git push origin "$1"
+  fi
 }
 
 # Quick git commit, push, with/without git add (-n at $1) & message ($1 or $2)
 gdo() {
-	if [ -z "$1" ]; then
-		git add . && git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
-	elif [ -n "$1" ] && [ "$1" == "-n" -o "$1" == "--no-add" ]; then
-		if [ -z "$2" ]; then
-		  git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
-		else
-			git commit -m "$2" && git push origin "$(git branch --show-current)"
-		fi
-	else
-		git add . && git commit -m "$1" && git push origin "$(git branch --show-current)"
-	fi
+  if [ -z "$1" ]; then
+    git add . && git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
+  elif [ -n "$1" ] && [ "$1" == "-n" -o "$1" == "--no-add" ]; then
+    if [ -z "$2" ]; then
+      git commit -m "quick fixes on code" && git push origin "$(git branch --show-current)"
+    else
+      git commit -m "$2" && git push origin "$(git branch --show-current)"
+    fi
+  else
+    git add . && git commit -m "$1" && git push origin "$(git branch --show-current)"
+  fi
 }
 
 #############################
@@ -79,7 +78,7 @@ unpack() {
 }
 
 #############################
-		### Common utils ###
+### Common utils ###
 #############################
 
 # Convert the unix/linux epoch format timestamp to ISO date
@@ -125,59 +124,59 @@ dg() {
 # Take brew dump, raycast backup, update dotfiles, then push changes to github
 dotup() {
 
-	# Below three are functions
-	authbkp
-	brewsv
-	__rback
+  # Below three are functions
+  authbkp
+  brewsv
+  __rback
 
-	if [ -z "$1" ]; then
-		cd "$DOTFILES" || exit
-		git status
-		git add . || true
-		COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
-		git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
-		git push origin "$(git branch --show-current)" || true
-		cd $HOME || exit
-	fi
+  if [ -z "$1" ]; then
+    cd "$DOTFILES" || exit
+    git status
+    git add . || true
+    COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
+    git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
+    git push origin "$(git branch --show-current)" || true
+    cd $HOME || exit
+  fi
 }
 
 # Take backup of name of auth environment variables
 authbkp() {
-	if [ -f "$DOTFILES/auth-env" ]; then
-		dest_file_name=$DOTFILES/backups/auth-env.config
+  if [ -f "$DOTFILES/auth-env.shrc" ]; then
+    dest_file_name=$DOTFILES/backups/auth-env.bkp.shrc
 
-		if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
-			dest_file_name=$DOTFILES/backups/auth-env.work.config
-		fi
+    if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+      dest_file_name=$DOTFILES/backups/auth-env.work.bkp.shrc
+    fi
 
-		awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' $DOTFILES/auth-env > $dest_file_name
-	fi
+    awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' $DOTFILES/auth-env.shrc >$dest_file_name
+  fi
 }
 
 # INTERNAL : Update the raycast backup file with the new generated ones
 __rback() {
-	if [ "$(find "$DOTFILES"/backups -type f -name "Raycast*.rayconfig" | head -1 | wc -l)" -eq 1 ]; then
-		NEW_RAYCAST_BACKUP_FILE=$(find "$DOTFILES"/backups -type f -name "Raycast*.rayconfig" | head -1)
-		echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
-		rm "$DOTFILES"/backups/settings.rayconfig.bkp || true
-		mv "$DOTFILES"/backups/settings.rayconfig "$DOTFILES"/backups/settings.rayconfig.bkp
-		mv "$NEW_RAYCAST_BACKUP_FILE" "$DOTFILES"/backups/settings.rayconfig
-		rm "$DOTFILES"/backups/settings.rayconfig.bkp || true
-		rm -f "$DOTFILES"/settings/raycast/Raycast* || true
-	fi
+  if [ "$(find "$DOTFILES"/backups -type f -name "Raycast*.rayconfig" | head -1 | wc -l)" -eq 1 ]; then
+    NEW_RAYCAST_BACKUP_FILE=$(find "$DOTFILES"/backups -type f -name "Raycast*.rayconfig" | head -1)
+    echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
+    rm "$DOTFILES"/backups/settings.rayconfig.bkp || true
+    mv "$DOTFILES"/backups/settings.rayconfig "$DOTFILES"/backups/settings.rayconfig.bkp
+    mv "$NEW_RAYCAST_BACKUP_FILE" "$DOTFILES"/backups/settings.rayconfig
+    rm "$DOTFILES"/backups/settings.rayconfig.bkp || true
+    rm -f "$DOTFILES"/settings/raycast/Raycast* || true
+  fi
 }
 
 # List all the available functions
 func() {
-	print -z $(grep -E '(^# |^\w+\(\))' "$DOTFILES"/zsh/functions | \
-	awk '/^#/{comment=$0; next} /^[a-zA-Z_]+[a-zA-Z0-9_]*\(\)/ && !/^\_\_/{gsub(/\(\)/, "", $1); \
-	print $1 " - " substr(comment, 3); comment=""}' | \
-	fzf +s --tac | cut -d' ' -f1)
+  print -z $(grep -E '(^# |^\w+\(\))' "$DOTFILES"/zsh/functions.shrc |
+    awk '/^#/{comment=$0; next} /^[a-zA-Z_]+[a-zA-Z0-9_]*\(\)/ && !/^\_\_/{gsub(/\(\)/, "", $1); \
+	print $1 " - " substr(comment, 3); comment=""}' |
+    fzf +s --tac | cut -d' ' -f1)
 }
 
 # Search in the history
 hg() {
-	print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
 # Remove docker container
@@ -198,12 +197,12 @@ dstop() {
 
 # Generate the AWS config
 aws_setup() {
-	local aws_conf_path=$DOTFILES/core/.aws
-	if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
-		aws_conf_path=$DOTFILES/work/core/.aws
-	fi
-	envsubst < $aws_conf_path/config.template > $aws_conf_path/config
-	echo "AWS config file generated at $aws_conf_path/config"
+  local aws_conf_path=$DOTFILES/core/.aws
+  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+    aws_conf_path=$DOTFILES/work/core/.aws
+  fi
+  envsubst <$aws_conf_path/config.template >$aws_conf_path/config
+  echo "AWS config file generated at $aws_conf_path/config"
 }
 
 # Validate the kubernetes manifests using kubeconform and conftest
@@ -225,7 +224,7 @@ kval() {
 
     echo "Using kubectl context: $CONTEXT and cluster: $CLUSTER"
 
-    kubectl kustomize $DEVFILES/repository/k8s/$CLUSTER > $DEVFILES/repository/k8s/build.yaml
+    kubectl kustomize $DEVFILES/repository/k8s/$CLUSTER >$DEVFILES/repository/k8s/build.yaml
     kubeconform -summary -skip SealedSecret -schema-location "$K8S_SCHEMA_LOCATION" -schema-location "$K8S_CRD_SCHEMA_LOCATION" $DEVFILES/repository/k8s/build.yaml
     conftest test $DEVFILES/repository/k8s/build.yaml -u git::${K8S_REGO_POLICY_REPO}
   fi
@@ -234,11 +233,14 @@ kval() {
 # Switch between different AWS roles and update the config file
 awsr() {
   case "$1" in
-    "admin"|"adm") export AWS_ACTIVE_ROLE=$(echo $AWS_ADMIN_ROLE) ;;
-    "main"|"pu"|"primary"|"mgmt") export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
-    "read"|"ro") export AWS_ACTIVE_ROLE=$(echo $AWS_READ_ROLE) ;;
-    "cost"|"explore") export AWS_ACTIVE_ROLE=$(echo $AWS_COST_ROLE) ;;
-    *) echo "No roles matched. Switching to primary role"; export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
+  "admin" | "adm") export AWS_ACTIVE_ROLE=$(echo $AWS_ADMIN_ROLE) ;;
+  "main" | "pu" | "primary" | "mgmt") export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
+  "read" | "ro") export AWS_ACTIVE_ROLE=$(echo $AWS_READ_ROLE) ;;
+  "cost" | "explore") export AWS_ACTIVE_ROLE=$(echo $AWS_COST_ROLE) ;;
+  *)
+    echo "No roles matched. Switching to primary role"
+    export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE)
+    ;;
   esac
   echo "Switched to AWS role: $AWS_ACTIVE_ROLE . Running 'aws_setup' to update the config file."
   aws_setup
@@ -262,12 +264,12 @@ awsc() {
 [$profile]
 aws_access_key_id=$(echo $temp_creds | jq -r .AccessKeyId)
 aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
-aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" > "$credentials_path"
+aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" >"$credentials_path"
 }
 
 # INTERNAL : Export the AWS credentials for all profiles
 __awsca() {
-  echo > "$1"
+  echo >"$1"
 
   # Loop over all profiles
   for profile in $(aws configure list-profiles); do
@@ -276,7 +278,7 @@ __awsca() {
 [$profile]
 aws_access_key_id=$(echo $temp_creds | jq -r .AccessKeyId)
 aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
-aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" >> "$1"
+aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" >>"$1"
   done
 
 }

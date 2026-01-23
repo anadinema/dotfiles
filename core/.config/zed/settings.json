@@ -7,38 +7,51 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
   "agent": {
     "default_profile": "ask",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-3.7-sonnet"
-    }
+      "model": "claude-3.7-sonnet",
+    },
   },
   "edit_predictions": {
     "disabled_globs": [],
     "mode": "eager",
-    "enabled_in_text_threads": false
+    "enabled_in_text_threads": false,
   },
   "features": {
-    "edit_prediction_provider": "copilot"
+    "edit_prediction_provider": "copilot",
   },
   "vim_mode": false,
-  "icon_theme": {
-    "mode": "system",
-    "light": "Catppuccin Frappé",
-    "dark": "Catppuccin Mocha"
-  },
+  "icon_theme": "Catppuccin Mocha",
   "base_keymap": "JetBrains",
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
-  "buffer_font_size": 12.5,
+  "buffer_font_size": 13.0,
   "ui_font_family": "JetBrainsMono Nerd Font Mono",
   "ui_font_size": 14.5,
   "terminal": {
-    "font_family": "JetBrainsMono Nerd Font Mono"
+    "font_family": "JetBrainsMono Nerd Font Mono",
   },
-  "theme": {
-    "mode": "dark",
-    "light": "Catppuccin Frappé",
-    "dark": "Catppuccin Mocha"
-  }
+  "theme": "Catppuccin Mocha",
+  "file_types": {
+    "Shell Script": ["*.shrc", "Brewfile"],
+    "SSH Config": ["**/.ssh/config"],
+    "ini": ["*.template", "credentials", ".npmrc", ".nvmrc"],
+  },
+  "languages": {
+    "Shell Script": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          // Change `--indent 2` to match your preferred tab_size
+          "arguments": ["--filename", "{buffer_path}", "--indent", "2"],
+        },
+      },
+    },
+  },
 }
