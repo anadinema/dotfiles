@@ -42,6 +42,22 @@
     "SSH Config": ["**/.ssh/config"],
     "ini": ["*.template", "credentials", ".npmrc", ".nvmrc"],
   },
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "codeowners": true,
+    "csv": true,
+    "dockerfile": true,
+    "html": true,
+    "ini": true,
+    "make": true,
+    "sql": true,
+    "ssh-config": true,
+    "tmux": true,
+    "toml": true,
+    "vue": true,
+    "xml": true,
+  },
   "languages": {
     "Shell Script": {
       "format_on_save": "on",
