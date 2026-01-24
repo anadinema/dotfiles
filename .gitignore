@@ -4,6 +4,7 @@ auth-env.shrc
 core/.stow-local-ignore
 work/core/.stow-local-ignore
 work/core/.m2/wrapper/
+work/core/.m2/repository/
 
 # Directories to be ignored
 temp/

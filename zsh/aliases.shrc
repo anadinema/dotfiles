@@ -66,22 +66,21 @@ if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
   alias k="kubectl"
   alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
 
-	# AWS related things
+  # AWS related things
   alias aii="export AWS_PROFILE=main"
-	alias am="export AWS_PROFILE=main && awsc main"
-	alias ad="export AWS_PROFILE=dev && awsc dev"
-	alias at="export AWS_PROFILE=test && awsc test"
-	alias ap="export AWS_PROFILE=prod && awsc prod"
-	alias ast="export AWS_PROFILE=spt && awsc spt"
-	alias asp="export AWS_PROFILE=spp && awsc spp"
+  alias am="export AWS_PROFILE=main && awsc main"
+  alias ad="export AWS_PROFILE=dev && awsc dev"
+  alias at="export AWS_PROFILE=test && awsc test"
+  alias ap="export AWS_PROFILE=prod && awsc prod"
+  alias ast="export AWS_PROFILE=spt && awsc spt"
+  alias asp="export AWS_PROFILE=spp && awsc spp"
   alias awsi="aii && aws sso login && am"
 
-	# Custom node commands
-	alias nt="npm run generate-types"
-	alias ns="ni && nt && ni"
-	alias nr="npm run all"
+  # Custom node commands
+  alias nt="npm run generate-types"
+  alias ns="ni && nt && ni"
+  alias nr="npm run all"
 fi
-
 
 if [ "$WORK_MACHINE_SETUP" -eq 0 ]; then
   alias aii="export AWS_PROFILE=prod"
@@ -96,5 +95,5 @@ alias c=" clear"
 alias cat="bat"
 alias grep="grep --color"
 alias ff="fastfetch"
-alias code="code-insiders"
+alias code="zed"
 alias neofetch="fastfetch"

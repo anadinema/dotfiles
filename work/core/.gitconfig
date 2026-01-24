@@ -18,6 +18,9 @@
   ignorecase = false
   excludesfile = ~/.config/git/ignore
 
+[url "ssh://git@github.com"]
+	insteadOf = https://github.com
+
 [status]
     # Show untracked files, directories and files in untracked directorie
   showUntrackedFiles = all
