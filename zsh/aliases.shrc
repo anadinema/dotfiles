@@ -8,8 +8,8 @@ alias l=" eza -l --group-directories-first --icons --color auto --no-permissions
 alias ll=" eza -l --almost-all --group-directories-first --color auto"
 alias tree=" eza --almost-all --tree --level=5 --icons --group-directories-first --color auto"
 
-#### Change directories and shortcuts for some common directory commands
-alias cd=" cd"
+### Change directories and shortcuts for some common directory commands
+alias cd=" z"
 # alias sd=" cd ./$(find -type d | fzf)"
 alias dots="cd $DOTFILES"
 alias dev="cd $DEVFILES"
@@ -22,6 +22,8 @@ alias oss="cd /Volumes/OSS/repository"
 
 ### Node related things for app run and builds
 alias ni="npm install"
+alias ns="ni && npm run test"
+alias nr="npm run all"
 
 ### Maven builds and app runs for quarkus
 alias mvn="mvn -Dmaven.home=$M2_HOME"
@@ -45,50 +47,34 @@ alias glog="git log --graph --abbrev-commit --decorate --all \
     - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
 alias gcx="git checkout \$(git branch -a | sed -E 's/remotes\/([a-zA-Z-]*\/)//' | grep -v '\*|HEAD' | sort |uniq | fzf --select-1)"
 
-# Tmux stuff
+### Tmux stuff
 alias ta="tmux attach"
 alias trel="tmux source-file $HOME/.config/tmux/tmux.conf"
 
 ### Brew commands
 alias brewit="brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
 
-# Terraform commands
+### Terraform commands
 alias tf="tofu"
 alias tfi="tf init"
 alias tfp="tf plan"
 alias tfa="tf apply -auto-approve"
 
-if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
-  # On work machine, we use terraform instead of opentofu
-  alias tf="terraform"
+### Kubernetes related aliases
+alias k="kubectl"
+alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
 
-  # Kubernetes related aliases
-  alias k="kubectl"
-  alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
+### AWS related things
+alias aii="export AWS_PROFILE=prod"
+alias awsi="aii && aws sso login && ap"
 
-  # AWS related things
-  alias aii="export AWS_PROFILE=main"
-  alias am="export AWS_PROFILE=main && awsc main"
-  alias ad="export AWS_PROFILE=dev && awsc dev"
-  alias at="export AWS_PROFILE=test && awsc test"
-  alias ap="export AWS_PROFILE=prod && awsc prod"
-  alias ast="export AWS_PROFILE=spt && awsc spt"
-  alias asp="export AWS_PROFILE=spp && awsc spp"
-  alias awsi="aii && aws sso login && am"
-
-  # Custom node commands
-  alias nt="npm run generate-types"
-  alias ns="ni && nt && ni"
-  alias nr="npm run all"
-fi
-
-if [ "$WORK_MACHINE_SETUP" -eq 0 ]; then
-  alias aii="export AWS_PROFILE=prod"
-  alias ap="export AWS_PROFILE=prod && awsc prod"
-  alias as="export AWS_PROFILE=sandbox && awsc prod"
-  alias am="export AWS_PROFILE=mgmt && awsc prod"
-  alias awsi="aii && aws sso login && ap"
-fi
+### AWS profile switches
+alias as="export AWS_PROFILE=sandbox && awsc sandbox"
+alias at="export AWS_PROFILE=test && awsc test"
+alias ap="export AWS_PROFILE=prod && awsc prod"
+alias ast="export AWS_PROFILE=spt && awsc spt"  # Only exist for other stuff
+alias asp="export AWS_PROFILE=spp && awsc spp"  # Only exist for other stuff
+alias am="export AWS_PROFILE=mgmt && awsc mgmt" # Only exist for personal stuff
 
 # Other quick commands
 alias c=" clear"

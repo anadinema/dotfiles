@@ -253,7 +253,7 @@ awsc() {
     credentials_path="$DOTFILES/work/core/.aws/credentials"
   fi
 
-  local profile=$([ -n "$1" ] && echo "$1" || echo main)
+  local profile=$([ -n "$1" ] && echo "$1" || echo prod)
   if [ $profile == "all" ]; then
     __awsca "$credentials_path"
     return

@@ -45,7 +45,7 @@ format = ' 🕓 [$duration](bold yellow)'
 disabled = true
 
 [aws]
-symbol = '  '
+symbol = ' '
 format = 'at [$symbol($profile )(\($region\))]($style)'
 
 [kubernetes]
@@ -53,6 +53,7 @@ symbol = ' ☸︎ '
 format = '[$symbol$context \(k8s\)]($style)'
 disabled = false
 detect_folders = ['stage-eu-west-1', 'prod-eu-west-1']
+detect_files = ['kustomization.yaml']
 contexts = [
   { context_pattern = 'prod.*', style = 'bold red', context_alias = 'prod' },
   { context_pattern = 'stage.*', style = 'bold blue', context_alias = 'test' },
@@ -62,16 +63,16 @@ contexts = [
 format = '[$symbol$version (\($workspace\))]($style) '
 
 [aws.profile_aliases]
-main = 'main'
-dev = 'dev'
+sandbox = 'sandbox'
 test = 'test'
 prod = 'prod'
+mgmt = 'mgmt'
 spt = 'sp-test'
 spp = 'sp-main'
 
 [aws.region_aliases]
-eu-west-1 = 'irl'
-eu-north-1 = 'sto'
+eu-west-1 = 'ew1-irl'
+eu-north-1 = 'en1-sto'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"

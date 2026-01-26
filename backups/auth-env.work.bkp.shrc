@@ -19,10 +19,9 @@ export AWS_COST_ROLE=
 export AWS_ACTIVE_ROLE=
 
 # All the AWS account IDs
-export AWS_MAIN_ACCOUNT_ID=
-export AWS_PROD_ACCOUNT_ID=
-export AWS_DEV_ACCOUNT_ID=
+export AWS_SANDBOX_ACCOUNT_ID=
 export AWS_TEST_ACCOUNT_ID=
+export AWS_PROD_ACCOUNT_ID=
 export AWS_SPT_ACCOUNT_ID=
 export AWS_SPP_ACCOUNT_ID=
 
@@ -34,6 +33,12 @@ export K8S_SCHEMA_LOCATION=
 export K8S_CRD_SCHEMA_LOCATION=
 
 # Maven stuff
+export PKGS_AZURE_DEVOPS_USER=
+export PKGS_AZURE_DEVOPS_TOKEN=
+export PKGS_GH_USER=
+export PKGS_GH_TOKEN=
+
+# Old envs, may be removed later
 export MVN_ORG_REGISTRY_USER=
 export MVN_ORG_REGISTRY_PASS=
 export MVN_ORG_REGISTRY_URL=

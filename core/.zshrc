@@ -21,22 +21,22 @@ DISABLE_AUTO_TITLE="true"
 HIST_STAMPS="dd.mm.yyyy"
 
 # History Configuration
-HISTSIZE=5000               		# How many lines of history to keep in memory
-SAVEHIST=50000               		# Number of history entries to save to disk
-HISTFILE=$DOTFILES/temp/.zsh_history     					# Where to save history to disk
+HISTSIZE=5000                        # How many lines of history to keep in memory
+SAVEHIST=50000                       # Number of history entries to save to disk
+HISTFILE=$DOTFILES/temp/.zsh_history # Where to save history to disk
 
-setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
-setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
-setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
-setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
-setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
-setopt APPEND_HISTORY            # append to history file
-setopt HIST_NO_STORE             # Don't store history commands
+setopt EXTENDED_HISTORY       # Write the history file in the ':start:elapsed;command' format.
+setopt INC_APPEND_HISTORY     # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY          # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS       # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS   # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS      # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE      # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS      # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY            # Do not execute immediately upon history expansion.
+setopt APPEND_HISTORY         # append to history file
+setopt HIST_NO_STORE          # Don't store history commands
 
 ### Stuff for brew
 
@@ -61,6 +61,10 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
+# Setup zoxide - a better cd tool
+export _ZO_DATA_DIR="$HOME/.local/share"
+eval "$(zoxide init zsh)"
+
 # Load private authentication and other environment vars
 [ -f $DOTFILES/auth-env.shrc ] && source "$DOTFILES"/auth-env.shrc
 
@@ -70,8 +74,8 @@ source <(fzf --zsh)
 
 # Path variables updates
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 # Starship config
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
