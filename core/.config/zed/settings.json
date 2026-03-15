@@ -15,16 +15,14 @@
     "default_profile": "ask",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-3.7-sonnet",
+      "model": "gpt-5.2",
     },
   },
   "edit_predictions": {
+    "provider": "copilot",
     "disabled_globs": [],
     "mode": "eager",
     "enabled_in_text_threads": false,
-  },
-  "features": {
-    "edit_prediction_provider": "copilot",
   },
   "vim_mode": false,
   "icon_theme": "Catppuccin Mocha",

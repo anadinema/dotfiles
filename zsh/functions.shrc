@@ -53,6 +53,324 @@ gdo() {
   fi
 }
 
+# INTERNAL: scope history file (create if missing)
+__gdp_scope_file() {
+  local file="${DOTFILES}/temp/state/gdp_scopes"
+  mkdir -p "$(dirname "$file")" 2>/dev/null || true
+  touch "$file" 2>/dev/null || true
+  echo "$file"
+}
+
+# Guided commit prefix builder -> inserts a gdo command into your prompt.
+# Inserts e.g.:
+#   gdo "🎉 feat(node24:SHIP-6641): "
+gdp() {
+  local current_branch detected_ticket type_pick emoji type
+  local scope_file scope_pick query picked scope meta prefix
+
+  current_branch="$(git branch --show-current 2>/dev/null)"
+  if [ -z "$current_branch" ]; then
+    echo "Not on a branch (or not a git repo)."
+    return 1
+  fi
+
+  detected_ticket="$(printf "%s" "$current_branch" | grep -Eo '[A-Z][A-Z0-9]+-[0-9]+' | head -n1)"
+  scope_file="$(__gdp_scope_file)"
+
+  # Step 1: type picker
+  type_pick="$(
+    printf "%s\n" \
+      "🎉 feat" \
+      "🐛 fix" \
+      "🧹 chore" \
+      "🧱 refactor" \
+      "🧪 test" \
+      "🚀 release" \
+      "📚 docs" \
+      "⚙️ build" \
+      "🔁 ci" \
+      "⚡ perf" \
+      "🎨 style" \
+      "⏪ revert" \
+      "🗃️ migr" |
+      fzf --prompt="type> " --height=40% --reverse --select-1
+  )"
+  if [ -z "$type_pick" ]; then
+    return 1
+  fi
+  emoji="$(printf "%s" "$type_pick" | awk '{print $1}')"
+  type="$(printf "%s" "$type_pick" | awk '{print $2}')"
+
+  # Step 2: scope picker (history + allow new)
+  # fzf output (with --print-query) is:
+  #   <query>
+  #   <selected item>   (only if selected)
+  scope_pick="$(
+    { cat "$scope_file" 2>/dev/null || true; } |
+      sed '/^[[:space:]]*$/d' |
+      sort -u |
+      fzf --prompt="scope> " --height=40% --reverse --print-query
+  )"
+  if [ -z "$scope_pick" ]; then
+    return 1
+  fi
+
+  query="$(printf "%s\n" "$scope_pick" | sed -n '1p' | xargs)"
+  picked="$(printf "%s\n" "$scope_pick" | sed -n '2p' | xargs)"
+
+  # If you selected an item, use it. Otherwise use what you typed (query).
+  if [ -n "$picked" ]; then
+    scope="$picked"
+  else
+    scope="$query"
+  fi
+
+  # Allow empty scope: if user just hits enter on an empty query, scope becomes empty.
+  # (If you want to force scope, change this to a validation error.)
+  if [ -n "$scope" ]; then
+    # Persist scope with NO duplicates (rewrite file deduped)
+    printf "%s\n" "$scope" >>"$scope_file"
+    sort -u "$scope_file" -o "$scope_file" 2>/dev/null || {
+      # fallback if sort -o acts up
+      sort -u "$scope_file" >"${scope_file}.tmp" && mv "${scope_file}.tmp" "$scope_file"
+    }
+  fi
+
+  # Meta selection rules:
+  # - scope + ticket => scope:ticket
+  # - only ticket => ticket
+  # - only scope => scope
+  meta=""
+  if [ -n "$scope" ] && [ -n "$detected_ticket" ]; then
+    meta="${scope}:${detected_ticket}"
+  elif [ -n "$detected_ticket" ]; then
+    meta="${detected_ticket}"
+  elif [ -n "$scope" ]; then
+    meta="${scope}"
+  fi
+
+  if [ -n "$meta" ]; then
+    prefix="${emoji} ${type}(${meta}): "
+  else
+    prefix="${emoji} ${type}: "
+  fi
+
+  # Insert the command into your prompt
+  print -z -- "gdo \"${prefix}\""
+}
+
+# Checkout branch via fzf (local + remote)
+gco() {
+  local selection query picked branch source
+
+  selection="$(
+    {
+      git for-each-ref --format='%(refname:short)' refs/heads 2>/dev/null |
+        while IFS= read -r b; do
+          [ -n "$b" ] && printf " %s\t%s\tlocal\n" "$b" "$b"
+        done
+
+      if git remote get-url origin >/dev/null 2>&1; then
+        git for-each-ref --format='%(refname:short)' refs/remotes/origin 2>/dev/null |
+          while IFS= read -r rb; do
+            rb="${rb#origin/}"
+            echo $rb
+
+            case "$rb" in
+            HEAD) continue ;;
+            dependabot/* | dependabot-*) continue ;;
+            esac
+
+            [ -n "$rb" ] && printf " %s\t%s\tremote\n" "$rb" "$rb"
+          done
+      fi
+    } | sort -t $'\t' -k2,2 -u |
+      fzf --with-nth=1 --delimiter=$'\t' --prompt='checkout> ' --height=40% --reverse --select-1 --print-query
+  )"
+
+  # If you hit ESC in fzf, it returns non-zero; treat that as "cancel", not an error noise
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
+  query="$(printf "%s\n" "$selection" | sed -n '1p' | xargs)"
+  picked="$(printf "%s\n" "$selection" | sed -n '2p')"
+
+  if [ -n "$picked" ]; then
+    branch="$(printf "%s" "$picked" | cut -f2)"
+    source="$(printf "%s" "$picked" | cut -f3)"
+  else
+    branch="$query"
+    source="new"
+  fi
+
+  [ -z "$branch" ] && return 0
+
+  # Validate branch name early
+  if ! git check-ref-format --branch "$branch" >/dev/null 2>&1; then
+    echo "Invalid branch name: $branch"
+    return 1
+  fi
+
+  # If it exists locally, switch
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    git switch "$branch"
+    return $?
+  fi
+
+  # If selected from remote list and exists on origin, create tracking branch
+  if [ "$source" = "remote" ] && git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    git switch --track -c "$branch" "origin/$branch"
+    return $?
+  fi
+
+  # If it exists on origin but you typed it (not selected), still track it
+  if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    git switch --track -c "$branch" "origin/$branch"
+    return $?
+  fi
+
+  # Otherwise it exists neither local nor remote => create new
+  git switch -c "$branch"
+}
+
+# Delete local branches that have no remote and last commit older than specified days (default 30)
+gprune() {
+  local days now cutoff current b ts info answer
+  local -a lines branches
+
+  days="${1:-30}"
+
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+    echo "Not in a git repository"
+    return 1
+  }
+
+  # repo-wide: "no local changes"
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "Working tree not clean. Commit/stash changes first."
+    return 1
+  fi
+
+  git fetch -p origin >/dev/null 2>&1 || true
+
+  now="$(date +%s)"
+  cutoff="$((now - (days * 24 * 60 * 60)))"
+  current="$(git branch --show-current 2>/dev/null)"
+
+  while IFS= read -r b; do
+    [ -z "$b" ] && continue
+
+    # skip current branch
+    [ "$b" = "$current" ] && continue
+
+    # optional: skip common protected branches
+    case "$b" in
+    main | develop) continue ;;
+    esac
+
+    # remote must NOT exist
+    if git show-ref --verify --quiet "refs/remotes/origin/$b"; then
+      continue
+    fi
+
+    # last commit timestamp must be older than cutoff
+    ts="$(git log -1 --format='%ct' "$b" 2>/dev/null || echo 0)"
+    [ "$ts" -ge "$cutoff" ] && continue
+
+    info="$(git log -1 --format='%ad	%s' --date=short "$b" 2>/dev/null)"
+    lines+=("$b	$info")
+    branches+=("$b")
+  done < <(git for-each-ref --format='%(refname:short)' refs/heads)
+
+  if [ "${#branches[@]}" -eq 0 ]; then
+    echo "No local branches match: clean tree, older than ${days}d, and no origin branch."
+    return 0
+  fi
+
+  echo "Branches eligible for deletion:"
+  printf "%s\n" "${lines[@]}" | column -t -s $'\t'
+  echo
+  printf "Force delete ALL of these branches? [y/N] "
+  read -r answer
+
+  case "$answer" in
+  y | Y | yes | YES)
+    for b in "${branches[@]}"; do
+      echo "Force deleting $b"
+      git branch -D "$b"
+    done
+    ;;
+  *)
+    echo "Aborted."
+    return 1
+    ;;
+  esac
+}
+
+# Explain why a branch is or isn't eligible for deletion based on the same criteria as gprune, for debugging purposes
+gprune_debug() {
+  local b days now cutoff current upstream ts
+
+  b="${1:?branch name required}"
+  days="${2:-30}"
+
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+    echo "Not in a git repo"
+    return 1
+  }
+
+  current="$(git branch --show-current 2>/dev/null)"
+  now="$(date +%s)"
+  cutoff="$((now - (days * 24 * 60 * 60)))"
+
+  echo "Branch: $b"
+  echo "Current branch: $current"
+  echo "Days threshold: $days"
+
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "FAIL: working tree not clean"
+  else
+    echo "OK: working tree clean"
+  fi
+
+  if [ "$b" = "$current" ]; then
+    echo "FAIL: is current branch"
+  else
+    echo "OK: not current branch"
+  fi
+
+  if git show-ref --verify --quiet "refs/remotes/origin/$b"; then
+    echo "FAIL: origin/$b exists"
+  else
+    echo "OK: origin/$b does not exist"
+  fi
+
+  if upstream="$(git rev-parse --abbrev-ref "$b@{upstream}" 2>/dev/null)"; then
+    echo "Upstream: $upstream"
+    if [ -n "$(git log --oneline "${upstream}..${b}" 2>/dev/null)" ]; then
+      echo "FAIL: has local-only commits vs upstream (something to push)"
+    else
+      echo "OK: no local-only commits vs upstream"
+    fi
+  else
+    echo "Upstream: (none)"
+    if git merge-base --is-ancestor "$b" HEAD >/dev/null 2>&1; then
+      echo "OK: merged into HEAD"
+    else
+      echo "FAIL: not merged into HEAD (kept for safety)"
+    fi
+  fi
+
+  ts="$(git log -1 --format='%ct' "$b" 2>/dev/null || echo 0)"
+  echo "Last commit epoch: $ts"
+  if [ "$ts" -lt "$cutoff" ]; then
+    echo "OK: last commit older than cutoff"
+  else
+    echo "FAIL: last commit is newer than cutoff"
+  fi
+}
+
 #############################
 ### Archive and unarchive ###
 #############################

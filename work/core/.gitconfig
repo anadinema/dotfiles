@@ -28,6 +28,9 @@
 [interactive]
   diffFilter = delta --color-only
 
+[push]
+  autoSetupRemote = true
+
 [pull]
   # Keep local commits on top of the tree
   rebase = true

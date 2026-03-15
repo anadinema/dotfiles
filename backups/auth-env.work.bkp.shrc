@@ -3,8 +3,16 @@
 export WORK_MACHINE_SETUP=
 export WORK_CONF_BASE_PATH=
 
-# Node auth tokens for private registries
-export NPM_PRIV_REG_TOKEN=
+# Package registry auth tokens
+export PKGS_AZURE_DEVOPS_USER=
+export PKGS_AZURE_DEVOPS_TOKEN=
+export PKGS_GITHUB_USER=
+export PKGS_GITHUB_TOKEN=
+export PKGS_NPMJS_TOKEN=
+
+# Package registry URLs
+export PKGS_AZURE_DEVOPS_REGISTRY_URL=
+export PKGS_SWECO_ORM_REGISTRY_URL=
 
 # AWS SSO configuration
 export AWS_SSO_URL=
@@ -31,15 +39,3 @@ export K8S_GITHUB_AUTH=
 export K8S_REGO_POLICY_REPO=
 export K8S_SCHEMA_LOCATION=
 export K8S_CRD_SCHEMA_LOCATION=
-
-# Maven stuff
-export PKGS_AZURE_DEVOPS_USER=
-export PKGS_AZURE_DEVOPS_TOKEN=
-export PKGS_GH_USER=
-export PKGS_GH_TOKEN=
-
-# Old envs, may be removed later
-export MVN_ORG_REGISTRY_USER=
-export MVN_ORG_REGISTRY_PASS=
-export MVN_ORG_REGISTRY_URL=
-export MVN_ORG_SWECO_REGISTRY_URL=

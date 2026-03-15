@@ -1,16 +1,15 @@
 # Aliases to be loaded for the shell env
 
-### Reload shell configuration
+# Reload shell configuration
 alias reload="source ~/.zshrc"
 
-### List commands
+# List commands
 alias l=" eza -l --group-directories-first --icons --color auto --no-permissions --no-filesize --no-user --no-time"
 alias ll=" eza -l --almost-all --group-directories-first --color auto"
 alias tree=" eza --almost-all --tree --level=5 --icons --group-directories-first --color auto"
 
-### Change directories and shortcuts for some common directory commands
+# Change directories and shortcuts for some common directory commands
 alias cd=" z"
-# alias sd=" cd ./$(find -type d | fzf)"
 alias dots="cd $DOTFILES"
 alias dev="cd $DEVFILES"
 alias repo="cd $DEVFILES/repository"
@@ -20,55 +19,55 @@ alias nrep="cd ~/.nvm"
 alias conf="cd ~/.config"
 alias oss="cd /Volumes/OSS/repository"
 
-### Node related things for app run and builds
+# Node related things for app run and builds
 alias ni="npm install"
 alias ns="ni && npm run test"
 alias nr="npm run all"
+alias np="npx osls package -s dev"
+alias nb="npm run build"
+alias nd="npm run dev"
 
-### Maven builds and app runs for quarkus
+# Maven builds and app runs for quarkus
 alias mvn="mvn -Dmaven.home=$M2_HOME"
 alias mb="mvn clean verify -DskipTests"
 alias mbt="mvn clean verify"
 alias qr="mvn clean quarkus:dev -DskipTests"
 alias qrt="mvn clean quarkus:dev"
 
-### Git stuff
+# Git stuff
 alias gs="git status"
 alias gc="git commit -m"
 alias gca="git commit -a -m"
 alias ga="git status -uall --porcelain | sed 's/^..//' | fzf -m | xargs git add"
 alias gres="git status -uall --porcelain | sed 's/^..//' | fzf -m | xargs git restore --staged"
-alias gco='branch=$(git branch -l | fzf --print-query | tail -1 | xargs); [ -n "$branch" ] && $(echo $branch | xargs git checkout) || $(echo $branch | xargs git checkout -b)'
 alias gpu="git pull"
 alias grem="git config --get remote.origin.url | sed 's+git@+https://+' | sed -E 's+com:|org:+com/+' | sed 's+\.git$++' | head -n1"
-# alias grem="git config --get remote.origin.url | sed -E 's/(ssh:\/\/)?git@/https:\/\//' | sed 's/com:/com\//' | sed 's/\.git$//' | head -n1"
 alias glog="git log --graph --abbrev-commit --decorate --all \
     --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) \
     - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)'"
-alias gcx="git checkout \$(git branch -a | sed -E 's/remotes\/([a-zA-Z-]*\/)//' | grep -v '\*|HEAD' | sort |uniq | fzf --select-1)"
 
-### Tmux stuff
+# Tmux stuff
 alias ta="tmux attach"
 alias trel="tmux source-file $HOME/.config/tmux/tmux.conf"
 
-### Brew commands
+# Brew commands
 alias brewit="brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
 
-### Terraform commands
+# Terraform commands
 alias tf="tofu"
 alias tfi="tf init"
 alias tfp="tf plan"
 alias tfa="tf apply -auto-approve"
 
-### Kubernetes related aliases
+# Kubernetes related aliases
 alias k="kubectl"
 alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
 
-### AWS related things
+# AWS related things
 alias aii="export AWS_PROFILE=prod"
 alias awsi="aii && aws sso login && ap"
 
-### AWS profile switches
+# AWS profile switches
 alias as="export AWS_PROFILE=sandbox && awsc sandbox"
 alias at="export AWS_PROFILE=test && awsc test"
 alias ap="export AWS_PROFILE=prod && awsc prod"
