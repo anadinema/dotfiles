@@ -85,6 +85,10 @@ eval "$(starship init zsh)"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+# For mise-en-place to work
+eval "$(mise activate zsh --shims)"
+eval "$(mise activate zsh)"
+
 if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
   # Terraform tab completion
   autoload -U +X bashcompinit && bashcompinit
