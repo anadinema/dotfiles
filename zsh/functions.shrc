@@ -513,16 +513,6 @@ dstop() {
   [ -n "$cid" ] && docker stop "$cid"
 }
 
-# Generate the AWS config
-aws_setup() {
-  local aws_conf_path=$DOTFILES/core/.aws
-  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
-    aws_conf_path=$DOTFILES/work/core/.aws
-  fi
-  envsubst <$aws_conf_path/config.template >$aws_conf_path/config
-  echo "AWS config file generated at $aws_conf_path/config"
-}
-
 # Validate the kubernetes manifests using kubeconform and conftest
 kval() {
   if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
@@ -548,19 +538,85 @@ kval() {
   fi
 }
 
+#############################
+### AWS related functions ###
+#############################
+
+# Generate the AWS config
+aws_setup() {
+  local aws_conf_path=$DOTFILES/core/.aws
+  if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
+    aws_conf_path=$DOTFILES/work/core/.aws
+  fi
+  envsubst <$aws_conf_path/config.template >$aws_conf_path/config
+  echo "AWS config file generated at $aws_conf_path/config"
+}
+
+# Login to AWS SSO and export the credentials for the current profile, if no profile is set, use the default one
+awsi() {
+  if [ -z "$AWS_PROFILE" ]; then
+    echo "No AWS profile set. Switching to default profile: $AWS_DEFAULT_PROFILE"
+    export AWS_PROFILE=$(echo $AWS_DEFAULT_PROFILE)
+  fi
+  aws sso login
+  awsc $(echo $AWS_PROFILE)
+}
+
+# Switch between different AWS accounts, options are dev, sandbox, test, prod, spt, spp and mgmt
+awsp() {
+  case "$1" in
+  "dev" | "d")
+    export AWS_PROFILE=dev
+    awsc dev
+    ;;
+  "sandbox" | "sb")
+    export AWS_PROFILE=sandbox
+    awsc sandbox
+    ;;
+  "test" | "t")
+    export AWS_PROFILE=test
+    awsc test
+    ;;
+  "prod" | "p")
+    export AWS_PROFILE=prod
+    awsc prod
+    ;;
+  "spt" | "st" | "sptest")
+    export AWS_PROFILE=spt
+    awsc spt
+    ;;
+  "spp" | "sp" | "spprod")
+    export AWS_PROFILE=spp
+    awsc spp
+    ;;
+  "mgmt" | "m")
+    export AWS_PROFILE=mgmt
+    awsc mgmt
+    ;;
+  *)
+    echo "No profile matched. Switching to default profile: $AWS_DEFAULT_PROFILE"
+    export AWS_PROFILE=$(echo $AWS_DEFAULT_PROFILE)
+    awsc $(echo $AWS_PROFILE)
+    ;;
+  esac
+}
+
 # Switch between different AWS roles and update the config file
 awsr() {
   case "$1" in
-  "admin" | "adm") export AWS_ACTIVE_ROLE=$(echo $AWS_ADMIN_ROLE) ;;
-  "main" | "pu" | "primary" | "mgmt") export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE) ;;
-  "read" | "ro") export AWS_ACTIVE_ROLE=$(echo $AWS_READ_ROLE) ;;
-  "cost" | "explore") export AWS_ACTIVE_ROLE=$(echo $AWS_COST_ROLE) ;;
+  "admin" | "adm")
+    export AWS_LEGACY_ACTIVE_ROLE=$(echo $AWS_ADMIN_ROLE)
+    export AWS_PROD_ACTIVE_ROLE=$(echo $AWS_OPERATOR_ROLE)
+    export AWS_ACTIVE_ROLE=$(echo $AWS_OPERATOR_ROLE)
+    ;;
   *)
     echo "No roles matched. Switching to primary role"
-    export AWS_ACTIVE_ROLE=$(echo $AWS_PRIMARY_ROLE)
+    export AWS_LEGACY_ACTIVE_ROLE=$(echo $AWS_POWERUSER_ROLE)
+    export AWS_PROD_ACTIVE_ROLE=$(echo $AWS_DIAGNOSTICS_ROLE)
+    export AWS_ACTIVE_ROLE=$(echo $AWS_OPERATOR_ROLE)
     ;;
   esac
-  echo "Switched to AWS role: $AWS_ACTIVE_ROLE . Running 'aws_setup' to update the config file."
+  echo "Switched to AWS roles for diff accounts: $AWS_LEGACY_ACTIVE_ROLE/$AWS_PROD_ACTIVE_ROLE/$AWS_ACTIVE_ROLE . Running 'aws_setup' to update the config file."
   aws_setup
 }
 
