@@ -1,0 +1,86 @@
+# Function to check if the completion file already exists
+__should_update_completion_file() {
+  local file_path="$1"
+
+  if [[ "${FORCE_DOTFILES_COMPLETIONS}" == "1" ]]; then
+    return 0
+  fi
+
+  if [[ ! -f "$file_path" ]]; then
+    return 0
+  fi
+
+  # If nothing matches from above, we assume the file is up to date
+  return 1
+}
+
+# Function to update completion files
+__load_completion_file() {
+  local tool="$1"
+  local alias="$2"
+  local completion_file="$DOTFILES_COMPLETIONS_PATH/_$tool"
+
+  [ -n "$alias" ] && local alias_completion_file="$DOTFILES_COMPLETIONS_PATH/_$alias"
+
+  if command -v "$tool" &>/dev/null; then
+    if __should_update_completion_file "$completion_file"; then
+      case "$tool" in
+      "kubectx")
+        curl -L https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/_kubectx.zsh >$completion_file
+        [ -n "$alias_completion_file" ] && curl -L https://raw.githubusercontent.com/ahmetb/kubectx/master/completion/_kubectx.zsh >$alias_completion_file
+        ;;
+      "jq" | "node" | "mvn")
+        curl -L https://raw.githubusercontent.com/zsh-users/zsh-completions/master/src/_$tool >"$completion_file"
+        [ -n "$alias_completion_file" ] && curl -L https://raw.githubusercontent.com/zsh-users/zsh-completions/master/src/_$tool >"$alias_completion_file"
+        ;;
+      "just")
+        JUST_COMPLETE=zsh "$tool" >"$completion_file"
+        [ -n "$alias_completion_file" ] && JUST_COMPLETE=zsh "$tool" >"$alias_completion_file"
+        ;;
+      "gh")
+        "$tool" completion --shell zsh >"$completion_file"
+        [ "$alias_completion_file" ] && "$tool" completion --shell zsh >"$alias_completion_file"
+        ;;
+      "kubeseal")
+        echo "#compdef $tool\n_gnu_generic" >"$completion_file"
+        [ -n "$alias_completion_file" ] && echo "#compdef $alias\n_gnu_generic" >"$alias_completion_file"
+        ;;
+      "spotify_player")
+        "$tool" generate zsh >"$completion_file"
+        [ "$alias_completion_file" ] && "$tool" generate zsh >"$alias_completion_file"
+        ;;
+      *)
+        "$tool" completion zsh >"$completion_file"
+        [ -n "$alias_completion_file" ] && "$tool" completion zsh >"$alias_completion_file"
+        ;;
+      esac
+    fi
+  fi
+}
+
+# Path to store custom completions
+export DOTFILES_COMPLETIONS_PATH=$HOME/.local/share/dotfiles-completions/zsh
+
+if [ ! -d "$DOTFILES_COMPLETIONS_PATH" ]; then
+  mkdir -p "$DOTFILES_COMPLETIONS_PATH"
+fi
+
+# Load completion files for tools and their aliases
+__load_completion_file "kubectl" "k"
+__load_completion_file "kubectx"
+__load_completion_file "kubelogin"
+__load_completion_file "kubeseal"
+__load_completion_file "flux"
+__load_completion_file "popeye"
+__load_completion_file "conftest"
+__load_completion_file "helm"
+__load_completion_file "oc"
+__load_completion_file "op"
+__load_completion_file "k9s"
+__load_completion_file "dyff"
+__load_completion_file "gh"
+__load_completion_file "yq"
+__load_completion_file "jq"
+__load_completion_file "node"
+__load_completion_file "mvn"
+__load_completion_file "spotify_player" "spotify"

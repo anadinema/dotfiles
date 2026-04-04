@@ -1,0 +1,6 @@
+startup:
+  view: services
+  profiles:
+    - __sdk_default__
+
+theme: catpucchin

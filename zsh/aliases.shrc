@@ -1,8 +1,5 @@
 # Aliases to be loaded for the shell env
 
-# Reload shell configuration
-alias reload="source ~/.zshrc"
-
 # List commands
 alias l=" eza -l --group-directories-first --icons --color auto --no-permissions --no-filesize --no-user --no-time"
 alias ll=" eza -l --almost-all --group-directories-first --color auto"
@@ -62,6 +59,9 @@ alias tfa="tf apply -auto-approve"
 # Kubernetes related aliases
 alias k="kubectl"
 alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
+
+# Spotify player alias
+alias spotify='~/Applications/SpotifyPlayer.app/Contents/MacOS/spotify_player'
 
 # Other quick commands
 alias c=" clear"

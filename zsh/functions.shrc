@@ -439,23 +439,25 @@ dg() {
 ### Dotfiles related stuff ###
 ##############################
 
-# Take brew dump, raycast backup, update dotfiles, then push changes to github
-dotup() {
+# Reload shell configuration
+reload() {
+  case "$1" in
+  "-f" | "--force" | "f" | "force")
+    echo "Force reload ~/.zshrc with refresh of completions..."
+    FORCE_DOTFILES_COMPLETIONS=1 source ~/.zshrc
+    ;;
+  *)
+    echo "Reload ~/.zshrc ..."
+    source ~/.zshrc
+    ;;
+  esac
+}
 
-  # Below three are functions
+# Take brew dump, raycast backup, update dotfiles, then push changes to github
+bkp() {
   authbkp
   brewsv
   __rback
-
-  if [ -z "$1" ]; then
-    cd "$DOTFILES" || exit
-    git status
-    git add . || true
-    COMMIT_MESSAGE=$(git status -s | sed 's/ M/M/' | sed 's/??/A/' | sed 's/ D/D/')
-    git commit -m "bot : changes in following dotfiles" -m "$COMMIT_MESSAGE" || true
-    git push origin "$(git branch --show-current)" || true
-    cd $HOME || exit
-  fi
 }
 
 # Take backup of name of auth environment variables
@@ -495,6 +497,55 @@ func() {
 # Search in the history
 hg() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+# Mise-en-place for all the mise commands
+vm() {
+  if [[ "$1" == "use" ]]; then
+    local arg="$2"
+    case "$arg" in
+
+    # NODE: Matches n24, node24, or just 24
+    n[0-9]* | nd[0-9]* | node[0-9]* | [0-9]*)
+      local v="${arg#node}" # Strip 'node'
+      v="${v#nd}"           # Strip 'nd'
+      v="${v#n}"            # Strip 'n'
+      mise use -g "node@$v"
+      ;;
+
+    # JAVA: Matches j21, jv21, jdk21, jvm21, java21
+    j[0-9]* | jv[0-9]* | jdk[0-9]* | jvm[0-9]* | java[0-9]*)
+      local v="${arg#java}" # Strip 'java'
+      v="${v#jdk}"          # Strip 'jdk'
+      v="${v#jvm}"          # Strip 'jvm'
+      v="${v#jv}"           # Strip 'jv'
+      v="${v#j}"            # Strip 'j'
+      mise use -g "java@$v"
+      ;;
+
+    # PYTHON: Matches p3, py3, python3
+    p[0-9]* | py[0-9]* | python[0-9]*)
+      local v="${arg#python}" # Strip 'python'
+      v="${v#py}"             # Strip 'py'
+      v="${v#p}"              # Strip 'p'
+      mise use -g "python@$v"
+      ;;
+
+    # GOLANG: Matches g1, go1
+    g[0-9]* | go[0-9]*)
+      local v="${arg#go}"
+      v="${v#g}"
+      mise use -g "go@$v"
+      ;;
+
+    # FALLBACK: For anything else (e.g., ms use rust@latest)
+    *)
+      mise use -g "$@"
+      ;;
+    esac
+  else
+    mise "$@"
+  fi
 }
 
 # Remove docker container

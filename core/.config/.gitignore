@@ -1,32 +1,34 @@
-**
 
-# Configuration to keep
+# ---- Ignore everything, except for stuff listed below ----
 
+*
+!*/
+tmux/plugins/
 !.gitignore
 
-!1Password
-!1Password/**
 
-!alacritty
-!alacritty/**
+# ---- Keep all the .toml files for various tools ----
 
-!ghostty
-!ghostty/**
+!1Password/ssh/agent.toml
+!starship/starship.toml
+!spotify-player/app.toml
+!mise/config.toml
 
-!git
-!git/**
 
-raycast/**
-raycast/extensions/**
+# ---- Keep all the .yml/.yaml files for various tools ----
 
-!starship
-!starship/**
+!gh/config.yml
+!k9s/skins/*.yaml
+!k9s/aliases.yaml
+!k9s/config.yaml
+!claws/config.yaml
 
-!tmux
-!tmux/**
 
-!k9s
-!k9s/**
+# ---- Keep all the .conf/config/.config/.json/static files for various tools ----
 
-!zed/
+!ghostty/config
+!ghostty/defaults.config
+!git/ignore
+!tmux/tmux.conf
 !zed/settings.json
+!zed/keymap.json

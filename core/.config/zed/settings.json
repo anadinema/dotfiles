@@ -29,8 +29,6 @@
   "base_keymap": "JetBrains",
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
   "buffer_font_size": 13.0,
-  "ui_font_family": "JetBrainsMono Nerd Font Mono",
-  "ui_font_size": 14.5,
   "terminal": {
     "font_family": "JetBrainsMono Nerd Font Mono",
   },
@@ -53,7 +51,6 @@
     "ssh-config": true,
     "tmux": true,
     "toml": true,
-    "vue": true,
     "xml": true,
   },
   "languages": {

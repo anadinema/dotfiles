@@ -5,12 +5,12 @@ files=()
 
 __setup_archives() {
   local archive_files=(
-    $(printf "%s\n"  "${files[@]}" | grep -v .dmg | grep .zip)
+    $(printf "%s\n" "${files[@]}" | grep -v .dmg | grep .zip)
   )
 
   for file in "${archive_files[@]}"; do
-    if [ ! -d "$(echo $HOME/dev/archives/$file | sed "s+.zip++g" )" ]; then
-      unzip -n $WORK_CONF_BASE_PATH/config/$file -d $HOME/dev/archives/ > /dev/null
+    if [ ! -d "$(echo $HOME/dev/archives/$file | sed "s+.zip++g")" ]; then
+      unzip -n $WORK_CONF_BASE_PATH/config/$file -d $HOME/dev/archives/ >/dev/null
     fi
   done
 }
@@ -32,7 +32,7 @@ __setup_cli_tools() {
 
 __setup_init_files() {
   local init_files=(
-    $(printf "%s\n"  "${files[@]}" | grep -v .zip)
+    $(printf "%s\n" "${files[@]}" | grep -v .zip)
   )
 
   for init in "${init_files[@]}"; do
@@ -54,7 +54,6 @@ __setup_folder_based_stuff() {
     cp -r $WORK_CONF_BASE_PATH/scripts $HOME/dev/
   fi
 }
-
 
 if [[ "$WORK_MACHINE_SETUP" -eq 1 ]] && [[ "$RUN_WORK_ARCHIVE_SETUP" -eq 1 ]]; then
   files=(

@@ -24,7 +24,7 @@ palette = "catppuccin_mocha"
 [directory]
 truncation_length = 2
 truncate_to_repo = false
-home_symbol = "anadinema"
+home_symbol = "andn"
 
 [fill]
 symbol = ' '
@@ -63,6 +63,7 @@ contexts = [
 format = '[$symbol$version (\($workspace\))]($style) '
 
 [aws.profile_aliases]
+dev = 'dev'
 sandbox = 'sandbox'
 test = 'test'
 prod = 'prod'
