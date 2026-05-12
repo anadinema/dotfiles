@@ -6,13 +6,14 @@
 
 # Export the apps installed on the system to the Brewfile
 brewsv() {
-  brewfile_path=$DOTFILES/apps/Brewfile
+  brewfile_path="$DOTFILES/apps/Brewfile"
+  opts=(--no-go --no-cargo --no-npm --no-vscode --no-uv --no-flatpak --describe --force)
 
   if [ "$WORK_MACHINE_SETUP" -eq 1 ]; then
     brewfile_path=$DOTFILES/work/apps/Brewfile
   fi
 
-  brew bundle dump --file="$brewfile_path" --force && brew bundle --file="$brewfile_path" --force cleanup
+  brew bundle dump --file="$brewfile_path" "${opts[@]}" && brew bundle --file="$brewfile_path" --force cleanup
 }
 
 #############################
@@ -706,4 +707,12 @@ aws_secret_access_key=$(echo $temp_creds | jq -r .SecretAccessKey)
 aws_session_token=$(echo $temp_creds | jq -r .SessionToken)" >>"$1"
   done
 
+}
+
+# AWS account/role passthrough with the aws profile updates
+yak() {
+  command yak "$@"
+  if [[ "$1" == "account" || "$1" == "login" ]]; then
+    export AWS_PROFILE="$(command yak status --print-profile)"
+  fi
 }

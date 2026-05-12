@@ -4,6 +4,7 @@
 *
 !*/
 tmux/plugins/
+spotify-player/**
 !.gitignore
 
 
@@ -11,7 +12,7 @@ tmux/plugins/
 
 !1Password/ssh/agent.toml
 !starship/starship.toml
-!spotify-player/app.toml
+!spotify-player/*.toml
 !mise/config.toml
 
 

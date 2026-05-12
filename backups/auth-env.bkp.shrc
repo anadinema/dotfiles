@@ -1,14 +1,32 @@
 # Add the environment variables for auth tokens needed
 
-# AWS + Node stuff
-export AWS_PERSONAL_SSO_URL=
-export AWS_ROLE=
-export AWS_MGMT_ACCOUNT_ID=
+# Package registry auth tokens
+export PKGS_GITHUB_USER=
+export PKGS_GITHUB_TOKEN=
+export PKGS_NPMJS_TOKEN=
+
+export GITHUB_TOKEN=
+export TAP_GITHUB_TOKEN=
+
+# AWS SSO configuration
+export AWS_SSO_URL=
+
+# All the AWS roles which can be assumed
+export AWS_POWERUSER_ROLE=
+export AWS_ADMIN_ROLE=
+export AWS_OPERATOR_ROLE=
+export AWS_DIAGNOSTICS_ROLE=
+
+# Set active role for AWS
+# Remove the LEGACY_ACTIVE_ROLE, when the POWERUSER_ROLE is removed, then switch to PROD_ACTIVE_ROLE for PROD account.
+export AWS_LEGACY_ACTIVE_ROLE=
+export AWS_PROD_ACTIVE_ROLE=
+export AWS_ACTIVE_ROLE=
+
+# Default AWS profile to use when not set by the user
+export AWS_DEFAULT_PROFILE=
+
+# All the AWS account IDs
 export AWS_SANDBOX_ACCOUNT_ID=
 export AWS_PROD_ACCOUNT_ID=
-
-# Maven stuff
-export MVN_ORG_REGISTRY_USER=
-export MVN_ORG_REGISTRY_PASS=
-export MVN_ORG_REGISTRY_URL=
-export MVN_ORG_SWECO_REGISTRY_URL=
+export AWS_MGMT_ACCOUNT_ID=

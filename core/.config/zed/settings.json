@@ -7,60 +7,94 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "telemetry": {
     "diagnostics": false,
     "metrics": false,
   },
+  "disable_ai": true,
   "agent": {
-    "default_profile": "ask",
-    "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-4o",
-    },
-  },
-  "edit_predictions": {
-    "provider": "copilot",
-    "disabled_globs": [],
-    "mode": "eager",
-    "enabled_in_text_threads": false,
+    "dock": "right",
+    "enabled": false,
+    "button": false
   },
   "vim_mode": false,
   "icon_theme": "Catppuccin Mocha",
   "base_keymap": "JetBrains",
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
-  "buffer_font_size": 13.0,
+  "buffer_font_size": 14.0,
   "terminal": {
     "font_family": "JetBrainsMono Nerd Font Mono",
   },
   "theme": "Catppuccin Mocha",
   "file_types": {
-    "Shell Script": ["*.shrc", "Brewfile"],
-    "SSH Config": ["**/.ssh/config"],
-    "ini": ["*.template", "credentials", ".npmrc", ".nvmrc"],
+    "Shell Script": [
+      "*.shrc",
+      "Brewfile"
+    ],
+    "SSH Config": [
+      "**/.ssh/config"
+    ],
+    "ini": [
+      "*.template",
+      "credentials",
+      ".npmrc",
+      ".nvmrc"
+    ],
   },
   "auto_install_extensions": {
     "catppuccin": true,
     "catppuccin-icons": true,
     "codeowners": true,
     "csv": true,
-    "dockerfile": true,
-    "html": true,
     "ini": true,
     "make": true,
-    "sql": true,
     "ssh-config": true,
     "tmux": true,
     "toml": true,
     "xml": true,
   },
+  "formatter": "language_server",
+  "format_on_save": "on",
+  "prettier": {
+    "allowed": false
+  },
+  "collaboration_panel": {
+    "dock": "left",
+    "button": false
+  },
+  "notification_panel": {
+    "button": false
+  },
   "languages": {
+    "TOML": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "tombi"
+        }
+      }
+    },
     "Shell Script": {
       "format_on_save": "on",
       "formatter": {
         "external": {
           "command": "shfmt",
           // Change `--indent 2` to match your preferred tab_size
-          "arguments": ["--filename", "{buffer_path}", "--indent", "2"],
+          "arguments": [
+            "--filename",
+            "{buffer_path}",
+            "--indent",
+            "2"
+          ],
         },
       },
     },

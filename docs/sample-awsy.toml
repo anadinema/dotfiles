@@ -1,0 +1,91 @@
+# ─── Global defaults ──────────────────────────────────────────────────────────
+default_account = "dev"
+default_role    = "admin"
+region          = "eu-west-1"
+sso_start_url   = "${AWS_SSO_URL}"
+
+[aws]
+credentials_path = "~/.aws/credentials"
+config_path      = "~/.aws/config"
+
+[secrets]
+cache_ttl = 60    # minutes, 0 = no cache
+
+[passthrough]
+enabled = false # Disabled by default, opt-in if you want to use yak as a wrapper around the AWS CLI.
+cli_binary_path = "" # If empty, will try to find in PATH. If not found, it throws error if passthrough is enabled.
+
+[safeguards]
+enabled = true # Enabled by default,
+protected_accounts = ["prod", "spp"]   # regex matched against account name, keep ["prod", "production", "mgmt", "management", "org", "organization"] as default value
+max_power_grade_allowed = "developer"         # default ceiling for matched accounts
+
+# ─── Roles ────────────────────────────────────────────────────────────────────
+# Given power grades are default values and can be overrides per account. No need to state those in config, as they are predetermined.
+[roles]
+read_only = { value = "${AWS_DIAGNOSTIC_ROLE}", power_grade = 100 } # WorkloadDiagnostic
+developer = { value = "${AWS_POWERUSER_ROLE}", power_grade = 200 }  # PowerUserPermission
+admin     = { value = "${AWS_WORKLOAD_ROLE}", power_grade = 300 }    # WorkloadOperator
+root = { value = "${AWS_EMERGENCY_ROLE}", power_grade = 400 }  # BreakGlassPermission, god mode, you can do anything, use with caution.
+
+# ─── Accounts ─────────────────────────────────────────────────────────────────
+# allowed_roles must include default_role — no implicit additions.
+# Accounts with no overrides inherit everything from global.
+
+[[accounts]]
+name       = "dev"
+account_id = "${AWS_DEV_ACCOUNT_ID}"
+
+[[accounts]]
+name       = "sandbox"
+account_id = "${AWS_SANDBOX_ACCOUNT_ID}"
+
+[[accounts]]
+name       = "test"
+account_id = "${AWS_TEST_ACCOUNT_ID}"
+
+[[accounts]]
+name          = "prod"
+account_id    = "${AWS_PROD_ACCOUNT_ID}"
+default_role  = "developer"
+allowed_roles = ["developer", "admin", "read_only"]
+role_overrides = { admin = { value = "${AWS_ADMIN_ROLE}" }, read_only = { value = "${AWS_READ_ROLE}" } }
+
+[[accounts]]
+name          = "spt"
+account_id    = "${AWS_SPT_ACCOUNT_ID}"
+default_role  = "developer"
+allowed_roles = ["developer", "admin", "read_only"]
+role_overrides = { admin = { value = "${AWS_ADMIN_ROLE}" }, read_only = { value = "${AWS_READ_ROLE}" } }
+
+[[accounts]]
+name          = "spp"
+account_id    = "${AWS_SPP_ACCOUNT_ID}"
+default_role  = "developer"
+allowed_roles = ["developer", "admin", "read_only"]
+role_overrides = { admin = { value = "${AWS_ADMIN_ROLE}" }, read_only = { value = "${AWS_READ_ROLE}" } }
+
+[[accounts]]
+name          = "mgmt"
+account_id    = "${AWS_MGMT_ACCOUNT_ID}"
+default_role  = "admin"
+allowed_roles = ["admin", "developer", "read_only"]
+role_overrides = { admin = { value = "${AWS_ADMIN_ROLE}" }, read_only = { value = "${AWS_READ_ROLE}" } }
+
+# ─── Aliases ──────────────────────────────────────────────────────────────────
+[aliases.accounts]
+d      = "dev"
+sb     = "sandbox"
+t      = "test"
+p      = "prod"
+st     = "spt"
+sptest = "spt"
+sp     = "spp"
+spprod = "spp"
+m      = "mgmt"
+
+[aliases.roles]
+adm = "admin"
+dev = "developer"
+ro  = "read_only"
+rt = "root"

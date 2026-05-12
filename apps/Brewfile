@@ -1,50 +1,99 @@
+tap "anadinema/tap"
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Core application library for C
 brew "glib"
+# Select default apps for documents and URL schemes on macOS
 brew "duti"
+# Modern, maintained replacement for ls
 brew "eza"
+# Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# Command-line fuzzy finder written in Go
 brew "fzf"
-brew "gh"
+# Distributed revision control system
 brew "git"
+# OpenType text shaping engine
 brew "harfbuzz"
-brew "helm"
+# Improved top (interactive process viewer)
 brew "htop"
-brew "just"
-brew "k9s"
-brew "kubecfg"
-brew "kubernetes-cli"
-brew "kubectx"
+# Mac App Store command-line interface
 brew "mas"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# Deep clean and optimize your Mac
+brew "mole"
+# Send push notifications to your phone or desktop via PUT/POST
 brew "ntfy"
-brew "nvm"
-brew "opentofu"
-brew "shfmt"
+# Show ps output as a tree
+brew "pstree"
+# Cross-shell prompt for astronauts
 brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Terminal multiplexer
 brew "tmux"
+# Library to create, extract, and modify Windows Imaging files
 brew "wimlib"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Password manager that keeps all passwords secure behind one password
 cask "1password"
+# Command-line interface for 1Password
 cask "1password-cli"
+# Enable Windows-like alt-tab
 cask "alt-tab"
+# Application uninstaller
 cask "appcleaner"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# Brings the power of Copilot coding agent directly to your terminal
+cask "copilot-cli"
+# App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-jetbrains-mono-nerd-font"
+# ghostify — wrap on spotify-player with proper macos app integration
+cask "anadinema/tap/ghostify"
+# Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Go (golang) IDE
+cask "goland"
+# Web browser
 cask "google-chrome"
+# Java IDE by JetBrains
 cask "intellij-idea"
+# Menu bar calendar
 cask "itsycal"
+# VPN client for secure internet access and private browsing
 cask "nordvpn"
+# Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# AI coding agent desktop client
+cask "opencode-desktop"
+# Collaboration platform for API development
 cask "postman"
+# Control your tools with a few keystrokes
 cask "raycast"
+# Email client
 cask "readdle-spark"
+# Rust IDE
+cask "rustrover"
+# Screenshot measurement and annotation tool
 cask "shottr"
-cask "spotify"
+# Text editor for code, markup and prose
+cask "sublime-text"
+# Multimedia player
 cask "vlc"
+# JavaScript IDE
 cask "webstorm"
+# Native desktop client for WhatsApp
 cask "whatsapp"
+# Yet Another AWS Kit — AWS SSO and credential management
+cask "anadinema/tap/yak"
+# Multiplayer code editor
 cask "zed"
+# Gecko based web browser
 cask "zen"
 mas "Things", id: 904280696

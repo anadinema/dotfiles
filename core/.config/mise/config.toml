@@ -22,6 +22,11 @@ conftest = "latest"
 aws-cli = { version = "latest", symlink_bins = "true" }
 node = "24"
 maven = "latest"
+rust = "latest"
+go = "1"
+goreleaser = "latest"
+opencode = "latest"
+golangci-lint = "latest"
 
 [settings]
 color_theme = "catpucchin"

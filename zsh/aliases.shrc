@@ -61,7 +61,8 @@ alias k="kubectl"
 alias kcx="kubectl config use-context \$(kubectl config get-contexts -o name | fzf --select-1)"
 
 # Spotify player alias
-alias spotify='~/Applications/SpotifyPlayer.app/Contents/MacOS/spotify_player'
+alias spotify='~/Applications/Ghostify.app/Contents/MacOS/ghostify'
+alias ghostify='~/Applications/Ghostify.app/Contents/MacOS/ghostify'
 
 # Other quick commands
 alias c=" clear"
