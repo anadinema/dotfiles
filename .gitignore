@@ -1,6 +1,6 @@
 # Files to be ignored
 auth-env
-auth-env.shrc
+**/auth-env.shrc
 core/.stow-local-ignore
 work/core/.stow-local-ignore
 work/core/.m2/wrapper/
@@ -10,7 +10,9 @@ work/core/.m2/repository/
 temp/
 work-dir/
 fonts/
-core/.config/raycast
+
+box/*/pkgs/*.lock.json
+bkps/Raycast**.rayconfig
 
 # Mac specific files to be ignored
 .DS_Store

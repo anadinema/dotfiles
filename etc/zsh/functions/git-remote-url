@@ -1,0 +1,20 @@
+# show and optionally open the remote url for git repo
+
+local url=$(git config --get remote.origin.url)
+local https_url=$(echo "$url" | sed 's+git@+https://+' | sed -E 's+com:|org:+com/+' | sed 's+\.git$++' | head -n1)
+
+echo
+echo "🔗 Clickable: \e[1;36m$https_url\e[1;0m"
+echo "🖲️ Original: \e[1;36m$url\e[1;0m"
+
+case "$1" in
+-o | --open | o | open)
+  open "$https_url"
+  ;;
+"")
+  # ignore empty
+  ;;
+*)
+  echo "⁉️ Unknown option: $1, choose: (-o, --open, open)"
+  ;;
+esac

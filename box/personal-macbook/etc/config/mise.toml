@@ -1,0 +1,44 @@
+[tools]
+dyff = "latest"
+gh = "latest"
+helm = "latest"
+java = "21"
+jq = "latest"
+k9s = "latest"
+kubectl = "latest"
+kubelogin = "latest"
+kubeseal = "latest"
+opentofu = "latest"
+python = "3"
+shfmt = "latest"
+yq = "latest"
+aws-cli = { version = "latest", symlink_bins = "true" }
+node = "24"
+maven = "latest"
+rust = "latest"
+go = "latest"
+goreleaser = "latest"
+opencode = "latest"
+golangci-lint = "latest"
+
+[settings]
+color_theme = "catppuccin"
+java.shorthand_vendor = "temurin"
+idiomatic_version_file_enable_tools = ["node"]
+auto_install = false
+
+# ==> Pin versions of tools to specifics for faster switches and specific versions for projects
+
+# Node versionss
+[tool_alias.node.versions]
+20 = "20.18.3"
+24 = "24.13.0"
+
+# Java versions
+[tool_alias.java.versions]
+21 = "21.0.10+7.0.LTS"
+25 = "25.0.2+10.0.LTS"
+
+# Python versions
+[tool_alias.python.versions]
+3 = "3.14.3"

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+git submodule update --init --recursive .
+
+DOTBOT_BOX=$1 ./submodules/dotbot/bin/dotbot -c install.conf.yaml

@@ -1,0 +1,29 @@
+# validate k8s manifests against cluster
+
+if [[ -z "$K8S_SCHEMA_LOCATION" ]] && echo "‼️ K8S_SCHEMA_LOCATION missing..." && return 1
+if [[ -z "$K8S_REGO_POLICY_REPO" ]] && echo "‼️ K8S_REGO_POLICY_REPO missing..." && return 1
+if [[ -z "$K8S_CRD_SCHEMA_LOCATION" ]] && echo "‼️ K8S_CRD_SCHEMA_LOCATION missing..." && return 1
+
+CONTEXT=$(kubectl config current-context)
+CLUSTER=""
+
+case "$CONTEXT" in
+stage | stage-eu-west-1)
+  CLUSTER="stage-eu-west-1"
+  ;;
+prod | prod-eu-west-1)
+  CLUSTER="prod-eu-west-1"
+  ;;
+"")
+  echo "⁉️ No kubectl context found. Login to k8s cluster first." && return 1
+  ;;
+*)
+  echo "⁉️ Unknown kubectl context: $CONTEXT" && return 1
+  ;;
+esac
+
+echo "ℹ Using context: $CONTEXT and cluster: $CLUSTER"
+
+kubectl kustomize $DEVFILES/repository/k8s/$CLUSTER >$DEVFILES/repository/k8s/build.yaml
+kubeconform -summary -skip SealedSecret -schema-location "$K8S_SCHEMA_LOCATION" -schema-location "$K8S_CRD_SCHEMA_LOCATION" $DEVFILES/repository/k8s/build.yaml
+conftest test $DEVFILES/repository/k8s/build.yaml -u git::${K8S_REGO_POLICY_REPO}

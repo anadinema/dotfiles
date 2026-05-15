@@ -1,0 +1,20 @@
+# archives the folder
+
+local target="${1%/}"
+
+if [[ -z "$target" ]]; then
+  echo "usage: \e[1;36mpack\e[1;0m <directory>"
+  print -P "   Pack the folder into an archive"
+  return 1
+elif [[ ! -d "$target" ]]; then
+  echo "⁉️ Error: '$target' is not a directory."
+  return 1
+fi
+
+# Filename format: YYYY-MM-DD-foldername.tar.bz2
+local output="$(date +%Y-%m-%d)-${target:t}.tar.bz2"
+
+tar -cjf "$output" "$target"
+
+echo
+echo "📦 Packed '$target' into '$output'..."

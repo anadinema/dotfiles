@@ -1,0 +1,39 @@
+# version manager using mise
+
+if [[ "$1" == "use" ]]; then
+  local arg="$2"
+
+  if [[ "$arg" =~ ^([a-zA-Z]+)?([0-9].*)$ ]]; then
+    local prefix="${match[1]}"
+    local version="${match[2]}"
+    local tool
+
+    case "$prefix" in
+    n | nd | node | "")
+      tool="node"
+      ;;
+    j | jv | jdk | jvm | java)
+      tool="java"
+      ;;
+    p | py | python)
+      tool="python"
+      ;;
+    g | go)
+      tool="go"
+      ;;
+    *)
+      tool=""
+      ;;
+    esac
+
+    if [[ -n "$tool" ]]; then
+      mise use -g "${tool}@${version}"
+      return
+    fi
+  fi
+
+  shift
+  mise use -g "$@"
+else
+  mise "$@"
+fi

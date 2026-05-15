@@ -1,0 +1,3 @@
+# show all the paths
+
+tr ':' '\n' <<<"$FPATH"

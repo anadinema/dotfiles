@@ -1,0 +1,11 @@
+# backup the raycast config
+
+if [ "$(find "$DOTFILES"/bkps -type f -name "Raycast*.rayconfig" | head -1 | wc -l)" -eq 1 ]; then
+  NEW_RAYCAST_BACKUP_FILE=$(find "$DOTFILES"/bkps -type f -name "Raycast*.rayconfig" | head -1)
+  echo "Replacing $NEW_RAYCAST_BACKUP_FILE to be the raycast backup"
+  rm "$DOTFILES"/bkps/settings.rayconfig.bkp || true
+  mv "$DOTFILES"/bkps/settings.rayconfig "$DOTFILES"/bkps/settings.rayconfig.bkp
+  mv "$NEW_RAYCAST_BACKUP_FILE" "$DOTFILES"/bkps/settings.rayconfig
+  rm "$DOTFILES"/bkps/settings.rayconfig.bkp || true
+  rm -f "$DOTFILES"/settings/raycast/Raycast* || true
+fi

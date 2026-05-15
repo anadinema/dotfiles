@@ -1,0 +1,25 @@
+# take backup of auth-env.shrc file for the given host
+
+if [[ -z $1 ]]; then
+  print -P "usage: \e[1;36mbkp-auth-env\e[1;0m < personal|work >"
+  print -P "       Backup auth-env.shrc for the given host"
+  return 1
+fi
+
+box=$1
+authenv_bkp_path=""
+
+case "$box" in
+"personal-macbook" | "personal" | "private" | "personal-mac")
+  authenv_bkp_path="$DOTFILES/bkps/auth-env.bkp.shrc"
+  ;;
+"work-macbook" | "office" | "work" | "work-mac")
+  authenv_bkp_path="$DOTFILES/bkps/auth-env.work.bkp.shrc"
+  ;;
+esac
+
+[ -z "$brewfile_path" ] && echo "⁉️ Provided host: ($box) isn't supported..." && return 1
+
+awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' ~/.zsh/auth-env.shrc >$dest_file_name
+
+echo "✅ Written backup to: $authenv_bkp_path"

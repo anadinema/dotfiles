@@ -1,0 +1,15 @@
+{
+  "file_types": {
+    "ini": [
+      "dotfiles/box/*/etc/npmrc",
+      "dotfiles/box/*/etc/*.gitconfig"
+    ],
+    "SSH Config": [
+      "dotfiles/etc/ssh.config"
+    ],
+    "Shell Script": [
+      "dotfiles/etc/zsh/functions/*",
+      "brewfile"
+    ]
+  },
+}

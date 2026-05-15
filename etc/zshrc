@@ -1,0 +1,92 @@
+## local variables
+
+ZSH_DISABLE_COMPFIX=true                        # disable compfix noise due to custom completions
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20              # don't autosuggest when buffer is large
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=black,bold" # make autosuggestions grey
+ZLE_REMOVE_SUFFIX_CHARS=''                      # don't remove spaces after completion
+HYPHEN_INSENSITIVE="true"                       # use _ and - interchangeably
+DISABLE_AUTO_TITLE="true"                       # no auto title on terminal windows
+HIST_STAMPS="dd.mm.yyyy"                        # change timestamp format in history files
+HISTSIZE=5000                                   # in-memory history size
+SAVEHIST=500000                                 # on-disk history size
+HISTFILE=$HOME/tmp/zsh_history                  # history file location
+
+## autoload
+
+autoload -Uz ~/.zsh/functions/* # autoload all the custom functions
+
+## paths
+
+__load-paths # load the PATH, add stuff, dedupe and export
+
+## exported variables
+
+export DOTFILES="$HOME/dotfiles"                              # dotfiles folder path as env var
+export DEVFILES="$HOME/dev"                                   # devfiles folder path as env var
+export K9S_CONFIG_DIR="$HOME/.config/k9s"                     # update k9s config folder
+export HOMEBREW_NO_ANALYTICS=1                                # disable homebrew analytics
+export HOMEBREW_NO_INSECURE_REDIRECT=1                        # disable homebrew insecure redirects, for local testing
+export HOMEBREW_NO_ENV_HINTS=1                                # suppress homebrew hints
+export _ZO_DATA_DIR="$HOME/.local/share"                      # zoxide directory for database of paths
+export STARSHIP_CONFIG="$HOME"/.config/starship/starship.toml # update path of starship config
+
+## homebrew setup
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+BREW_PREFIX="$(brew --prefix)"
+
+## fpaths
+
+__load-fpaths # load the FPATH, add stuff, dedupe and export
+
+## autocompletion setup and lazy loading functions
+
+autoload -Uz compinit && compinit -u -d ~/.zsh/compdump # autoload zsh completions
+autoload -Uz bashcompinit && bashcompinit               # autoload bash completions compatibility layer
+
+# option stacking for docker
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
+## plugins
+
+source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+## options
+
+unsetopt beep    # never beep
+unsetopt correct # don't correct command spelling
+
+setopt +o nomatch             # no err, when no match with glob patterns
+setopt extended_history       # history file formatted as ':start:elapsed;command'
+setopt inc_append_history     # save commands in history immediately
+setopt share_history          # share history between shells
+setopt hist_expire_dups_first # expire duplicate events first
+setopt hist_ignore_dups       # ignore, if already present in history
+setopt hist_ignore_all_dups   # delete old entry, if new one is duplicate
+setopt hist_save_no_dups      # don't save dups in history file
+setopt hist_find_no_dups      # ignore duplicates in find
+setopt hist_no_functions      # do not save function definitions in history
+setopt hist_ignore_space      # ignore command starting with whitespace
+setopt hist_verify            # insert the history search, don't execute immediately
+setopt append_history         # append to history file
+setopt hist_no_store          # don't store history command itself
+setopt interactive_comments   # allow comments in interactive shells
+
+## initalize other tools
+
+source <(fzf --zsh)                               # fzf bindings and completions
+eval "$(zoxide init zsh)"                         # init zoxide
+eval "$(starship init zsh)"                       # init starship and show prompt
+eval "$(mise activate zsh)"                       # init mise-en-place - devtools
+complete -o nospace -C $(which aws_completer) aws # aws-cli init and autocompletion
+complete -o nospace -C $(which tofu) tofu         # setup opentofu and autocompletion
+complete -o nospace -C $(which tofu) tf           # setup autocompletion for alias on opentofu
+
+## final loading steps
+
+source: ~/.zsh/auth-env.shrc # source sensitive env vars
+source: ~/.zsh/aliases.shrc  # source aliases
+
+# initialize zsh syntax highlighting plugin
+source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

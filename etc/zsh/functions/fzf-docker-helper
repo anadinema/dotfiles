@@ -1,0 +1,38 @@
+# run differernt docker commands on selected container from picker
+
+local action="$1"
+local query="$2"
+
+case "$action" in
+rm | stop | start | restart | logs | exec) ;;
+*)
+  print -P "usage: \e[1;36mfzf-docker-helper\e[1;0m <rm | stop | start | restart | logs | exec> [search_query]"
+  print -P "       Run multiple docker commands by selecting and searching containers"
+  return 1
+  ;;
+esac
+
+local cids
+cids=($(docker ps -a --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}" |
+  fzf --header-line=1 \
+    --multi \
+    --query="$query" \
+    --preview="docker inspect {1} | jq ." \
+    --preview-window=right:40%:hidden:wrap \
+    --bind="ctrl-p:toggle-preview" |
+  awk '{print $1}'))
+
+[[ -z "$cids" ]] && return 0
+
+case "$action" in
+exec)
+  docker exec -it "${cids[1]}" /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+  ;;
+logs)
+  docker logs -f --tail 100 "${cids[1]}"
+  ;;
+*)
+  echo "🚀 Running: docker $action ${cids[@]}"
+  docker "$action" "${cids[@]}"
+  ;;
+esac

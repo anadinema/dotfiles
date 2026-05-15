@@ -1,0 +1,16 @@
+[submodule "submodules/dotbot"]
+	path = submodules/dotbot
+	url = https://github.com/anishathalye/dotbot.git
+	ignore = dirty
+
+[submodule "submodules/tpm"]
+	path = submodules/tpm
+	url = https://github.com/tmux-plugins/tpm.git
+
+[submodule "submodules/zsh-autosuggestions"]
+	path = etc/zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+
+[submodule "submodules/zsh-syntax-highlighting"]
+	path = etc/zsh/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git

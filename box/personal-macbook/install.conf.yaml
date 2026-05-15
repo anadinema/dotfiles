@@ -1,0 +1,19 @@
+- defaults:
+    link:
+      relink: true
+      force: true
+
+- create:
+    - ~/.m2
+    - ~/.config/mise
+    - ~/.config/spotify-player
+
+- link:
+    # root files
+    ~/.npmrc: etc/npmrc
+    ~/.gitconfig: etc/global.gitconfig
+    ~/.m2/settings.xml: etc/maven-settings.xml
+
+    # config folders
+    ~/.config/mise/config.toml: etc/config/mise.toml
+    ~/.config/spotify-player/app.toml: etc/config/spotify-player.toml

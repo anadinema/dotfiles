@@ -1,0 +1,6 @@
+# ignore everything except settings and keymaps
+
+*
+!.gitignore
+!keymap.json
+!settings.json

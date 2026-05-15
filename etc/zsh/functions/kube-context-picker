@@ -1,0 +1,6 @@
+# use fzf to pick k8s context
+
+local context=$(kubectl config get-contexts -o name | fzf --select-1)
+if [[ -n "$context" ]]; then
+  kubectl config use-context "$context"
+fi

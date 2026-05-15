@@ -1,4 +1,10 @@
 # Dotfiles - Dotting the mac :)
+
+> ⚠️ **IMPORTANT: DOTFILES ARE IN BETWEEN A MIGRATION TO DOTBOT**
+>
+> Moving my dotfiles to manage via DotBot, and the contents might not be fully working, please clone at your own risk.
+
+
 <img src="assets/alacritty-term.png" align="center" />
 <hr />
 
@@ -74,6 +80,7 @@ Suggestions/improvements
 
 ## Thanks and credits to
 
+* [Casey Rodarmor](https://rodarmor.com/) and his [dotfiles repository](https://github.com/casey/dotfiles)
 * [Mathias Bynens](https://mathiasbynens.be/) and his [dotfiles repository](https://github.com/mathiasbynens/dotfiles)
 * [Gianni Chiappetta](https://butt.zone/) for inspiring [ lot of dotfiles](https://github.com/gf3/dotfiles)
 * [Kevin Suttle](http://kevinsuttle.com/) for sharing [lots of macos defaults](https://github.com/kevinSuttle/macOS-Defaults)

@@ -1,0 +1,7 @@
+# git push to upstream, with given or current branch
+
+if [ -z "$1" ]; then
+  git push origin "$(git branch --show-current)"
+else
+  git push origin "$1"
+fi

@@ -1,0 +1,3 @@
+# source the file if present
+
+[[ -f "$1" ]] && source "$1"

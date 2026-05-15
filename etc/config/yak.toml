@@ -1,0 +1,58 @@
+default_account = "sandbox"
+default_role = "admin"
+
+[aws]
+credentials_path = "~/.aws/credentials"
+config_path = "~/.aws/config"
+region = "eu-north-1"
+sso_start_url = "op://Private/aws-config/sso_url"
+sso_session_name = "aws-personal"
+
+[paths]
+cache_dir = "~/.cache/yak"
+state_dir = "~/.cache/yak"
+log_dir = "~/.local/share/yak"
+
+[secrets]
+# 12 hours = 60x12 = 720 minutes
+cache_ttl = 720
+
+[safeguards]
+enabled = true
+protected_accounts = ["prod", "mgmt"]
+max_power_grade_allowed = "developer"
+fallback_to_default = true
+
+[roles]
+read_only = "op://Private/aws-config/viewer_role"
+developer = "op://Private/aws-config/developer_role"
+admin = "op://Private/aws-config/privileged_role"
+
+[[accounts]]
+name = "sandbox"
+account_id = "op://Private/aws-config/sandbox_account"
+
+[[accounts]]
+name = "prod"
+account_id = "op://Private/aws-config/prod_account"
+default_role = "developer"
+allowed_roles = ["read_only", "developer", "admin"]
+
+[[accounts]]
+name = "mgmt"
+account_id = "op://Private/aws-config/mgmt_account"
+default_role = "developer"
+allowed_roles = ["read_only", "developer", "admin"]
+
+[aliases.accounts]
+dev = "sandbox"
+at = "sandbox"
+test = "sandbox"
+sb = "sandbox"
+p = "prod"
+m = "mgmt"
+
+[aliases.roles]
+ro = "read_only"
+dev = "developer"
+adm = "admin"

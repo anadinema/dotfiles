@@ -1,0 +1,8 @@
+# go to root of the git repo
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ -n "$root" ]; then
+  cd "$root" || return
+else
+  echo "⁉️ Not in a git repository"
+fi

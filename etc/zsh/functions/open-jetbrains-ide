@@ -1,0 +1,28 @@
+# open jetbrains IDEs with or without a path
+
+local app_name path_arg="$2"
+
+case "$1" in
+ij | intellij)
+  app_name="IntelliJ IDEA"
+  ;;
+ws | webstorm)
+  app_name="WebStorm"
+  ;;
+gl | goland)
+  app_name="GoLand"
+  ;;
+rr | rustrover)
+  app_name="RustRover"
+  ;;
+dg | datagrip)
+  app_name="DataGrip"
+  [[ -z "$path_arg" ]] && path_arg="$DEVFILES/repository/database"
+  ;;
+esac
+
+if [[ -n "$path_arg" ]]; then
+  open -a "$app_name" "$path_arg"
+else
+  open -a "$app_name"
+fi

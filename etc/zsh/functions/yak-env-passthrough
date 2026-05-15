@@ -1,0 +1,6 @@
+# passthrough for yak, set AWS_PROFILE conditionally
+
+command yak "$@"
+if [[ "$1" == "account" || "$1" == "login" ]]; then
+  export AWS_PROFILE="$(command yak status --print-profile)"
+fi

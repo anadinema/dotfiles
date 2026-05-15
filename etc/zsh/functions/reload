@@ -1,0 +1,11 @@
+# re-source .zshrc in the current shell session
+
+if [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
+  echo "🗑️ Cleanup before reloading .zshrc..."
+  unfunction ~/.zsh/functions/*(.:t) 2>/dev/null
+fi
+
+source ~/.zshrc
+
+echo
+echo "✅ Reloaded .zshrc"

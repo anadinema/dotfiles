@@ -1,0 +1,28 @@
+# save brew bundle to the given host
+
+if [[ -z $1 ]]; then
+  print -P "usage: \e[1;36mbkp-brew-bundle\e[1;0m < personal|work >"
+  print -P "       Save brew bundle for the given host"
+  return 1
+fi
+
+box=$1
+brewfile_path=""
+
+opts=(--no-go --no-cargo --no-npm --no-vscode --no-uv --no-flatpak --describe --force)
+
+case "$box" in
+"personal-macbook" | "personal" | "private" | "personal-mac")
+  brewfile_path="$DOTFILES/box/personal-macbook/pkgs/brewfile"
+  ;;
+"work-macbook" | "office" | "work" | "work-mac")
+  brewfile_path="$DOTFILES/box/work-macbook/pkgs/brewfile"
+  ;;
+esac
+
+[ -z "$brewfile_path" ] && echo "⁉️ Provided host: ($box) isn't supported..." && return 1
+
+brew bundle dump --file="$brewfile_path" "${opts[@]}"
+brew bundle --file="$brewfile_path" --force cleanup
+
+echo "✅ Written the bundle dump to: $brewfile_path"

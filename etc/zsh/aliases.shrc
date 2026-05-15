@@ -1,0 +1,93 @@
+# Aliases to be loaded for the shell env
+
+## tool subst
+
+alias: cd z
+alias: tf tofu
+alias: k kubectl
+alias: cat bat
+alias: ff fastfetch
+alias: code zed
+alias: neofetch fastfetch
+alias: spotify ~/Applications/Ghostify.app/Contents/MacOS/ghostify
+alias: ghostify ~/Applications/Ghostify.app/Contents/MacOS/ghostify
+alias: ts epoch-converter
+alias: yak yak-env-passthrough
+alias: kval validate-k8s-manifest
+alias: mvm mise-version-manager
+alias: vm mise-version-manager
+alias: fh fzf-history-finder
+alias: dc fzf-docker-helper
+alias: brewsv bkp-brew-bundle
+
+## ls
+
+alias: l " eza -l --group-directories-first --icons --color auto --no-permissions --no-filesize --no-user --no-time"
+alias: ll " eza -l --almost-all --group-directories-first --color auto"
+alias: tree " eza --almost-all --tree --level=5 --icons --group-directories-first --color auto"
+
+## cd
+
+alias: cd " cd"
+alias: dots "cd $DOTFILES"
+alias: dev "cd $DEVFILES"
+alias: repo "cd $DEVFILES/repository"
+alias: arch "cd $DEVFILES/archives"
+alias: mrep "cd $DEVFILES/artifactory/maven"
+alias: nrep "cd ~/.nvm"
+alias: conf "cd ~/.config"
+alias: oss "cd /Volumes/OSS/repository"
+
+## jetbrains ides
+
+alias: ij "open-jetbrains-ide intellij"
+alias: ws "open-jetbrains-ide webstorm"
+alias: gl "open-jetbrains-ide goland"
+alias: rr "open-jetbrains-ide rustrover"
+alias: dg "open-jetbrains-ide datagrip"
+
+## npm or node
+
+alias: ni "npm install"
+alias: ns "ni && npm run test"
+alias: nr "npm run all"
+alias: np "npx osls package -s dev"
+alias: nb "npm run build"
+alias: nd "npm run dev"
+
+## mvn or java
+
+alias: mb "mvn clean verify -DskipTests"
+alias: mbt "mvn clean verify"
+alias: qr "mvn clean quarkus:dev -DskipTests"
+alias: qrt "mvn clean quarkus:dev"
+
+## tofu or terraform
+
+alias: tfi "tf init"
+alias: tfp "tf plan"
+alias: tfa "tf apply -auto-approve"
+
+## git
+
+alias: gs "git status"
+alias: gc "git commit -m"
+alias: gp git-push-origin
+alias: gca "git commit -a -m"
+alias: gpu "git pull"
+alias: gdo git-commit-push
+alias: gdp git-commit-template
+alias: gco git-checkout-picker
+alias: grt git-repo-root
+alias: glog git-log-tree
+alias: grem git-remote-url
+
+## others
+
+alias: c " clear"
+alias: grep "grep --color"
+alias: ta "tmux attach"
+alias: brewit "brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
+alias: kx kube-context-picker
+alias: pbkp "bkp-auth-env personal && bkp-brew-bundle personal && bkp-raycast-config"
+alias: wbkp "bkp-auth-env work && bkp-brew-bundle work && bkp-raycast-config"

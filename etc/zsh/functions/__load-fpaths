@@ -1,0 +1,13 @@
+# load fpaths in .zshrc
+
+INITIAL_FPATH_ELEMENTS=("${(s/:/)FPATH}") # save initial path elements
+FPATH='' # clear path variable
+
+fpath: ~/.zsh/completions # custom shell completion
+fpath: $BREW_PREFIX/share/zsh/site-functions # brew functions completions
+fpath: $BREW_PREFIX/share/zsh-completions # brew completions
+
+# append initial path components
+for PART in $INITIAL_FPATH_ELEMENTS; do
+  fpath: $PART
+done

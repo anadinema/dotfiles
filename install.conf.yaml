@@ -1,0 +1,93 @@
+- defaults:
+    link:
+      relink: true
+      force: true
+
+- clean:
+    - "~"
+    - ~/.config
+
+- create:
+    # top-level folders
+    - ~/.ssh
+    - ~/tmp/state
+    - ~/.local/share
+
+    # config folders
+    - ~/.config/k9s
+    - ~/.config/zed
+    - ~/.config/ghostty
+    - ~/.config/gh
+    - ~/.config/claws
+    - ~/.config/yak
+    - ~/.config/starship
+    - ~/.config/1Password/ssh
+    - ~/.config/tmux/plugins
+
+    # development folders
+    - ~/dev/bin
+    - ~/dev/config
+    - ~/dev/archives
+    - ~/dev/repository
+    - ~/dev/artifactory/go
+    - ~/dev/artifactory/maven
+    - ~/dev/artifactory/gradle
+
+- link:
+    # root folders
+    ~/bin: bin
+    ~/.zsh: etc/zsh
+    ~/.wallpapers: wallpapers
+
+    # root files
+    ~/.zshrc: etc/zshrc
+    ~/.ssh/config: etc/ssh.config
+    ~/.gitignore.global: etc/global.gitignore
+    ~/.hushlogin: etc/hushlogin
+
+    # config folders
+    ~/.config/k9s: etc/config/k9s
+    ~/.config/zed: etc/config/zed
+    ~/.config/ghostty: etc/config/ghostty
+
+    # config files
+    ~/.config/gh/config.yml: etc/config/gh.yml
+    ~/.config/claws/config.yaml: etc/config/claws.yaml
+    ~/.config/yak/config.toml: etc/config/yak.toml
+    ~/.config/starship/starship.toml: etc/config/starship.toml
+    ~/.config/1Password/ssh/agent.toml: etc/config/1password.agent.toml
+
+    # tmux config and tmux plugin manager
+    ~/.config/tmux/tmux.conf: etc/config/tmux.conf
+    ~/.config/tmux/plugins/tpm: submodules/tpm
+
+- shell:
+    - stdout: true
+      stderr: true
+      quiet: true
+      description: "Initialize the given host configuration"
+      command: |
+        HOST_CONFIG=box/`echo $DOTBOT_BOX`/install.conf.yaml
+        if [ -f $HOST_CONFIG ]; then
+          echo "🛵 Initializing $DOTBOT_BOX config..."
+          ./submodules/dotbot/bin/dotbot -c $HOST_CONFIG
+        fi
+    - stdout: true
+      stderr: true
+      quiet: true
+      description: "Initialize the OS specific configuration"
+      command: |
+        OS_CONFIG=os/`uname | tr '[:upper:]' '[:lower:]'`/install.conf.yaml
+        if [ -f $OS_CONFIG ]; then
+          echo "🛵 Initializing $(uname | tr '[:upper:]' '[:lower:]') config..."
+          ./submodules/dotbot/bin/dotbot -c $OS_CONFIG
+        fi
+    - stdout: true
+      stderr: false
+      quiet: true
+      description: "Cleanup the unused files and directories"
+      command: |
+        echo "🧹 Cleaning up..."
+        rm -rf ~/.lesshst ~/.python_history ~/.viminfo
+        rm -rf ~/.zcompdump* ~/.zsh_history* ~/.zshrc.pre* ~/.zprofile
+        rm -rf ~/.serverlessrc ~/.op_tmux_token_tmp
