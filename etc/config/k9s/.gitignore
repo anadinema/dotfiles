@@ -1,0 +1,8 @@
+# ignore everything except config, aliases and skins
+
+*
+!.gitignore
+!config.yaml
+!aliases.yaml
+!skins/
+!skins/**

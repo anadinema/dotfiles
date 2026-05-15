@@ -5,6 +5,7 @@
 
 - create:
     - ~/.m2
+    - ~/.config/yak
     - ~/.config/mise
     - ~/.config/spotify-player
 
@@ -15,5 +16,6 @@
     ~/.m2/settings.xml: etc/maven-settings.xml
 
     # config folders
+    ~/.config/yak/config.toml: etc/config/yak.toml
     ~/.config/mise/config.toml: etc/config/mise.toml
     ~/.config/spotify-player/app.toml: etc/config/spotify-player.toml

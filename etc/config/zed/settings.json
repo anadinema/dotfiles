@@ -12,10 +12,10 @@
     "dock": "left"
   },
   "outline_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "telemetry": {
     "diagnostics": false,
@@ -23,9 +23,8 @@
   },
   "disable_ai": true,
   "agent": {
-    "dock": "right",
     "enabled": false,
-    "button": false
+    "button": false,
   },
   "vim_mode": false,
   "icon_theme": "Catppuccin Mocha",
@@ -66,23 +65,20 @@
   "formatter": "language_server",
   "format_on_save": "on",
   "prettier": {
-    "allowed": false
+    "allowed": false,
   },
   "collaboration_panel": {
     "dock": "left",
-    "button": false
-  },
-  "notification_panel": {
-    "button": false
+    "button": false,
   },
   "languages": {
     "TOML": {
       "format_on_save": "on",
       "formatter": {
         "language_server": {
-          "name": "tombi"
-        }
-      }
+          "name": "tombi",
+        },
+      },
     },
     "Shell Script": {
       "format_on_save": "on",

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+if [[ ! -e /opt/homebrew/bin/brew ]]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+brew bundle install --verbose --file box/work-macbook/pkgs/brewfile
+
+just bootstrap "work-macbook"

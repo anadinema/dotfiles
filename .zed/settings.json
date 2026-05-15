@@ -2,7 +2,8 @@
   "file_types": {
     "ini": [
       "dotfiles/box/*/etc/npmrc",
-      "dotfiles/box/*/etc/*.gitconfig"
+      "dotfiles/box/*/etc/*.gitconfig",
+      "dotfiles/.gitmodules"
     ],
     "SSH Config": [
       "dotfiles/etc/ssh.config"

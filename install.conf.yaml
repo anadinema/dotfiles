@@ -19,7 +19,6 @@
     - ~/.config/ghostty
     - ~/.config/gh
     - ~/.config/claws
-    - ~/.config/yak
     - ~/.config/starship
     - ~/.config/1Password/ssh
     - ~/.config/tmux/plugins
@@ -53,7 +52,6 @@
     # config files
     ~/.config/gh/config.yml: etc/config/gh.yml
     ~/.config/claws/config.yaml: etc/config/claws.yaml
-    ~/.config/yak/config.toml: etc/config/yak.toml
     ~/.config/starship/starship.toml: etc/config/starship.toml
     ~/.config/1Password/ssh/agent.toml: etc/config/1password.agent.toml
 

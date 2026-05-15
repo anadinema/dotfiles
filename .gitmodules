@@ -14,3 +14,7 @@
 [submodule "submodules/zsh-syntax-highlighting"]
 	path = etc/zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+
+[submodule "submodules/k9s-catppuccin"]
+	path = etc/config/k9s/skins/catppuccin
+	url = https://github.com/catppuccin/k9s.git

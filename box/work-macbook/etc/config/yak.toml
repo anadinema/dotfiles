@@ -1,0 +1,74 @@
+default_account = "dev"
+default_role = "admin"
+
+[aws]
+credentials_path = "~/.aws/credentials"
+config_path = "~/.aws/config"
+region = "eu-west-1"
+sso_start_url = "op://Private/aws-config/sso_url"
+sso_session_name = "work"
+
+[paths]
+cache_dir = "~/.cache/yak"
+state_dir = "~/.cache/yak"
+log_dir = "~/.local/share/yak"
+
+[secrets]
+# 12 hours = 60x12 = 720 minutes
+cache_ttl = 720
+
+[safeguards]
+enabled = true
+protected_accounts = ["prod", "spprod"]
+max_power_grade_allowed = "developer"
+fallback_to_default = true
+
+[roles]
+read_only = "op://Private/aws-config/read_role"
+developer = "op://Private/aws-config/developer_role"
+admin = "op://Private/aws-config/admin_role"
+
+[[accounts]]
+name = "dev"
+account_id = "op://Private/aws-config/dev_account_id"
+allowed_roles = ["read_only", "admin"]
+
+[[accounts]]
+name = "test"
+account_id = "op://Private/aws-config/test_account_id"
+allowed_roles = ["read_only", "admin"]
+
+[[accounts]]
+name = "prod"
+account_id = "op://Private/aws-config/prod_account_id"
+default_role = "developer"
+allowed_roles = ["read_only", "developer", "admin"]
+role_overrides = { admin = "op://Private/aws-config/legacy_admin_role", read_only = "op://Private/aws-config/legacy_read_role" }
+
+[[accounts]]
+name = "sptest"
+account_id = "op://Private/aws-config/sp_test_account_id"
+default_role = "developer"
+allowed_roles = ["read_only", "developer", "admin"]
+role_overrides = { admin = "op://Private/aws-config/legacy_admin_role", read_only = "op://Private/aws-config/legacy_read_role" }
+
+[[accounts]]
+name = "spprod"
+account_id = "op://Private/aws-config/sp_prod_account_id"
+default_role = "developer"
+allowed_roles = ["read_only", "developer", "admin"]
+role_overrides = { admin = "op://Private/aws-config/legacy_admin_role", read_only = "op://Private/aws-config/legacy_read_role" }
+
+[aliases.accounts]
+d = "dev"
+dev = "dev"
+at = "test"
+t = "test"
+p = "prod"
+spp = "spprod"
+spt = "sptest"
+
+[aliases.roles]
+ro = "read_only"
+dev = "developer"
+adm = "admin"
