@@ -1,48 +1,102 @@
+tap "anadinema/tap"
+tap "clawscli/tap"
+# Cryptography and SSL/TLS Toolkit
 brew "openssl@3"
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Core application library for C
 brew "glib"
+# Tool for exploring each layer in a docker image
 brew "dive"
+# Select default apps for documents and URL schemes on macOS
 brew "duti"
+# Modern, maintained replacement for ls
 brew "eza"
+# Like neofetch, but much faster because written mostly in C
 brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# Distributed revision control system
 brew "git"
+# OpenType text shaping engine
 brew "harfbuzz"
+# Improved top (interactive process viewer)
 brew "htop"
+# Handy way to save and run project-specific commands
+brew "just"
+# Mac App Store command-line interface
 brew "mas"
+# Polyglot runtime manager (asdf rust clone)
 brew "mise"
+# Deep clean and optimize your Mac
 brew "mole"
+# Cross-shell prompt for astronauts
 brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Terminal multiplexer
 brew "tmux"
+# Library to create, extract, and modify Windows Imaging files
 brew "wimlib"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Password manager that keeps all passwords secure behind one password
 cask "1password"
+# Command-line interface for 1Password
 cask "1password-cli"
+# Enable Windows-like alt-tab
 cask "alt-tab"
+# Application uninstaller
 cask "appcleaner"
+# Managed client-based VPN service to securely access AWS resources
 cask "aws-vpn-client"
+# Managed desktop virtualization solution
 cask "citrix-workspace"
-cask "datagrip"
+# Terminal UI for AWS resource management
+cask "clawscli/tap/claws"
+# Brings the power of Copilot coding agent directly to your terminal
+cask "copilot-cli"
+# Drivers for DisplayLink docks, adapters and monitors
 cask "displaylink"
+# App to build and share containerised applications and microservices
 cask "docker-desktop"
+# Online diagram software
 cask "drawio"
 cask "font-jetbrains-mono-nerd-font"
+# ghostify — wrap on spotify-player with proper macos app integration
+cask "anadinema/tap/ghostify"
+# Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Web browser
 cask "google-chrome@dev"
-cask "intellij-idea"
+# Menu bar calendar
 cask "itsycal"
+# JetBrains tools manager
+cask "jetbrains-toolbox"
+# Provides updates to various Microsoft products
 cask "microsoft-auto-update"
+# Office suite
 cask "microsoft-office-businesspro"
+# Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Collaboration platform for API development
 cask "postman"
+# Control your tools with a few keystrokes
 cask "raycast"
+# Screenshot measurement and annotation tool
 cask "shottr"
+# Team communication and collaboration software
 cask "slack"
+# Music streaming service
 cask "spotify"
-cask "webstorm"
+# Connect to Windows
 cask "windows-app"
+# Yet Another AWS Kit — AWS SSO and credential management
+cask "anadinema/tap/yak"
+# Multiplayer code editor
 cask "zed"
+# Gecko based web browser
 cask "zen"
 mas "Things", id: 904280696
