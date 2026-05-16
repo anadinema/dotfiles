@@ -10,6 +10,7 @@
     ],
     "Shell Script": [
       "dotfiles/etc/zsh/functions/*",
+      "dotfiles/box/checkpoint-windows/etc/config/bash/*",
       "brewfile"
     ]
   },

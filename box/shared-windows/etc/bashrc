@@ -1,0 +1,8 @@
+# load fzf
+eval "$(fzf --bash)"
+
+# load functions
+test -f ~/.bash/functions && . ~/.bash/functions
+
+# load aliases
+test -f ~/.bash/aliases && . ~/.bash/aliases

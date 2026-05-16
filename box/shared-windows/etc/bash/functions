@@ -1,0 +1,109 @@
+# passthrough for yak, set AWS_PROFILE conditionally
+yak() {
+  command yak "$@"
+  if [[ "$1" == "account" || "$1" == "login" ]]; then
+    export AWS_PROFILE="$(command yak status --print-profile)"
+  fi
+}
+
+# commit message picker
+git_commit_template() {
+  file="$HOME/tmp/state/gdp_scopes"
+
+  local current_branch detected_ticket type_pick emoji type
+  local scope_file scope_pick query picked scope meta prefix
+
+  current_branch="$(git branch --show-current 2>/dev/null)"
+  if [ -z "$current_branch" ]; then
+    echo "Not on a branch (or not a git repo)."
+    return 1
+  fi
+
+  mkdir -p "$(dirname "$file")" 2>/dev/null || true
+  touch "$file" 2>/dev/null || true
+
+  detected_ticket="$(printf "%s" "$current_branch" | grep -Eo '[A-Z][A-Z0-9]+-[0-9]+' | head -n1)"
+  scope_file="$(echo "$file")"
+
+  # Step 1: type picker
+  type_pick="$(
+    printf "%s\n" \
+      "🎉 feat" \
+      "🐛 fix" \
+      "🧹 chore" \
+      "🧱 refactor" \
+      "🧪 test" \
+      "🚀 release" \
+      "📚 docs" \
+      "⚙️ build" \
+      "🔁 ci" \
+      "⚡ perf" \
+      "🎨 style" \
+      "⏪ revert" \
+      "🗃️ migr" |
+      fzf --prompt="type> " --height=40% --reverse --select-1
+  )"
+  if [ -z "$type_pick" ]; then
+    return 1
+  fi
+  emoji="$(printf "%s" "$type_pick" | awk '{print $1}')"
+  type="$(printf "%s" "$type_pick" | awk '{print $2}')"
+
+  # Step 2: scope picker (history + allow new)
+  # fzf output (with --print-query) is:
+  #   <query>
+  #   <selected item>   (only if selected)
+  scope_pick="$(
+    { cat "$scope_file" 2>/dev/null || true; } |
+      sed '/^[[:space:]]*$/d' |
+      sort -u |
+      fzf --prompt="scope> " --height=40% --reverse --print-query
+  )"
+  if [ -z "$scope_pick" ]; then
+    return 1
+  fi
+
+  query="$(printf "%s\n" "$scope_pick" | sed -n '1p' | xargs)"
+  picked="$(printf "%s\n" "$scope_pick" | sed -n '2p' | xargs)"
+
+  # If you selected an item, use it. Otherwise use what you typed (query).
+  if [ -n "$picked" ]; then
+    scope="$picked"
+  else
+    scope="$query"
+  fi
+
+  # Allow empty scope: if user just hits enter on an empty query, scope becomes empty.
+  # (If you want to force scope, change this to a validation error.)
+  if [ -n "$scope" ]; then
+    # Persist scope with NO duplicates (rewrite file deduped)
+    printf "%s\n" "$scope" >>"$scope_file"
+    sort -u "$scope_file" -o "$scope_file" 2>/dev/null || {
+      # fallback if sort -o acts up
+      sort -u "$scope_file" >"${scope_file}.tmp" && mv "${scope_file}.tmp" "$scope_file"
+    }
+  fi
+
+  # Meta selection rules:
+  # - scope + ticket => scope:ticket
+  # - only ticket => ticket
+  # - only scope => scope
+  meta=""
+  if [ -n "$scope" ] && [ -n "$detected_ticket" ]; then
+    meta="${scope}:${detected_ticket}"
+  elif [ -n "$detected_ticket" ]; then
+    meta="${detected_ticket}"
+  elif [ -n "$scope" ]; then
+    meta="${scope}"
+  fi
+
+  if [ -n "$meta" ]; then
+    prefix="${emoji} ${type}(${meta}): "
+  else
+    prefix="${emoji} ${type}: "
+  fi
+
+  # Insert the command into your prompt
+  print -z -- "gdo \"${prefix}\""
+
+}
