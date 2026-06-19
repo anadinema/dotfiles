@@ -23,6 +23,7 @@ __load-paths # load the PATH, add stuff, dedupe and export
 
 export DOTFILES="$HOME/dotfiles"                              # dotfiles folder path as env var
 export DEVFILES="$HOME/dev"                                   # devfiles folder path as env var
+export GOPATH=$HOME/dev/artifactory/go                        # go modcache in artifactory
 export K9S_CONFIG_DIR="$HOME/.config/k9s"                     # update k9s config folder
 export HOMEBREW_NO_ANALYTICS=1                                # disable homebrew analytics
 export HOMEBREW_NO_INSECURE_REDIRECT=1                        # disable homebrew insecure redirects, for local testing

@@ -20,6 +20,7 @@ go = "latest"
 goreleaser = "latest"
 opencode = "latest"
 golangci-lint = "latest"
+wrangler = "latest"
 
 [settings]
 color_theme = "catppuccin"
