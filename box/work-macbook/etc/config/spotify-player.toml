@@ -31,6 +31,7 @@ sort_artist_albums_by_type = false
 theme = "catppuccin-mocha"
 tracks_playback_limit = 50
 volume_scroll_step = 5
+ap_port = 443
 
 [client_id_command]
 args = [

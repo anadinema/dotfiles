@@ -12,6 +12,7 @@
     - ~/.ssh
     - ~/tmp/state
     - ~/.local/share
+    - ~/.copilot
 
     # config folders
     - ~/.config/k9s
@@ -37,6 +38,10 @@
     ~/bin: bin
     ~/.zsh: etc/zsh
     ~/.wallpapers: wallpapers
+
+    # root folder files
+    ~/.copilot/copilot-instructions.md: etc/agent-instructions.md
+    ~/.claude/instructions.md: etc/agent-instructions.md
 
     # root files
     ~/.zshrc: etc/zshrc

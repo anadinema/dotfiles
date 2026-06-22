@@ -20,6 +20,6 @@ esac
 
 [ -z "$brewfile_path" ] && echo "⁉️ Provided host: ($box) isn't supported..." && return 1
 
-awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' ~/.zsh/auth-env.shrc >$dest_file_name
+awk -F= '/^export / {print $1"="} !/^export|^# Ignore next line|^# export/ {print}' ~/.zsh/auth-env.shrc >$authenv_bkp_path
 
 echo "✅ Written backup to: $authenv_bkp_path"

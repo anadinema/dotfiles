@@ -1,8 +1,8 @@
 # validate k8s manifests against cluster
 
-if [[ -z "$K8S_SCHEMA_LOCATION" ]] && echo "‼️ K8S_SCHEMA_LOCATION missing..." && return 1
-if [[ -z "$K8S_REGO_POLICY_REPO" ]] && echo "‼️ K8S_REGO_POLICY_REPO missing..." && return 1
-if [[ -z "$K8S_CRD_SCHEMA_LOCATION" ]] && echo "‼️ K8S_CRD_SCHEMA_LOCATION missing..." && return 1
+[[ -z "$K8S_SCHEMA_LOCATION" ]] && echo "‼️ K8S_SCHEMA_LOCATION missing..." && return 1
+[[ -z "$K8S_REGO_POLICY_REPO" ]] && echo "‼️ K8S_REGO_POLICY_REPO missing..." && return 1
+[[ -z "$K8S_CRD_SCHEMA_LOCATION" ]] && echo "‼️ K8S_CRD_SCHEMA_LOCATION missing..." && return 1
 
 CONTEXT=$(kubectl config current-context)
 CLUSTER=""
