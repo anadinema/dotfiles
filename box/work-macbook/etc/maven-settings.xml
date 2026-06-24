@@ -19,7 +19,7 @@
             <repositories>
                 <repository>
                     <id>github-packages</id>
-                    <url>{env.PKGS_GITHUB_REGISTRY_URL}</url>
+                    <url>${env.PKGS_GITHUB_REGISTRY_URL}</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
