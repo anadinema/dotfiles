@@ -1,3 +1,4 @@
+ap_port = 443
 app_refresh_duration_in_ms = 32
 border_type = "Rounded"
 client_port = 8080
@@ -31,36 +32,27 @@ sort_artist_albums_by_type = false
 theme = "catppuccin-mocha"
 tracks_playback_limit = 50
 volume_scroll_step = 5
-ap_port = 443
 
 [client_id_command]
-args = [
-  "item",
-  "get",
-  "spotify-client",
-  "--fields",
-  "label=password",
-  "--reveal"
-]
-command = "op"
+  args = ["item", "get", "spotify-client", "--fields", "label=password", "--reveal"]
+  command = "op"
 
 [device]
-audio_cache = true
-autoplay = false
-bitrate = 320
-device_type = "computer"
-name = "Work MacBook Ghostify"
-normalization = false
-volume = 100
+  audio_cache = true
+  autoplay = false
+  bitrate = 320
+  device_type = "computer"
+  name = "Work MacBook Ghostify"
+  normalization = false
+  volume = 100
 
 [layout]
-playback_window_height = 8
-playback_window_position = "Top"
-
-[layout.library]
-album_percent = 40
-playlist_percent = 40
+  playback_window_height = 8
+  playback_window_position = "Top"
+  [layout.library]
+    album_percent = 40
+    playlist_percent = 40
 
 [notify_format]
-body = "{album}"
-summary = "{track} • {artists}"
+  body = "{album}"
+  summary = "{track} • {artists}"

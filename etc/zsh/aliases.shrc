@@ -19,6 +19,12 @@ alias: vm mise-version-manager
 alias: fh fzf-history-finder
 alias: dc fzf-docker-helper
 alias: brewsv bkp-brew-bundle
+alias: ips list-ip
+alias: finder open-finder
+alias: kx kube-context-picker
+alias: encode base64-encoder
+alias: decode base64-decoder
+alias: cos copilot-sessionizer
 
 ## ls
 
@@ -88,6 +94,5 @@ alias: c " clear"
 alias: grep "grep --color"
 alias: ta "tmux attach"
 alias: brewit "brew update && brew upgrade && brew autoremove && brew cleanup -s && brew doctor"
-alias: kx kube-context-picker
 alias: pbkp "bkp-auth-env personal && bkp-brew-bundle personal && bkp-raycast-config"
 alias: wbkp "bkp-auth-env work && bkp-brew-bundle work && bkp-raycast-config"

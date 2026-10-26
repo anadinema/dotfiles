@@ -21,6 +21,8 @@ conftest = "latest"
 aws-cli = { version = "latest", symlink_bins = "true" }
 node = "24"
 maven = "latest"
+"aqua:awslabs/dynein" = "latest"
+k6 = "latest"
 
 [settings]
 color_theme = "catppuccin"

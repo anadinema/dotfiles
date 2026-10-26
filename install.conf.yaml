@@ -12,7 +12,9 @@
     - ~/.ssh
     - ~/tmp/state
     - ~/.local/share
+    - ~/.local/ovpn
     - ~/.copilot
+    - ~/.claude
 
     # config folders
     - ~/.config/k9s

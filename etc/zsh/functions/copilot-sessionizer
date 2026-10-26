@@ -1,0 +1,96 @@
+DB="$HOME/.copilot/session-store.db"
+LIST_LIMIT=200
+
+# Field separator — must not appear in session content
+SEP="§"
+
+# REL_TIME_EXPR: converts updated_at to relative time like "2h ago"
+# Defined as a function to stamp the column name into the expression.
+_diff_expr() { echo "(strftime('%s','now') - strftime('%s', REPLACE(REPLACE(substr($1, 1, 19), 'Z', ''), 'T', ' ')))"; }
+
+format_cwd_label() {
+  local cwd_path base parent parent_base
+
+  cwd_path="${1%/}"
+  base="${cwd_path##*/}"
+  parent="${cwd_path%/*}"
+  parent_base="${parent##*/}"
+
+  if [[ "$parent_base" == "repository" || "$base" == "dotfiles" || -z "$parent_base" ]]; then
+    printf "%.15s" "$base"
+  else
+    printf "%.15s" "$parent_base/$base"
+  fi
+}
+
+build_session_lines() {
+  local d row time_label cwd_label summary search_text session_id
+  d=$(_diff_expr "s.updated_at")
+
+  while IFS= read -r row; do
+    IFS="$SEP" read -r time_label cwd_label summary search_text session_id <<<"$row"
+
+    printf '%-7s  %-15s  %-50s %s\t%s\n' \
+      "$time_label" \
+      "$(format_cwd_label "$cwd_label")" \
+      "$summary" \
+      "$search_text" \
+      "$session_id"
+  done < <(
+    sqlite3 -separator "$SEP" "$DB" "
+      SELECT
+        CASE
+          WHEN ${d} < 60 THEN 'now'
+          WHEN ${d} < 3600 THEN CAST(${d} / 60 AS TEXT) || 'm ago'
+          WHEN ${d} < 86400 THEN CAST(${d} / 3600 AS TEXT) || 'h ago'
+          WHEN ${d} < 604800 THEN CAST(${d} / 86400 AS TEXT) || 'd ago'
+          ELSE CAST(${d} / 604800 AS TEXT) || 'w ago'
+        END,
+        COALESCE(s.cwd, ''),
+        REPLACE(REPLACE(COALESCE(s.summary, substr(first_turn.user_message, 1, 80), '(no summary)'), CHAR(10), ' '), CHAR(13), ' '),
+        REPLACE(REPLACE(REPLACE(COALESCE(GROUP_CONCAT(substr(t.user_message, 1, 100), ' '), ''), CHAR(10), ' '), CHAR(13), ' '), CHAR(9), ' '),
+        s.id
+      FROM sessions s
+      LEFT JOIN turns first_turn ON first_turn.session_id = s.id AND first_turn.turn_index = 0
+      LEFT JOIN turns t ON t.session_id = s.id
+      GROUP BY s.id
+      ORDER BY s.updated_at DESC
+      LIMIT ${LIST_LIMIT}
+    " 2>/dev/null
+  )
+}
+
+session_lines=$(build_session_lines)
+
+if [[ -z "$session_lines" ]]; then
+  echo "No sessions found." >&2
+  return 1
+fi
+
+# fzf displays each line truncated to terminal width — the search content
+# appended after the visible columns stays off-screen but remains searchable.
+# --no-hscroll prevents the view from scrolling right to reveal search content.
+# --accept-nth=2 ensures only the session ID (last field) is output on selection.
+fzf_args=(
+  --delimiter=$'\t'
+  --accept-nth=2
+  --no-hscroll
+  --header="  TIME     CWD              SESSION"
+  --header-first
+  --no-info
+  --reverse
+  --bind="ctrl-y:execute-silent(echo -n {2} | pbcopy)+abort"
+  --prompt="session> "
+  --preview-window=hidden
+)
+
+selected=$(echo "$session_lines" | fzf "${fzf_args[@]}") || return 0
+
+session_id="$selected"
+
+if [[ -z "$session_id" ]]; then
+  echo "error: could not extract session ID" >&2
+  return 1
+fi
+
+copilot --resume="$session_id"

@@ -1,0 +1,7 @@
+# open finder on the specified path
+
+if [[ -n "$1" ]]; then
+  open -a 'Finder' "$1"
+else
+  open -a 'Finder' .
+fi

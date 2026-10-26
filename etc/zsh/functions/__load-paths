@@ -5,7 +5,7 @@ PATH='' # clear path variable
 
 path: ~/bin # custom binaries
 path: ~/dev/bin # private binaries
-path: ~/.local/bin # pipx
+path: ~/.local/bin # pipx, postman cli
 path: ~/sbin # admin binaries
 path: ~/.cargo/bin # cargo
 path: /usr/local/bin # homebrew binaries
